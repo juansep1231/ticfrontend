@@ -1699,6 +1699,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@fontsource-variable/open-sans@npm:^5.0.29":
+  version: 5.0.29
+  resolution: "@fontsource-variable/open-sans@npm:5.0.29"
+  checksum: 10c0/e2f38906bba1782ec696582c78deeb6729afdf23ef37f34f138c80970b27bb3d02023a5f65797c8daaa26ac6945fd9a54f68622b2c7a29e4a888af3a289449a6
+  languageName: node
+  linkType: hard
+
 "@humanwhocodes/config-array@npm:^0.11.13":
   version: 0.11.14
   resolution: "@humanwhocodes/config-array@npm:0.11.14"
@@ -3457,6 +3464,7 @@ __metadata:
     "@chakra-ui/theme": "npm:^3.3.1"
     "@emotion/react": "npm:^11.11.4"
     "@emotion/styled": "npm:^11.11.5"
+    "@fontsource-variable/open-sans": "npm:^5.0.29"
     "@types/eslint": "npm:^8.56.10"
     "@types/node": "npm:^20.14.2"
     "@types/react": "npm:^18.3.3"
