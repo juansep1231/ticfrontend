@@ -3,7 +3,7 @@ import { Flex, Box, Heading } from '@chakra-ui/react';
 import { Navbar } from '../../components/Navbar';
 import { Footer } from '../../components/Footer';
 
-const NotFoundPage = () => {
+export const NotFoundPage = () => {
   return (
     <Flex
       sx={{
@@ -21,5 +21,3 @@ const NotFoundPage = () => {
     </Flex>
   );
 };
-
-export default NotFoundPage;

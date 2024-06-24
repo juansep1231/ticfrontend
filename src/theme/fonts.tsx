@@ -2,7 +2,7 @@ import { Global } from '@emotion/react';
 import React from 'react';
 import '@fontsource-variable/open-sans';
 
-const Fonts: React.FC = () => (
+export const Fonts: React.FC = () => (
   <Global
     styles={`
       @font-face {
@@ -21,5 +21,3 @@ const Fonts: React.FC = () => (
     `}
   />
 );
-
-export default Fonts;

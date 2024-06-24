@@ -3,7 +3,7 @@ import { Box, Heading, Flex } from '@chakra-ui/react';
 import { Navbar } from '../../components/Navbar';
 import { Footer } from '../../components/Footer';
 
-const Home = () => {
+export const Home = () => {
   return (
     <Flex
       sx={{
@@ -20,5 +20,3 @@ const Home = () => {
     </Flex>
   );
 };
-
-export default Home;

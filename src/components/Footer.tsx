@@ -1,16 +1,10 @@
-import { Flex, IconButton, Text } from '@chakra-ui/react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faFacebook,
-  faInstagram,
-  faLinkedin,
-} from '@fortawesome/free-brands-svg-icons';
-import { useTheme } from '@chakra-ui/react';
+import { Flex, IconButton, Text, Box } from '@chakra-ui/react';
 
 import { getCurrentYear } from '../utils/date-helper';
 
+import { MyIcon } from './MyIcon';
+
 export const Footer = () => {
-  const iconColor = useTheme().colors.brand.blue;
   return (
     <Flex
       sx={{
@@ -41,7 +35,17 @@ export const Footer = () => {
           target="_blank"
           aria-label="Facebook"
           icon={
-            <FontAwesomeIcon icon={faFacebook} style={{ color: iconColor }} />
+            <Box
+              sx={{
+                bg: 'brand.blue',
+                p: '3xs',
+                rounded: 'full',
+                color: 'white',
+              }}
+            >
+              {' '}
+              <MyIcon icon="FiFacebook" size={14} />
+            </Box>
           }
           variant="ghost"
           sx={{
@@ -56,7 +60,17 @@ export const Footer = () => {
           target="_blank"
           aria-label="Instagram"
           icon={
-            <FontAwesomeIcon icon={faInstagram} style={{ color: iconColor }} />
+            <Box
+              sx={{
+                bg: 'brand.blue',
+                p: '3xs',
+                rounded: 'md',
+                color: 'white',
+              }}
+            >
+              {' '}
+              <MyIcon icon="FiInstagram" size={14} />
+            </Box>
           }
           variant="ghost"
           sx={{
@@ -71,7 +85,17 @@ export const Footer = () => {
           target="_blank"
           aria-label="LinkedIn"
           icon={
-            <FontAwesomeIcon icon={faLinkedin} style={{ color: iconColor }} />
+            <Box
+              sx={{
+                bg: 'brand.blue',
+                p: '3xs',
+                rounded: 'md',
+                color: 'white',
+              }}
+            >
+              {' '}
+              <MyIcon icon="FiLinkedin" size={14} />
+            </Box>
           }
           variant="ghost"
           sx={{

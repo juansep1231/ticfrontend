@@ -1,6 +1,6 @@
 import { extendTheme } from '@chakra-ui/react';
 
-const customTheme = extendTheme({
+export const customTheme = extendTheme({
   colors: {
     primary: {
       100: '#F1F5FE',
@@ -66,7 +66,7 @@ const customTheme = extendTheme({
         2: '48px',
         3: '40px',
         title: '32px',
-        subtitle: '20px',
+        subtitle: '24px',
       },
       mobile: {
         1: '28px',
@@ -106,6 +106,8 @@ const customTheme = extendTheme({
   },
 
   space: {
+    '3xs': '0.25rem',
+    '2xs': '0.5rem',
     'xs': '0.75rem',
     'sm': '1rem',
     'md': '1.5rem',
@@ -115,5 +117,3 @@ const customTheme = extendTheme({
     '3xl': '3.5rem',
   },
 });
-
-export default customTheme;

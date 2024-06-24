@@ -1,8 +1,8 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
-import Home from '../pages/home/HomePage';
-import NotFoundPage from '../pages/not-found/NotFoundPage';
-import HelpPage from '../pages/help/HelpPage';
+import { Home } from '../pages/home/HomePage';
+import { NotFoundPage } from '../pages/not-found/NotFoundPage';
+import { HelpPage } from '../pages/help/HelpPage';
 import EventsPage from '../pages/landing/events/EventPage';
 import FinantialPage from '../pages/landing/finantial/FinantialPage';
 import InventoryPage from '../pages/landing/inventory/InventoryPage';
@@ -36,8 +36,6 @@ const router = createBrowserRouter([
   },
 ]);
 
-const MainRouter = () => {
+export const MainRouter = () => {
   return <RouterProvider router={router} />;
 };
-
-export default MainRouter;
