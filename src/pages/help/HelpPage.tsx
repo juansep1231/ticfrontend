@@ -1,20 +1,23 @@
-import { Box, Heading, List, ListItem, Link } from '@chakra-ui/react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Flex, Box, Heading } from '@chakra-ui/react';
+
+import { Navbar } from '../../components/Navbar';
+import { Footer } from '../../components/Footer';
 
 const HelpPage = () => {
   return (
-    <Box p="lg" bg="primary.100">
-      <Heading as="h1" mb="md" fontSize="heading.desktop.1">
-        PÁGINA DE AYUDA
-      </Heading>
-      <List spacing="xs" textColor="text.default">
-        <ListItem>
-          <Link as={RouterLink} to="/">
-            Regresar a home
-          </Link>
-        </ListItem>
-      </List>
-    </Box>
+    <Flex
+      sx={{
+        flexDirection: 'column',
+        minHeight: '100vh',
+        gap: 'xl',
+      }}
+    >
+      <Navbar />
+      <Box flex="1" sx={{ px: { base: 'md', lg: '3xl' } }}>
+        <Heading>Ayuda</Heading>
+      </Box>
+      <Footer />
+    </Flex>
   );
 };
 

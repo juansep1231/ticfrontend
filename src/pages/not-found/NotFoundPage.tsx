@@ -1,19 +1,24 @@
-import { Box, Heading, Link } from '@chakra-ui/react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Flex, Box, Heading } from '@chakra-ui/react';
+
+import { Navbar } from '../../components/Navbar';
+import { Footer } from '../../components/Footer';
 
 const NotFoundPage = () => {
   return (
-    <Box p="lg" bg="brand.red.200">
-      <Heading as="h1" mb="md" fontSize="heading.desktop.1">
-        404
-      </Heading>
-      <Heading as="h3" mb={4} fontSize="heading.desktop.3">
-        Page not found
-      </Heading>
-      <Link as={RouterLink} to="/" fontSize="heading.desktop.subtitle">
-        Return home
-      </Link>
-    </Box>
+    <Flex
+      sx={{
+        flexDirection: 'column',
+        minHeight: '100vh',
+        gap: 'xl',
+      }}
+    >
+      <Navbar />
+      <Box flex="1" sx={{ px: { base: 'md', lg: '3xl' } }}>
+        <Heading>404</Heading>
+        <Heading>NOT FOUND</Heading>
+      </Box>
+      <Footer />
+    </Flex>
   );
 };
 

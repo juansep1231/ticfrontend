@@ -1,0 +1,200 @@
+import {
+  Box,
+  Flex,
+  Link as ChakraLink,
+  Image,
+  IconButton,
+  VStack,
+  useDisclosure,
+} from '@chakra-ui/react';
+import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
+import { NavLink as RouterLink } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
+
+const MotionVStack = motion(VStack);
+
+export const Navbar = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const toggleMenu = () => {
+    if (isOpen) {
+      onClose();
+    } else {
+      onOpen();
+    }
+  };
+
+  const menuIcon = isOpen ? <CloseIcon /> : <HamburgerIcon />;
+
+  return (
+    <Box
+      sx={{
+        boxShadow: 'lg',
+        px: { sm: 'sm', lg: '3xl' },
+        py: 'xs',
+        a: {
+          'rounded': 'md',
+          'color': 'brand.blue',
+          'py': 'xs',
+          'width': '28',
+          'textAlign': 'center',
+          '&:hover': {
+            fontWeight: 'semibold',
+            textDecoration: 'none',
+            color: 'primary.default',
+          },
+        },
+      }}
+    >
+      <Flex
+        sx={{
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          fontSize: { base: 'text.sm', md: 'text.md' },
+        }}
+      >
+        <ChakraLink
+          as={RouterLink}
+          to="/"
+          sx={{
+            width: 'auto',
+          }}
+        >
+          <Image
+            src="/img/imagotipo.png"
+            alt="Logo Fepon"
+            sx={{ maxWidth: 'none', height: '12' }}
+          />
+        </ChakraLink>
+
+        <Flex
+          sx={{
+            display: { base: 'none', lg: 'flex' },
+            gap: 'xl',
+          }}
+        >
+          <ChakraLink
+            as={RouterLink}
+            to="/"
+            sx={{
+              _activeLink: {
+                textColor: 'primary.300',
+                fontWeight: 'semibold',
+                bg: 'secondary.100',
+              },
+            }}
+          >
+            Home
+          </ChakraLink>
+          <ChakraLink
+            as={RouterLink}
+            to="/ayuda"
+            sx={{
+              _activeLink: {
+                textColor: 'primary.300',
+                fontWeight: 'semibold',
+                bg: 'secondary.100',
+              },
+            }}
+          >
+            Ayuda
+          </ChakraLink>
+          <ChakraLink
+            as={RouterLink}
+            to="/cambiar-ruta"
+            sx={{
+              border: '1px solid',
+              borderColor: 'brand.blue',
+              _hover: {
+                borderColor: 'primary.default',
+              },
+              _activeLink: {
+                textColor: 'primary.300',
+                borderColor: 'primary.300',
+                fontWeight: 'semibold',
+                bg: 'secondary.100',
+              },
+            }}
+          >
+            Ingresar
+          </ChakraLink>
+        </Flex>
+        <IconButton
+          aria-label="Open menu"
+          icon={menuIcon}
+          sx={{
+            'display': { base: 'flex', lg: 'none' },
+            'bg': 'none',
+            '&:hover': {
+              bg: 'secondary.100',
+            },
+          }}
+          onClick={toggleMenu}
+        />
+      </Flex>
+      <AnimatePresence>
+        {isOpen ? (
+          <MotionVStack
+            initial={{ height: 1, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{
+              height: { duration: 0.2 },
+              opacity: { duration: 0.2 },
+            }}
+            sx={{
+              display: { base: 'flex', lg: 'none' },
+              alignItems: 'center',
+              overflow: 'hidden',
+            }}
+          >
+            <ChakraLink
+              as={RouterLink}
+              to="/"
+              sx={{
+                _activeLink: {
+                  textColor: 'primary.300',
+                  fontWeight: 'semibold',
+                  bg: 'secondary.100',
+                },
+              }}
+            >
+              Home
+            </ChakraLink>
+            <ChakraLink
+              as={RouterLink}
+              to="/ayuda"
+              sx={{
+                _activeLink: {
+                  textColor: 'primary.300',
+                  fontWeight: 'semibold',
+                  bg: 'secondary.100',
+                },
+              }}
+            >
+              Ayuda
+            </ChakraLink>
+            <ChakraLink
+              as={RouterLink}
+              to="/ayuda"
+              sx={{
+                border: '1px solid',
+                borderColor: 'brand.blue',
+                _hover: {
+                  borderColor: 'primary.default',
+                },
+                _activeLink: {
+                  textColor: 'primary.300',
+                  borderColor: 'primary.300',
+                  fontWeight: 'semibold',
+                  bg: 'secondary.100',
+                },
+              }}
+            >
+              Ingresar
+            </ChakraLink>
+          </MotionVStack>
+        ) : null}
+      </AnimatePresence>
+    </Box>
+  );
+};
