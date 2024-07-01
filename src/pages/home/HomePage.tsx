@@ -1,4 +1,5 @@
 import { Box, Heading, Flex, Text, Image, Button } from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
 
 import { moduleCardData } from '../../utils/modules-card-data';
 import { Navbar } from '../../components/Navbar';
@@ -160,18 +161,7 @@ export const Home = () => {
                 <Text sx={{ textColor: 'text.default' }}>
                   Si tienes dudas, consulta nuestra página de ayuda.
                 </Text>
-                <Button
-                  sx={{
-                    width: '28',
-                    height: '12',
-                    rounded: 'md',
-                    bg: 'brand.blue',
-                    color: 'white',
-                    _hover: {
-                      bg: 'primary.default',
-                    },
-                  }}
-                >
+                <Button as={Link} to="/ayuda">
                   Ayuda
                 </Button>
               </Flex>

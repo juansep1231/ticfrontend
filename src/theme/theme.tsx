@@ -1,6 +1,65 @@
 import { extendTheme } from '@chakra-ui/react';
 
 export const customTheme = extendTheme({
+  components: {
+    Button: {
+      baseStyle: {
+        rounded: 'md',
+        color: 'white',
+      },
+      sizes: {
+        custom: {
+          width: '153px',
+          height: '50px',
+        },
+      },
+      variants: {
+        primary: {
+          bg: 'brand.blue',
+          _hover: { bg: 'primary.default' },
+          _active: { bg: 'primary.300' },
+        },
+      },
+      defaultProps: {
+        variant: 'primary',
+        size: 'custom',
+      },
+    },
+    Input: {
+      baseStyle: {
+        field: {
+          rounded: 'md',
+          color: 'text.default',
+        },
+      },
+      sizes: {
+        custom: {
+          field: {
+            width: 'full',
+            height: '50px',
+            px: 'md',
+          },
+        },
+      },
+      variants: {
+        primary: {
+          field: {
+            border: '1px solid',
+            borderColor: 'text.200',
+            _focus: {
+              border: '1px solid',
+              borderColor: 'brand.blue',
+              color: 'brand.blue',
+            },
+          },
+        },
+      },
+      defaultProps: {
+        variant: 'primary',
+        size: 'custom',
+      },
+    },
+  },
   colors: {
     primary: {
       100: '#F1F5FE',

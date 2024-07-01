@@ -93,7 +93,6 @@ export const Footer = () => {
                 color: 'white',
               }}
             >
-              {' '}
               <MyIcon icon="FiLinkedin" size={14} />
             </Box>
           }

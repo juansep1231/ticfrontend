@@ -23,7 +23,11 @@ export const Navbar = () => {
     }
   };
 
-  const menuIcon = isOpen ? <CloseIcon /> : <HamburgerIcon />;
+  const menuIcon = isOpen ? (
+    <CloseIcon sx={{ color: 'black' }} />
+  ) : (
+    <HamburgerIcon sx={{ color: 'black' }} />
+  );
 
   return (
     <Box
@@ -100,7 +104,7 @@ export const Navbar = () => {
           </ChakraLink>
           <ChakraLink
             as={RouterLink}
-            to="/cambiar-ruta"
+            to="/inicio-sesion"
             sx={{
               border: '1px solid',
               borderColor: 'brand.blue',
@@ -175,7 +179,7 @@ export const Navbar = () => {
             </ChakraLink>
             <ChakraLink
               as={RouterLink}
-              to="/ayuda"
+              to="/inicio-sesion"
               sx={{
                 border: '1px solid',
                 borderColor: 'brand.blue',
