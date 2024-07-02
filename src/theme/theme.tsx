@@ -59,6 +59,35 @@ export const customTheme = extendTheme({
         size: 'custom',
       },
     },
+    Textarea: {
+      baseStyle: {
+        rounded: 'md',
+        color: 'text.default',
+      },
+      sizes: {
+        custom: {
+          width: 'full',
+          height: '150px',
+          px: 'md',
+          py: 'sm',
+        },
+      },
+      variants: {
+        primary: {
+          border: '1px solid',
+          borderColor: 'text.200',
+          _focus: {
+            border: '1px solid',
+            borderColor: 'brand.blue',
+            color: 'brand.blue',
+          },
+        },
+      },
+      defaultProps: {
+        variant: 'primary',
+        size: 'custom',
+      },
+    },
   },
   colors: {
     primary: {

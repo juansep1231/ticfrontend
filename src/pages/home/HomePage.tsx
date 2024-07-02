@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { moduleCardData } from '../../utils/modules-card-data';
 import { Navbar } from '../../components/Navbar';
 import { Footer } from '../../components/Footer';
-import { Member, Plan } from '../../types/organizational-models';
+import { HomeMember, Plan } from '../../types/organizational-models';
 import { modulesFeatIcons } from '../../utils/modules-card-data';
 
 import { LinkCard } from './components/LinkCard';
@@ -47,7 +47,7 @@ const plans: Plan[] = [
   },
 ];
 
-const members: Member[] = [
+const members: HomeMember[] = [
   {
     id: 1,
     name: 'Valery Vallejo',
@@ -131,7 +131,7 @@ export const Home = () => {
               src="/img/logo.png"
               alt="ERP Fepon"
               sx={{
-                maxWidth: { sm: 'sm', xl: '2xl' },
+                maxWidth: { sm: 'sm', xl: 'xl' },
                 height: 'auto',
                 mx: 'auto',
               }}

@@ -1,10 +1,10 @@
 import { Box, Flex, Heading, Text } from '@chakra-ui/react';
 
 import { MyIcon } from '../../../components/MyIcon';
-import { Member } from '../../../types/organizational-models';
+import { HomeMember } from '../../../types/organizational-models';
 
 interface MemberProps {
-  member: Member;
+  member: HomeMember;
 }
 
 export const MemberCard = ({ member }: MemberProps) => {
