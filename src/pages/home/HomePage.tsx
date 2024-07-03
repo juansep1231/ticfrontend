@@ -1,4 +1,4 @@
-import { Box, Heading, Flex, Text, Image, Button } from '@chakra-ui/react';
+import { Heading, Flex, Text, Image, Button } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
 import { moduleCardData } from '../../utils/modules-card-data';
@@ -10,6 +10,7 @@ import { modulesFeatIcons } from '../../utils/modules-card-data';
 import { LinkCard } from './components/LinkCard';
 import { MemberCard } from './components/MemberCard';
 import { SubscriptionPlanCard } from './components/SubscriptionPlanCard';
+import { MisionVisionCard } from './components/MisonVisionCard';
 
 const plans: Plan[] = [
   {
@@ -100,7 +101,7 @@ export const Home = () => {
 
   const planList = plans.map((plan) => {
     {
-      return <SubscriptionPlanCard plan={plan} />;
+      return <SubscriptionPlanCard key={plan.id} plan={plan} />;
     }
   });
 
@@ -117,33 +118,49 @@ export const Home = () => {
       }}
     >
       <Navbar />
-      <Box flex="1" sx={{ px: { base: 'md', lg: '3xl' } }}>
-        <Flex sx={{ flexDirection: 'column', gap: 'md' }}>
+      <Flex
+        flex="1"
+        sx={{
+          flexDirection: 'column',
+          px: { base: 'md', lg: '3xl' },
+          gap: '3xl',
+        }}
+      >
+        <Flex sx={{ flexDirection: 'column', gap: 'xl' }}>
           <Heading>Sistema Cloud ERP de FEPON</Heading>
           <Flex
             sx={{
-              flexDirection: { sm: 'column', lg: 'row' },
+              flexDirection: { base: 'column', lg: 'row' },
               gap: '3xl',
-              my: '3xl',
+              width: '100%',
             }}
           >
-            <Image
-              src="/img/logo.png"
-              alt="ERP Fepon"
+            <Flex
               sx={{
-                maxWidth: { sm: 'sm', xl: 'xl' },
-                height: 'auto',
-                mx: 'auto',
+                justifyContent: 'center',
+                width: { sm: '100%', lg: '47%' },
               }}
-            />
-            <Flex>
+            >
+              <Image
+                src="/img/logo.png"
+                alt="ERP Fepon"
+                sx={{
+                  width: { base: 'lg', md: 'auto' },
+                }}
+              />
+            </Flex>
+            <Flex
+              sx={{
+                width: { base: '100%', lg: '51.5%' },
+              }}
+            >
               <Flex
                 sx={{
                   flexDirection: 'column',
+                  pl: { base: 'none', lg: '3xl' },
                   gap: 'lg',
                   borderLeft: { sm: 'none', lg: '1px solid' },
                   borderColor: { sm: 'none', lg: 'surface.default' },
-                  pl: { sm: 'none', lg: '3xl' },
                 }}
               >
                 <Heading
@@ -167,30 +184,35 @@ export const Home = () => {
               </Flex>
             </Flex>
           </Flex>
+        </Flex>
 
-          <Flex sx={{ flexDirection: 'column', gap: 'xl', pb: 'xl' }}>
-            <Heading sx={{ fontSize: 'heading.desktop.subtitle' }}>
-              Conoce más acerca de nuestra gestión
-            </Heading>
-            <Flex
-              sx={{
-                flexWrap: 'wrap',
-                flexDirection: { base: 'column', md: 'row' },
-                gap: 'md',
-              }}
-            >
-              {moduleCardList}
-            </Flex>
+        <Flex sx={{ flexDirection: 'column' }}>
+          <MisionVisionCard />
+        </Flex>
+
+        <Flex sx={{ flexDirection: 'column', gap: 'xl' }}>
+          <Heading sx={{ fontSize: 'heading.desktop.subtitle' }}>
+            Conoce más acerca de nuestra gestión
+          </Heading>
+          <Flex
+            sx={{
+              flexWrap: 'wrap',
+              flexDirection: { base: 'column', lg: 'row' },
+              justifyContent: 'space-between',
+            }}
+          >
+            {moduleCardList}
           </Flex>
         </Flex>
 
-        <Flex sx={{ flexDirection: 'column', gap: 'xl', pb: 'xl' }}>
+        <Flex sx={{ flexDirection: 'column', gap: 'xl' }}>
           <Heading sx={{ fontSize: 'heading.desktop.subtitle' }}>
             Planes de Aportación
           </Heading>
           <Flex
             sx={{
-              flexDirection: { sm: 'column', lg: 'row' },
+              flexDirection: { base: 'column', lg: 'row' },
+              alignContent: { base: 'center', lg: 'none' },
               gap: 'md',
               flexWrap: 'wrap',
             }}
@@ -199,21 +221,22 @@ export const Home = () => {
           </Flex>
         </Flex>
 
-        <Flex sx={{ flexDirection: 'column', gap: 'xl', pb: 'xl' }}>
+        <Flex sx={{ flexDirection: 'column', gap: 'xl' }}>
           <Heading sx={{ fontSize: 'heading.desktop.subtitle' }}>
             Nuestro equipo
           </Heading>
           <Flex
             sx={{
               flexWrap: 'wrap',
-              flexDirection: { sm: 'column', md: 'row' },
-              gap: 'md',
+              flexDirection: { base: 'column', md: 'row' },
+              alignItems: { base: 'center', lg: 'none' },
+              gap: { base: 'md', lg: 'lg' },
             }}
           >
             {memberList}
           </Flex>
         </Flex>
-      </Box>
+      </Flex>
       <Footer />
     </Flex>
   );

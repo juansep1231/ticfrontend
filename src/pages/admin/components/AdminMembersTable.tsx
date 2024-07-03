@@ -132,7 +132,7 @@ export const AdminMembersTable = ({
                 borderColor: 'primary.100',
               }}
             >
-              Correo Electrónico
+              Correo Institucional
             </Th>
           </Tr>
         </Thead>
@@ -145,7 +145,12 @@ export const AdminMembersTable = ({
             members.map((member) => (
               <Tr key={member.id}>
                 <Td>
-                  <Flex sx={{ gap: 'sm' }}>
+                  <Flex
+                    sx={{
+                      gap: 'sm',
+                      flexDirection: { sm: 'column', lg: 'row' },
+                    }}
+                  >
                     <IconButton
                       aria-label="Edit Member"
                       icon={<FaEdit size={16} />}

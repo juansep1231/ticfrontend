@@ -125,6 +125,7 @@ export const Navbar = () => {
         <IconButton
           aria-label="Open menu"
           icon={menuIcon}
+          size="md"
           sx={{
             'display': { base: 'flex', lg: 'none' },
             'bg': 'none',

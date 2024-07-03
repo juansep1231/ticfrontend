@@ -1,5 +1,6 @@
 import { Box, Flex, Heading, List, ListItem, Text } from '@chakra-ui/react';
-import { FiCheck } from 'react-icons/fi';
+
+import { MyIcon } from '../../../components/MyIcon';
 
 interface Plan {
   id: number;
@@ -45,8 +46,17 @@ export const SubscriptionPlanCard = ({ plan }: SubscriptionPlanProps) => {
         <List spacing="xs">
           {plan.benefits.map((benefit, index) => (
             <ListItem key={index}>
-              <Flex sx={{ gap: '2xs', alignItems: 'center' }}>
-                <Box as={FiCheck} sx={{ color: 'brand.blue' }} />
+              <Flex sx={{ gap: 'md', alignItems: 'center' }}>
+                <Box
+                  sx={{
+                    bg: 'brand.yellow',
+                    color: 'white',
+                    rounded: 'full',
+                    p: '3xs',
+                  }}
+                >
+                  <MyIcon icon="FiCheck" size={16} />
+                </Box>
                 <Text sx={{ textAlign: 'justify' }}>{benefit}</Text>
               </Flex>
             </ListItem>

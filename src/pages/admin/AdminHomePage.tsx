@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Box, Heading, Flex, Text, Image, Button } from '@chakra-ui/react';
+import { Heading, Flex, Text, Image, Button } from '@chakra-ui/react';
 
 import { Navbar } from '../../components/Navbar';
 import { Footer } from '../../components/Footer';
@@ -114,33 +114,42 @@ export const AdminHome = () => {
       }}
     >
       <Navbar />
-      <Box flex="1" sx={{ px: { base: 'md', lg: '3xl' } }}>
-        <Flex sx={{ flexDirection: 'column', gap: 'md' }}>
+      <Flex flex="1" sx={{ px: { base: 'md', lg: '3xl' } }}>
+        <Flex sx={{ flexDirection: 'column', gap: '3xl' }}>
           <Heading>Sistema Cloud ERP de FEPON</Heading>
           <Flex
             sx={{
-              flexDirection: { sm: 'column', lg: 'row' },
+              flexDirection: { base: 'column', lg: 'row' },
               gap: '3xl',
-              my: '3xl',
+              width: '100%',
             }}
           >
-            <Image
-              src="/img/logo.png"
-              alt="ERP Fepon"
+            <Flex
               sx={{
-                maxWidth: { sm: 'sm', xl: 'xl' },
-                height: 'auto',
-                mx: 'auto',
+                justifyContent: 'center',
+                width: { sm: '100%', lg: '47%' },
               }}
-            />
-            <Flex>
+            >
+              <Image
+                src="/img/logo.png"
+                alt="ERP Fepon"
+                sx={{
+                  width: { base: 'lg', md: 'auto' },
+                }}
+              />
+            </Flex>
+            <Flex
+              sx={{
+                width: { base: '100%', lg: '51.5%' },
+              }}
+            >
               <Flex
                 sx={{
                   flexDirection: 'column',
+                  pl: { base: 'none', lg: '3xl' },
                   gap: 'lg',
                   borderLeft: { sm: 'none', lg: '1px solid' },
                   borderColor: { sm: 'none', lg: 'surface.default' },
-                  pl: { sm: 'none', lg: '3xl' },
                 }}
               >
                 <Heading
@@ -215,7 +224,7 @@ export const AdminHome = () => {
             />
           </Flex>
         </Flex>
-      </Box>
+      </Flex>
       <Footer />
       <AddInformationModal
         isOpen={isAddInfoModalOpen}

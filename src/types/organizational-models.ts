@@ -61,6 +61,13 @@ export interface Member {
   position: string;
 }
 
+export interface User {
+  id: number;
+  email: string;
+  position: string;
+  password: string;
+}
+
 export interface OrganizationalInfo {
   id: number;
   mission: string;

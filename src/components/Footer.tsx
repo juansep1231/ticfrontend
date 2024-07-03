@@ -26,7 +26,7 @@ export const Footer = () => {
       <Flex
         sx={{
           justifyContent: 'center',
-          gap: 'sm',
+          gap: 'lg',
         }}
       >
         <IconButton
@@ -34,6 +34,7 @@ export const Footer = () => {
           href="https://www.facebook.com/fepon.epn"
           target="_blank"
           aria-label="Facebook"
+          size="md"
           icon={
             <Box
               sx={{
@@ -59,6 +60,7 @@ export const Footer = () => {
           href="https://www.instagram.com/fepon.epn/"
           target="_blank"
           aria-label="Instagram"
+          size="md"
           icon={
             <Box
               sx={{
@@ -84,6 +86,7 @@ export const Footer = () => {
           href="https://www.linkedin.com/company/fepon/"
           target="_blank"
           aria-label="LinkedIn"
+          size="md"
           icon={
             <Box
               sx={{

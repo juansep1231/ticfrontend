@@ -96,7 +96,12 @@ export const InformationTable = ({
             info.map((inf) => (
               <Tr key={inf.id}>
                 <Td>
-                  <Flex sx={{ gap: 'sm' }}>
+                  <Flex
+                    sx={{
+                      gap: 'sm',
+                      flexDirection: { sm: 'column', lg: 'row' },
+                    }}
+                  >
                     <IconButton
                       aria-label="Edit Information"
                       icon={<FaEdit size={16} />}

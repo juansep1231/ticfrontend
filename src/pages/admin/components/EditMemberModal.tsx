@@ -154,14 +154,14 @@ export const EditMemberModal: React.FC<EditMemberModalProps> = ({
             </Select>
           </FormControl>
           <FormControl id="email" sx={{ mb: 'sm' }}>
-            <FormLabel>Correo Electrónico</FormLabel>
+            <FormLabel>Correo Institucional</FormLabel>
             <Input
               type="email"
               value={formState.email}
               onChange={(e) =>
                 setFormState({ ...formState, email: e.target.value })
               }
-              placeholder="Ingrese el correo electrónico"
+              placeholder="Ingrese el correo institucional"
             />
           </FormControl>
           <FormControl id="position" sx={{ mb: 'sm' }}>

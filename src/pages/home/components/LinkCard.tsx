@@ -18,7 +18,7 @@ export const LinkCard = ({ icon, title, description, to }: LinkCardProps) => {
       sx={{
         shadow: 'md',
         p: 'md',
-        w: { sm: '100%', md: '23%' },
+        w: { sm: '100%', lg: '23%' },
         _hover: { bg: 'primary.100' },
         justifyContent: 'space-between',
       }}
