@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import { Heading, Flex, Text, Image, Button } from '@chakra-ui/react';
 
-import { Navbar } from '../../components/Navbar';
-import { Footer } from '../../components/Footer';
 import { Member, OrganizationalInfo } from '../../types/organizational-models';
 
 import { AddInformationModal } from './components/AddInformationModal';
@@ -107,125 +105,118 @@ export const AdminHome = () => {
 
   return (
     <Flex
-      sx={{
-        flexDirection: 'column',
-        minHeight: '100vh',
-        gap: 'xl',
-      }}
+      flex="1"
+      sx={{ px: { base: 'md', lg: '3xl' }, flexDirection: 'column' }}
     >
-      <Navbar />
-      <Flex flex="1" sx={{ px: { base: 'md', lg: '3xl' } }}>
-        <Flex sx={{ flexDirection: 'column', gap: '3xl' }}>
-          <Heading>Sistema Cloud ERP de FEPON</Heading>
+      <Flex sx={{ flexDirection: 'column', gap: '3xl' }}>
+        <Heading>Sistema Cloud ERP de FEPON</Heading>
+        <Flex
+          sx={{
+            flexDirection: { base: 'column', lg: 'row' },
+            gap: '3xl',
+            width: '100%',
+          }}
+        >
           <Flex
             sx={{
-              flexDirection: { base: 'column', lg: 'row' },
-              gap: '3xl',
-              width: '100%',
+              justifyContent: 'center',
+              width: { sm: '100%', lg: '47%' },
+            }}
+          >
+            <Image
+              src="/img/logo.png"
+              alt="ERP Fepon"
+              sx={{
+                width: { sm: 'lg', lg: 'auto' },
+              }}
+            />
+          </Flex>
+          <Flex
+            sx={{
+              width: { base: '100%', lg: '51.5%' },
             }}
           >
             <Flex
               sx={{
-                justifyContent: 'center',
-                width: { sm: '100%', lg: '47%' },
+                flexDirection: 'column',
+                pl: { base: 'none', lg: '3xl' },
+                gap: 'lg',
+                borderLeft: { sm: 'none', lg: '1px solid' },
+                borderColor: { sm: 'none', lg: 'surface.default' },
               }}
             >
-              <Image
-                src="/img/logo.png"
-                alt="ERP Fepon"
+              <Heading
                 sx={{
-                  width: { base: 'lg', md: 'auto' },
-                }}
-              />
-            </Flex>
-            <Flex
-              sx={{
-                width: { base: '100%', lg: '51.5%' },
-              }}
-            >
-              <Flex
-                sx={{
-                  flexDirection: 'column',
-                  pl: { base: 'none', lg: '3xl' },
-                  gap: 'lg',
-                  borderLeft: { sm: 'none', lg: '1px solid' },
-                  borderColor: { sm: 'none', lg: 'surface.default' },
+                  fontSize: 'heading.desktop.subtitle',
                 }}
               >
-                <Heading
-                  sx={{
-                    fontSize: 'heading.desktop.subtitle',
-                  }}
+                Federación de Estudiantes de la Escuela Politécnica Nacional
+              </Heading>
+              <Text sx={{ textColor: 'text.default', textAlign: 'justify' }}>
+                ¡Bienvenidos al Sistema Cloud ERP de la FEPON! Para comenzar, no
+                olvides añadir a tu equipo de trabajo y la información
+                organizacional de la nueva federación.
+              </Text>
+              <Text sx={{ textColor: 'text.default' }}>
+                Para ingresar un nuevo miembro administrativo, la misión, visión
+                y objetivo de FEPON, da clic en los siguientes botones.
+              </Text>
+              <Flex sx={{ gap: 'sm' }}>
+                <Button
+                  onClick={() => setAddInfoModalOpen(true)}
+                  sx={{ width: '3xs' }}
                 >
-                  Federación de Estudiantes de la Escuela Politécnica Nacional
-                </Heading>
-                <Text sx={{ textColor: 'text.default', textAlign: 'justify' }}>
-                  ¡Bienvenidos al Sistema Cloud ERP de la FEPON! Para comenzar,
-                  no olvides añadir a tu equipo de trabajo y la información
-                  organizacional de la nueva federación.
-                </Text>
-                <Text sx={{ textColor: 'text.default' }}>
-                  Para ingresar un nuevo miembro administrativo, la misión,
-                  visión y objetivo de FEPON, da clic en los siguientes botones.
-                </Text>
-                <Flex sx={{ gap: 'sm' }}>
-                  <Button
-                    onClick={() => setAddInfoModalOpen(true)}
-                    sx={{ width: '3xs' }}
-                  >
-                    Añadir información
-                  </Button>
-                  <Button
-                    onClick={() => setIsAddMemberModalOpen(true)}
-                    sx={{ width: '3xs' }}
-                  >
-                    Añadir miembro
-                  </Button>
-                </Flex>
+                  Añadir información
+                </Button>
+                <Button
+                  onClick={() => setIsAddMemberModalOpen(true)}
+                  sx={{ width: '3xs' }}
+                >
+                  Añadir miembro
+                </Button>
               </Flex>
-            </Flex>
-          </Flex>
-
-          <Flex sx={{ flexDirection: 'column', gap: 'xl', pb: 'xl' }}>
-            <Heading sx={{ fontSize: 'heading.desktop.subtitle' }}>
-              Información Organizacional
-            </Heading>
-            <Flex
-              sx={{
-                flexWrap: 'wrap',
-                flexDirection: { base: 'column', md: 'row' },
-                gap: 'md',
-              }}
-            >
-              <InformationTable
-                info={information}
-                onEdit={openInfoEditModal}
-                onDelete={handleDeleteInfo}
-              />
             </Flex>
           </Flex>
         </Flex>
 
         <Flex sx={{ flexDirection: 'column', gap: 'xl', pb: 'xl' }}>
           <Heading sx={{ fontSize: 'heading.desktop.subtitle' }}>
-            Miembros Administrativos
+            Información Organizacional
           </Heading>
           <Flex
             sx={{
               flexWrap: 'wrap',
-              flexDirection: { sm: 'column', md: 'row' },
+              flexDirection: { base: 'column', md: 'row' },
               gap: 'md',
             }}
           >
-            <AdminMembersTable
-              members={members}
-              onEdit={openMemberEditModal}
-              onDelete={handleDeleteMember}
+            <InformationTable
+              info={information}
+              onEdit={openInfoEditModal}
+              onDelete={handleDeleteInfo}
             />
           </Flex>
         </Flex>
       </Flex>
-      <Footer />
+
+      <Flex sx={{ flexDirection: 'column', gap: 'xl', pb: 'xl' }}>
+        <Heading sx={{ fontSize: 'heading.desktop.subtitle' }}>
+          Miembros Administrativos
+        </Heading>
+        <Flex
+          sx={{
+            flexWrap: 'wrap',
+            flexDirection: { sm: 'column', md: 'row' },
+            gap: 'md',
+          }}
+        >
+          <AdminMembersTable
+            members={members}
+            onEdit={openMemberEditModal}
+            onDelete={handleDeleteMember}
+          />
+        </Flex>
+      </Flex>
       <AddInformationModal
         isOpen={isAddInfoModalOpen}
         onClose={() => setAddInfoModalOpen(false)}

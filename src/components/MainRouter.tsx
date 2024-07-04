@@ -10,39 +10,77 @@ import FinantialPage from '../pages/landing/finantial/FinantialPage';
 import InventoryPage from '../pages/landing/inventory/InventoryPage';
 import OrganizationalPage from '../pages/landing/organizational/OrganizationalPage';
 
+import { Layout } from './Layout';
+
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Home />,
-    errorElement: <NotFoundPage />,
+    element: (
+      <Layout>
+        <Home />
+      </Layout>
+    ),
+    errorElement: (
+      <Layout>
+        <NotFoundPage />
+      </Layout>
+    ),
   },
   {
     path: '/admin',
-    element: <AdminHome />,
+    element: (
+      <Layout>
+        <AdminHome />
+      </Layout>
+    ),
   },
   {
     path: '/inicio-sesion',
-    element: <LoginPage />,
+    element: (
+      <Layout>
+        <LoginPage />
+      </Layout>
+    ),
   },
   {
     path: '/ayuda',
-    element: <HelpPage />,
+    element: (
+      <Layout>
+        <HelpPage />
+      </Layout>
+    ),
   },
   {
     path: '/eventos',
-    element: <EventsPage />,
+    element: (
+      <Layout>
+        <EventsPage />
+      </Layout>
+    ),
   },
   {
     path: '/financiero',
-    element: <FinantialPage />,
+    element: (
+      <Layout>
+        <FinantialPage />
+      </Layout>
+    ),
   },
   {
     path: '/inventario',
-    element: <InventoryPage />,
+    element: (
+      <Layout>
+        <InventoryPage />
+      </Layout>
+    ),
   },
   {
     path: '/organizacional',
-    element: <OrganizationalPage />,
+    element: (
+      <Layout>
+        <OrganizationalPage />
+      </Layout>
+    ),
   },
 ]);
 

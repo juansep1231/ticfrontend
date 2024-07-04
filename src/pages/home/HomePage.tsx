@@ -2,8 +2,6 @@ import { Heading, Flex, Text, Image, Button } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
 import { moduleCardData } from '../../utils/modules-card-data';
-import { Navbar } from '../../components/Navbar';
-import { Footer } from '../../components/Footer';
 import { HomeMember, Plan } from '../../types/organizational-models';
 import { modulesFeatIcons } from '../../utils/modules-card-data';
 
@@ -117,7 +115,6 @@ export const Home = () => {
         gap: 'xl',
       }}
     >
-      <Navbar />
       <Flex
         flex="1"
         sx={{
@@ -237,7 +234,6 @@ export const Home = () => {
           </Flex>
         </Flex>
       </Flex>
-      <Footer />
     </Flex>
   );
 };

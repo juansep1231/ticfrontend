@@ -60,7 +60,7 @@ export const InformationTable = ({
           <Tr sx={{ color: 'surface.default' }}>
             <Th
               sx={{
-                width: '10%',
+                width: { sm: '20', lg: '10%' },
                 borderRight: '1px',
                 borderColor: 'primary.100',
               }}

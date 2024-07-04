@@ -55,7 +55,7 @@ export const AdminMembersTable = ({
           <Tr sx={{ textColor: 'surface.default' }}>
             <Th
               sx={{
-                width: '10%',
+                width: '20',
                 borderRight: '1px',
                 borderColor: 'primary.100',
               }}
@@ -70,7 +70,6 @@ export const AdminMembersTable = ({
             </Th>
             <Th
               sx={{
-                width: '10%',
                 borderRight: '1px',
                 borderColor: 'primary.100',
               }}
@@ -79,7 +78,6 @@ export const AdminMembersTable = ({
             </Th>
             <Th
               sx={{
-                width: '10%',
                 borderRight: '1px',
                 borderColor: 'primary.100',
               }}
