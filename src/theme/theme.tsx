@@ -19,6 +19,12 @@ export const customTheme = extendTheme({
           _hover: { bg: 'primary.default' },
           _active: { bg: 'primary.300' },
         },
+        cancel: {
+          color: 'text.default',
+          bg: 'secondary.100',
+          _hover: { bg: 'text.200' },
+          _active: { bg: 'text.300', color: 'white' },
+        },
       },
       defaultProps: {
         variant: 'primary',
