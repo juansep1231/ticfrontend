@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Modal,
   ModalOverlay,
@@ -8,11 +8,12 @@ import {
   ModalBody,
   ModalCloseButton,
   Button,
-  FormControl,
-  FormLabel,
-  Textarea,
 } from '@chakra-ui/react';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 
+import { FormField } from '../../../components/FormField';
+import { infoSchema } from '../../../utils/validations-helper';
 import { OrganizationalInfo } from '../../../types/organizational-models';
 
 interface AddInformationModalProps {
@@ -24,44 +25,48 @@ export const AddInformationModal = ({
   isOpen,
   onClose,
 }: AddInformationModalProps) => {
-  const [info, setInfo] = useState<OrganizationalInfo>({
-    id: 0,
-    mission: '',
-    vision: '',
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<OrganizationalInfo>({
+    resolver: yupResolver(infoSchema),
   });
-  const handleSubmit = () => {
+
+  const onSubmit = (data: OrganizationalInfo) => {
+    console.log(data);
     onClose();
   };
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
-      <ModalContent sx={{ p: 'lg' }}>
-        <ModalHeader sx={{ color: 'brand.blue', textAlign: 'center' }}>
+      <ModalContent p="4">
+        <ModalHeader color="brand.blue" textAlign="center">
           Agregar Información de FEPON
         </ModalHeader>
         <ModalCloseButton />
-        <ModalBody sx={{ textColor: 'text.default' }}>
-          <FormControl id="mission" sx={{ mb: 'sm' }}>
-            <FormLabel>Misión</FormLabel>
-            <Textarea
-              value={info.mission}
-              onChange={(e) => setInfo({ ...info, mission: e.target.value })}
-              placeholder="Ingrese la misión"
-            />
-          </FormControl>
-          <FormControl id="vision" sx={{ mb: 'sm' }}>
-            <FormLabel>Visión</FormLabel>
-            <Textarea
-              value={info.vision}
-              onChange={(e) => setInfo({ ...info, vision: e.target.value })}
-              placeholder="Ingrese la visión"
-            />
-          </FormControl>
+        <ModalBody textColor="text.default">
+          <FormField
+            id="mission"
+            label="Misión"
+            placeholder="Ingrese la misión"
+            register={register}
+            errors={errors.mission}
+          />
+          <FormField
+            id="vision"
+            label="Visión"
+            placeholder="Ingrese la visión"
+            register={register}
+            errors={errors.vision}
+          />
+          <ModalFooter>
+            <Button type="submit" onClick={handleSubmit(onSubmit)}>
+              Guardar
+            </Button>
+          </ModalFooter>
         </ModalBody>
-        <ModalFooter>
-          <Button onClick={handleSubmit}>Guardar</Button>
-        </ModalFooter>
       </ModalContent>
     </Modal>
   );

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
   Modal,
   ModalOverlay,
@@ -8,11 +8,12 @@ import {
   ModalBody,
   ModalCloseButton,
   Button,
-  FormControl,
-  FormLabel,
-  Textarea,
 } from '@chakra-ui/react';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 
+import { FormField } from '../../../components/FormField';
+import { infoSchema } from '../../../utils/validations-helper';
 import { OrganizationalInfo } from '../../../types/organizational-models';
 
 interface EditInformationModalProps {
@@ -28,56 +29,61 @@ export const EditInformationModal = ({
   info,
   onSubmit,
 }: EditInformationModalProps) => {
-  const [formState, setFormState] = useState<OrganizationalInfo>({
-    id: 0,
-    mission: '',
-    vision: '',
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<OrganizationalInfo>({
+    resolver: yupResolver(infoSchema),
   });
 
   useEffect(() => {
     if (info) {
-      setFormState(info);
+      // Set initial form values when info prop changes
+      Object.keys(info).forEach((key) => {
+        setValue(
+          key as keyof OrganizationalInfo,
+          info[key as keyof OrganizationalInfo]
+        );
+      });
     }
-  }, [info]);
+  }, [info, setValue]);
 
-  const handleSubmit = () => {
-    onSubmit({ info: formState });
+  const handleFormSubmit = (data: OrganizationalInfo) => {
+    onSubmit({ info: data });
     onClose();
   };
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
-      <ModalContent sx={{ p: 'lg' }}>
-        <ModalHeader sx={{ color: 'brand.blue', textAlign: 'center' }}>
+      <ModalContent p="4">
+        <ModalHeader color="brand.blue" textAlign="center">
           Editar Información de FEPON
         </ModalHeader>
         <ModalCloseButton />
-        <ModalBody sx={{ textColor: 'text.default' }}>
-          <FormControl id="mission" sx={{ mb: 'sm' }}>
-            <FormLabel>Misión</FormLabel>
-            <Textarea
-              value={formState.mission}
-              onChange={(e) =>
-                setFormState({ ...formState, mission: e.target.value })
-              }
-              placeholder="Ingrese la misión"
-            />
-          </FormControl>
-          <FormControl id="vision" sx={{ mb: 'sm' }}>
-            <FormLabel>Visión</FormLabel>
-            <Textarea
-              value={formState.vision}
-              onChange={(e) =>
-                setFormState({ ...formState, vision: e.target.value })
-              }
-              placeholder="Ingrese la visión"
-            />
-          </FormControl>
+        <ModalBody textColor="text.default">
+          <FormField
+            id="mission"
+            label="Misión"
+            placeholder="Ingrese la misión"
+            register={register}
+            errors={errors.mission}
+          />
+          <FormField
+            id="vision"
+            label="Visión"
+            placeholder="Ingrese la visión"
+            register={register}
+            errors={errors.vision}
+          />
+          <ModalFooter>
+            <Button onClick={handleSubmit(handleFormSubmit)} type="submit">
+              Guardar
+            </Button>
+          </ModalFooter>
         </ModalBody>
-        <ModalFooter>
-          <Button onClick={handleSubmit}>Guardar</Button>
-        </ModalFooter>
       </ModalContent>
     </Modal>
   );

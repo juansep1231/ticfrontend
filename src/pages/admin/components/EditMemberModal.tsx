@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import {
   Modal,
   ModalOverlay,
@@ -8,19 +8,19 @@ import {
   ModalBody,
   ModalCloseButton,
   Button,
-  FormControl,
-  FormLabel,
-  Input,
-  Select,
 } from '@chakra-ui/react';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm } from 'react-hook-form';
 
 import {
-  Member,
   faculties,
-  positions,
   careers,
+  positions,
   semesters,
+  Member,
 } from '../../../types/organizational-models';
+import { FormField } from '../../../components/FormField';
+import { memberSchema } from '../../../utils/validations-helper';
 
 interface EditMemberModalProps {
   isOpen: boolean;
@@ -35,154 +35,112 @@ export const EditMemberModal: React.FC<EditMemberModalProps> = ({
   member,
   onSubmit,
 }) => {
-  const [formState, setFormState] = useState<Member>({
-    id: 0,
-    firstName: '',
-    lastName: '',
-    birthDate: '',
-    cellphone: '',
-    faculty: '',
-    career: '',
-    semester: '',
-    email: '',
-    position: '',
+  const {
+    handleSubmit,
+    register,
+    setValue,
+    formState: { errors },
+  } = useForm<Member>({
+    resolver: yupResolver(memberSchema),
   });
 
   useEffect(() => {
     if (member) {
-      setFormState(member);
+      Object.keys(member).forEach((key) => {
+        setValue(key as keyof Member, member[key as keyof Member]);
+      });
     }
-  }, [member]);
+  }, [member, setValue]);
 
-  const handleSubmit = () => {
-    onSubmit({ member: formState });
+  const onSubmitForm = (data: Member) => {
+    onSubmit({ member: data });
     onClose();
   };
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
-      <ModalContent sx={{ p: 'lg' }}>
-        <ModalHeader sx={{ color: 'brand.blue', textAlign: 'center' }}>
+      <ModalContent p="4">
+        <ModalHeader color="brand.blue" textAlign="center">
           Editar Miembro Administrativo
         </ModalHeader>
         <ModalCloseButton />
-        <ModalBody sx={{ textColor: 'text.default' }}>
-          <FormControl id="firstName" sx={{ mb: 'sm' }}>
-            <FormLabel>Nombres</FormLabel>
-            <Input
-              value={formState.firstName}
-              onChange={(e) =>
-                setFormState({ ...formState, firstName: e.target.value })
-              }
-              placeholder="Ingrese los nombres"
-            />
-          </FormControl>
-          <FormControl id="lastName" sx={{ mb: 'sm' }}>
-            <FormLabel>Apellidos</FormLabel>
-            <Input
-              value={formState.lastName}
-              onChange={(e) =>
-                setFormState({ ...formState, lastName: e.target.value })
-              }
-              placeholder="Ingrese los apellidos"
-            />
-          </FormControl>
-          <FormControl id="birthDate" sx={{ mb: 'sm' }}>
-            <FormLabel>Fecha de Nacimiento</FormLabel>
-            <Input
-              type="date"
-              value={formState.birthDate}
-              onChange={(e) =>
-                setFormState({ ...formState, birthDate: e.target.value })
-              }
-            />
-          </FormControl>
-          <FormControl id="phoneNumber" sx={{ mb: 'sm' }}>
-            <FormLabel>Número de Celular</FormLabel>
-            <Input
-              value={formState.cellphone}
-              onChange={(e) =>
-                setFormState({ ...formState, cellphone: e.target.value })
-              }
-              placeholder="Ingrese el número de celular"
-            />
-          </FormControl>
-          <FormControl id="faculty" sx={{ mb: 'sm' }}>
-            <FormLabel>Facultad</FormLabel>
-            <Select
-              value={formState.faculty}
-              onChange={(e) =>
-                setFormState({ ...formState, faculty: e.target.value })
-              }
-            >
-              {faculties.map((faculty) => (
-                <option key={faculty} value={faculty}>
-                  {faculty}
-                </option>
-              ))}
-            </Select>
-          </FormControl>
-          <FormControl id="career" sx={{ mb: 'sm' }}>
-            <FormLabel>Carrera</FormLabel>
-            <Select
-              value={formState.career}
-              onChange={(e) =>
-                setFormState({ ...formState, career: e.target.value })
-              }
-            >
-              {careers.map((career) => (
-                <option key={career} value={career}>
-                  {career}
-                </option>
-              ))}
-            </Select>
-          </FormControl>
-          <FormControl id="semester" sx={{ mb: 'sm' }}>
-            <FormLabel>Semestre</FormLabel>
-            <Select
-              value={formState.semester}
-              onChange={(e) =>
-                setFormState({ ...formState, semester: e.target.value })
-              }
-            >
-              {semesters.map((semester) => (
-                <option key={semester} value={semester}>
-                  {semester}
-                </option>
-              ))}
-            </Select>
-          </FormControl>
-          <FormControl id="email" sx={{ mb: 'sm' }}>
-            <FormLabel>Correo Institucional</FormLabel>
-            <Input
-              type="email"
-              value={formState.email}
-              onChange={(e) =>
-                setFormState({ ...formState, email: e.target.value })
-              }
-              placeholder="Ingrese el correo institucional"
-            />
-          </FormControl>
-          <FormControl id="position" sx={{ mb: 'sm' }}>
-            <FormLabel>Rol</FormLabel>
-            <Select
-              value={formState.position}
-              onChange={(e) =>
-                setFormState({ ...formState, position: e.target.value })
-              }
-            >
-              {positions.map((position) => (
-                <option key={position} value={position}>
-                  {position}
-                </option>
-              ))}
-            </Select>
-          </FormControl>
+        <ModalBody textColor="text.default">
+          <FormField
+            id="firstName"
+            label="Nombres"
+            placeholder="Ingrese los nombres"
+            register={register}
+            errors={errors.firstName}
+          />
+          <FormField
+            id="lastName"
+            label="Apellidos"
+            placeholder="Ingrese los apellidos"
+            register={register}
+            errors={errors.lastName}
+          />
+          <FormField
+            id="birthDate"
+            label="Fecha de Nacimiento"
+            placeholder="Seleccione la fecha de nacimiento"
+            type="date"
+            register={register}
+            errors={errors.birthDate}
+          />
+          <FormField
+            id="cellphone"
+            label="Número de Celular"
+            placeholder="Ingrese el número de celular"
+            register={register}
+            errors={errors.cellphone}
+          />
+          <FormField
+            id="faculty"
+            label="Facultad"
+            placeholder="Seleccione la facultad"
+            register={register}
+            errors={errors.faculty}
+            options={faculties}
+          />
+          <FormField
+            id="career"
+            label="Carrera"
+            placeholder="Seleccione la carrera"
+            register={register}
+            errors={errors.career}
+            options={careers}
+          />
+          <FormField
+            id="semester"
+            label="Semestre"
+            placeholder="Seleccione el semestre"
+            register={register}
+            errors={errors.semester}
+            options={semesters}
+          />
+          <FormField
+            id="email"
+            label="Correo Institucional"
+            placeholder="Ingrese el correo institucional"
+            type="email"
+            register={register}
+            errors={errors.email}
+          />
+          <FormField
+            id="position"
+            label="Rol"
+            placeholder="Seleccione el rol"
+            register={register}
+            errors={errors.position}
+            options={positions}
+          />
+          <ModalFooter>
+            <Button type="submit" onClick={handleSubmit(onSubmitForm)}>
+              Guardar
+            </Button>
+          </ModalFooter>
         </ModalBody>
-        <ModalFooter>
-          <Button onClick={handleSubmit}>Guardar</Button>
-        </ModalFooter>
       </ModalContent>
     </Modal>
   );

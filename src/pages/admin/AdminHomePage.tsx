@@ -71,12 +71,17 @@ export const AdminHome = () => {
     null
   );
 
+  const handleAddMember = (newMember: Member) => {
+    setMembers((prevMembers) => [...prevMembers, newMember]);
+    console.log('Miembro agregado:', newMember);
+  };
+
   const handleEditMember = (data: { member: Member }) => {
     setMembers(members.map((m) => (m.id === data.member.id ? data.member : m)));
     console.log('Miembro actualizado:', data.member);
   };
 
-  const handleDeleteMember = (id: number) => {
+  const handleDeleteMember = (id: number | undefined) => {
     setMembers(members.filter((m) => m.id !== id));
     console.log('Miembro eliminado:', id);
   };
@@ -88,7 +93,7 @@ export const AdminHome = () => {
 
   const openInfoEditModal = (info: OrganizationalInfo) => {
     setSelectedInfo(info);
-    setIsEditMemberModalOpen(true);
+    setIsEditInfoModalOpen(true);
   };
 
   const handleEditInformation = (data: { info: OrganizationalInfo }) => {
@@ -98,7 +103,7 @@ export const AdminHome = () => {
     console.log('Informacion organizacional actualizada:', data.info);
   };
 
-  const handleDeleteInfo = (id: number) => {
+  const handleDeleteInfo = (id: number | undefined) => {
     setInformation(information.filter((info) => info.id !== id));
     console.log('Informacion organizacional eliminada:', id);
   };
@@ -230,6 +235,7 @@ export const AdminHome = () => {
       <AddMemberModal
         isOpen={isAddMemberModalOpen}
         onClose={() => setIsAddMemberModalOpen(false)}
+        onAddMember={handleAddMember}
       />
       <EditMemberModal
         isOpen={isEditMemberModalOpen}

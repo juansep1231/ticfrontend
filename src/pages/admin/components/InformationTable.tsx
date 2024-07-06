@@ -17,7 +17,7 @@ import { OrganizationalInfo } from '../../../types/organizational-models';
 interface InformationTableProps {
   info: OrganizationalInfo[];
   onEdit: (info: OrganizationalInfo) => void;
-  onDelete: (id: number) => void;
+  onDelete: (id: number | undefined) => void;
 }
 
 export const InformationTable = ({

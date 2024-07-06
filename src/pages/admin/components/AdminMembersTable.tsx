@@ -16,7 +16,7 @@ import { Member } from '../../../types/organizational-models';
 interface AdminMembersTableProps {
   members: Member[];
   onEdit: (member: Member) => void;
-  onDelete: (id: number) => void;
+  onDelete: (id: number | undefined) => void;
 }
 
 export const AdminMembersTable = ({

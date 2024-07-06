@@ -1,42 +1,42 @@
-import { useState } from 'react';
-import {
-  Box,
-  Button,
-  Flex,
-  Heading,
-  FormControl,
-  FormLabel,
-  Input,
-  Link,
-} from '@chakra-ui/react';
+import { Box, Button, Flex, Heading, Link } from '@chakra-ui/react';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+
+import { FormField } from '../../../components/FormField';
+import { positions, User } from '../../../types/organizational-models';
+import { userSchema } from '../../../utils/validations-helper';
 
 interface LoginProps {
-  onSubmit: (formData: { username: string; password: string }) => void;
+  onSubmit: (formData: User) => void;
 }
 
 export const LoginForm = ({ onSubmit }: LoginProps) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm<User>({
+    resolver: yupResolver(userSchema),
+  });
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    onSubmit({ username, password });
+  const onSubmitForm = (data: User) => {
+    console.log(data);
+    onSubmit(data);
   };
 
   return (
     <Flex
       sx={{
         flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'space-between',
+        justifyContent: 'space-between',
+        alignItems: 'center',
         border: '1px',
         borderColor: 'brand.blue',
         roundedBottomLeft: { sm: 'none', md: 'xl' },
         roundedTopLeft: 'xl',
         roundedTopRight: { sm: 'xl', md: 'none' },
         w: '380px',
-        h: '400px',
-        gap: 'md',
+        h: '505px',
         p: 'xl',
       }}
     >
@@ -45,55 +45,56 @@ export const LoginForm = ({ onSubmit }: LoginProps) => {
       >
         Inicio de sesión
       </Heading>
-      <form onSubmit={handleSubmit} style={{ width: '100%' }}>
-        <Flex
-          sx={{
-            flexDirection: 'column',
-            textAlign: 'center',
-            color: 'text.default',
-            fontSize: 'text.md',
-            gap: 'sm',
-          }}
-        >
-          <FormControl>
-            <FormLabel>Correo institucional</FormLabel>
-            <Flex>
-              <Input
-                name="username"
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                placeholder="Ingrese su correo institucional"
-              />
-            </Flex>
-          </FormControl>
-          <FormControl>
-            <FormLabel>Contraseña</FormLabel>
-            <Flex>
-              <Input
-                name="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Ingrese su contraseña"
-              />
-            </Flex>
-          </FormControl>
-          <Box sx={{ textAlign: 'right' }}>
-            <Link
-              href="/reset-password"
-              sx={{ color: 'brand.blue', fontSize: 'text.sm' }}
-            >
-              ¿Olvidaste tu contraseña?
-            </Link>
-          </Box>
-          <Flex sx={{ justifyContent: 'center' }}>
-            <Button type="submit" onSubmit={() => handleSubmit}>
-              Iniciar sesión
-            </Button>
-          </Flex>
-        </Flex>
-      </form>
+      <Flex
+        sx={{
+          width: '100%',
+          flexDirection: 'column',
+          textAlign: 'center',
+          color: 'text.default',
+          fontSize: 'text.md',
+        }}
+      >
+        <Box>
+          <FormField
+            id="email"
+            label="Correo Institucional"
+            placeholder="Ingrese el correo institucional"
+            type="email"
+            register={register}
+            errors={errors.email}
+          />
+          <FormField
+            id="position"
+            label="Rol"
+            placeholder="Seleccione el rol"
+            register={register}
+            errors={errors.position}
+            options={positions}
+          />
+          <FormField
+            id="password"
+            label="Contraseña"
+            placeholder="Ingrese una contraseña"
+            register={register}
+            errors={errors.password}
+            type="password"
+            showPasswordToggle={true}
+          />
+        </Box>
+        <Box sx={{ textAlign: 'right' }}>
+          <Link
+            href="/reset-password"
+            sx={{ color: 'brand.blue', fontSize: 'text.sm' }}
+          >
+            ¿Olvidaste tu contraseña?
+          </Link>
+        </Box>
+      </Flex>
+      <Flex sx={{ justifyContent: 'center' }}>
+        <Button type="submit" onClick={handleSubmit(onSubmitForm)}>
+          Guardar
+        </Button>
+      </Flex>
     </Flex>
   );
 };

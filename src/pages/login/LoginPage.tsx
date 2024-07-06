@@ -1,9 +1,11 @@
 import { Flex, Heading, Image, Text } from '@chakra-ui/react';
 
+import { User } from '../../types/organizational-models';
+
 import { LoginForm } from './components/LoginForm';
 
 export const LoginPage = () => {
-  const handleLogin = (formData: { username: string; password: string }) => {
+  const handleLogin = (formData: User) => {
     console.log('Formulario de login enviado:', formData);
   };
 
@@ -28,7 +30,7 @@ export const LoginPage = () => {
           roundedTopRight: { sm: 'none', md: 'xl' },
           roundedBottomLeft: { sm: 'xl', md: 'none' },
           w: '380px',
-          h: '400px',
+          h: '505px',
           gap: 'md',
           p: 'xl',
           color: 'white',

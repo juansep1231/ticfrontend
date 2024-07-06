@@ -49,7 +49,7 @@ export const positions = [
 ];
 
 export interface Member {
-  id: number;
+  id?: number;
   firstName: string;
   lastName: string;
   birthDate: string;
@@ -62,20 +62,20 @@ export interface Member {
 }
 
 export interface User {
-  id: number;
+  id?: number;
   email: string;
   position: string;
   password: string;
 }
 
 export interface OrganizationalInfo {
-  id: number;
+  id?: number;
   mission: string;
   vision: string;
 }
 
 export interface HomeMember {
-  id: number;
+  id?: number;
   name: string;
   position: string;
   semester: string;
@@ -84,7 +84,7 @@ export interface HomeMember {
 }
 
 export interface Plan {
-  id: number;
+  id?: number;
   title: string;
   price: number;
   benefits: string[];

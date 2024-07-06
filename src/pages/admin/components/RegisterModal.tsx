@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import {
   Modal,
   ModalOverlay,
@@ -8,13 +7,13 @@ import {
   ModalBody,
   ModalCloseButton,
   Button,
-  FormControl,
-  FormLabel,
-  Input,
-  Select,
 } from '@chakra-ui/react';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 import { positions, User } from '../../../types/organizational-models';
+import { userSchema } from '../../../utils/validations-helper';
+import { FormField } from '../../../components/FormField';
 
 interface RegisterModalProps {
   isOpen: boolean;
@@ -22,14 +21,16 @@ interface RegisterModalProps {
 }
 
 export const RegisterModal = ({ isOpen, onClose }: RegisterModalProps) => {
-  const [user, setUser] = useState<User>({
-    id: 0,
-    email: '',
-    position: '',
-    password: '',
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm<User>({
+    resolver: yupResolver(userSchema),
   });
 
-  const handleSubmit = () => {
+  const onSubmit = (data: User) => {
+    console.log(data);
     onClose();
   };
 
@@ -42,42 +43,37 @@ export const RegisterModal = ({ isOpen, onClose }: RegisterModalProps) => {
         </ModalHeader>
         <ModalCloseButton />
         <ModalBody sx={{ textColor: 'text.default' }}>
-          <FormControl id="email" sx={{ mb: 'sm' }}>
-            <FormLabel>Correo Institucional</FormLabel>
-            <Input
-              type="email"
-              value={user.email}
-              onChange={(e) => setUser({ ...user, email: e.target.value })}
-              placeholder="Ingrese el correo institucional"
-            />
-          </FormControl>
-          <FormControl id="faculty" sx={{ mb: 'sm' }}>
-            <FormLabel>Rol</FormLabel>
-            <Select
-              placeholder="Seleccione el rol"
-              value={user.position}
-              onChange={(e) => setUser({ ...user, position: e.target.value })}
-            >
-              {positions.map((position, index) => (
-                <option key={index} value={position}>
-                  {position}
-                </option>
-              ))}
-            </Select>
-          </FormControl>
-          <FormControl id="password" sx={{ mb: 'sm' }}>
-            <FormLabel>Ingrese una contraseña por defecto</FormLabel>
-            <Input
-              type="password"
-              value={user.password}
-              onChange={(e) => setUser({ ...user, password: e.target.value })}
-              placeholder="Ingrese una contraseña"
-            />
-          </FormControl>
+          <FormField
+            id="email"
+            label="Correo Institucional"
+            placeholder="Ingrese el correo institucional"
+            type="email"
+            register={register}
+            errors={errors.email}
+          />
+          <FormField
+            id="position"
+            label="Rol"
+            placeholder="Seleccione el rol"
+            register={register}
+            errors={errors.position}
+            options={positions}
+          />
+          <FormField
+            id="password"
+            label="Contraseña"
+            placeholder="Ingrese una contraseña"
+            register={register}
+            errors={errors.password}
+            type="password"
+            showPasswordToggle={true}
+          />
+          <ModalFooter>
+            <Button type="submit" onClick={handleSubmit(onSubmit)}>
+              Guardar
+            </Button>
+          </ModalFooter>
         </ModalBody>
-        <ModalFooter>
-          <Button onClick={handleSubmit}>Guardar</Button>
-        </ModalFooter>
       </ModalContent>
     </Modal>
   );
