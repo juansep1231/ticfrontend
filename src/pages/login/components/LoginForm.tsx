@@ -6,11 +6,11 @@ import { FormField } from '../../../components/FormField';
 import { positions, User } from '../../../types/organizational-models';
 import { userSchema } from '../../../utils/validations-helper';
 
-interface LoginProps {
+interface LoginFormProps {
   onSubmit: (formData: User) => void;
 }
 
-export const LoginForm = ({ onSubmit }: LoginProps) => {
+export const LoginForm = ({ onSubmit }: LoginFormProps) => {
   const {
     handleSubmit,
     register,
@@ -35,8 +35,8 @@ export const LoginForm = ({ onSubmit }: LoginProps) => {
         roundedBottomLeft: { sm: 'none', md: 'xl' },
         roundedTopLeft: 'xl',
         roundedTopRight: { sm: 'xl', md: 'none' },
-        w: '380px',
-        h: '505px',
+        w: '400px',
+        h: '580px',
         p: 'xl',
       }}
     >
@@ -83,7 +83,7 @@ export const LoginForm = ({ onSubmit }: LoginProps) => {
         </Box>
         <Box sx={{ textAlign: 'right' }}>
           <Link
-            href="/reset-password"
+            href="/cambiar-clave"
             sx={{ color: 'brand.blue', fontSize: 'text.sm' }}
           >
             ¿Olvidaste tu contraseña?

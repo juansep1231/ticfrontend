@@ -5,6 +5,7 @@ import { NotFoundPage } from '../pages/not-found/NotFoundPage';
 import { HelpPage } from '../pages/help/HelpPage';
 import { LoginPage } from '../pages/login/LoginPage';
 import { AdminHome } from '../pages/admin/AdminHomePage';
+import { ResetPasswordPage } from '../pages/reset-password/ResetPassword';
 import EventsPage from '../pages/landing/events/EventPage';
 import FinantialPage from '../pages/landing/finantial/FinantialPage';
 import InventoryPage from '../pages/landing/inventory/InventoryPage';
@@ -39,6 +40,14 @@ const router = createBrowserRouter([
     element: (
       <Layout>
         <LoginPage />
+      </Layout>
+    ),
+  },
+  {
+    path: '/cambiar-clave',
+    element: (
+      <Layout>
+        <ResetPasswordPage />
       </Layout>
     ),
   },

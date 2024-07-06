@@ -1,5 +1,12 @@
 import * as yup from 'yup';
 
+export const resetPassworSchema = yup.object().shape({
+  email: yup
+    .string()
+    .required('El correo es obligatorio')
+    .email('El correo no es válido'),
+});
+
 export const userSchema = yup.object().shape({
   email: yup
     .string()
