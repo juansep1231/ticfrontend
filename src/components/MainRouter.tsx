@@ -68,7 +68,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: '/financiero',
+    path: '/finanzas',
     element: (
       <Layout>
         <FinantialPage />
@@ -84,7 +84,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: '/organizacional',
+    path: '/aportaciones',
     element: (
       <Layout>
         <OrganizationalPage />

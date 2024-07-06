@@ -2,7 +2,7 @@ import {
   Box,
   Flex,
   Link as ChakraLink,
-  Image,
+  Text,
   IconButton,
   VStack,
   useDisclosure,
@@ -10,11 +10,11 @@ import {
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import { NavLink as RouterLink } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { NAV_LINKS } from '../utils/constants';
+import { MODULES_NAVLINK } from '../utils/constants';
 
 const MotionVStack = motion(VStack);
 
-export const Navbar = () => {
+export const ModulesNavbar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toggleMenu = () => {
     if (isOpen) {
@@ -27,17 +27,27 @@ export const Navbar = () => {
   const menuIcon = isOpen ? (
     <CloseIcon sx={{ color: 'black' }} />
   ) : (
-    <HamburgerIcon sx={{ color: 'black' }} />
+    <Flex
+      sx={{
+        rounded: 'md',
+        alignItems: 'center',
+        gap: 'md',
+        p: 'xs',
+      }}
+    >
+      <HamburgerIcon sx={{ color: 'black' }} />
+      <Text sx={{ color: 'text.500', fontWeight: 'normal' }}>Módulos</Text>
+    </Flex>
   );
 
   return (
     <Box
       sx={{
-        borderBottom: '1px',
-        borderColor: 'gray.100',
-        px: { sm: 'sm', lg: '3xl' },
-        py: 'xs',
+        boxShadow: 'lg',
+        px: { sm: 'xs', lg: '3xl' },
+        py: 'sm',
         a: {
+          px: { base: 'xs', lg: '0' },
           rounded: 'md',
           color: 'brand.blue',
           textAlign: 'center',
@@ -56,32 +66,17 @@ export const Navbar = () => {
           fontSize: { base: 'text.sm', md: 'text.md' },
         }}
       >
-        <ChakraLink
-          as={RouterLink}
-          to="/"
-          sx={{
-            width: 'auto',
-          }}
-        >
-          <Image
-            src="/img/imagotipo.png"
-            alt="Logo Fepon"
-            sx={{ maxWidth: 'none', height: '12' }}
-          />
-        </ChakraLink>
-
         <Flex
           sx={{
             display: { base: 'none', lg: 'flex' },
-            alignItems: 'center',
             gap: 'xl',
           }}
         >
-          {NAV_LINKS.map((link) => (
+          {MODULES_NAVLINK.map((module) => (
             <ChakraLink
-              key={link.path}
+              key={module.path}
               as={RouterLink}
-              to={link.path}
+              to={module.path}
               sx={{
                 _activeLink: {
                   textColor: 'primary.300',
@@ -89,28 +84,9 @@ export const Navbar = () => {
                 },
               }}
             >
-              {link.name}
+              {module.name}
             </ChakraLink>
           ))}
-          <ChakraLink
-            as={RouterLink}
-            to="/inicio-sesion"
-            sx={{
-              p: 'xs',
-              border: '1px solid',
-              borderColor: 'brand.blue',
-              _hover: {
-                borderColor: 'primary.default',
-              },
-              _activeLink: {
-                textColor: 'primary.300',
-                borderColor: 'primary.300',
-                fontWeight: 'semibold',
-              },
-            }}
-          >
-            Ingresar
-          </ChakraLink>
         </Flex>
         <IconButton
           aria-label="Open menu"
@@ -118,6 +94,7 @@ export const Navbar = () => {
           size="md"
           sx={{
             display: { base: 'flex', lg: 'none' },
+            color: 'text.default',
             bg: 'none',
             _hover: {
               bg: 'secondary.100',
@@ -144,11 +121,11 @@ export const Navbar = () => {
               py: 'sm',
             }}
           >
-            {NAV_LINKS.map((link) => (
+            {MODULES_NAVLINK.map((module) => (
               <ChakraLink
-                key={link.path}
+                key={module.path}
                 as={RouterLink}
-                to={link.path}
+                to={module.path}
                 sx={{
                   _activeLink: {
                     textColor: 'primary.300',
@@ -156,28 +133,9 @@ export const Navbar = () => {
                   },
                 }}
               >
-                {link.name}
+                {module.name}
               </ChakraLink>
             ))}
-            <ChakraLink
-              as={RouterLink}
-              to="/inicio-sesion"
-              sx={{
-                p: 'xs',
-                border: '1px solid',
-                borderColor: 'brand.blue',
-                _hover: {
-                  borderColor: 'primary.default',
-                },
-                _activeLink: {
-                  textColor: 'primary.300',
-                  borderColor: 'primary.300',
-                  fontWeight: 'semibold',
-                },
-              }}
-            >
-              Ingresar
-            </ChakraLink>
           </MotionVStack>
         ) : null}
       </AnimatePresence>
