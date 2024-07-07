@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import {
   Box,
   Flex,
@@ -5,12 +6,16 @@ import {
   Text,
   IconButton,
   VStack,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
   useDisclosure,
 } from '@chakra-ui/react';
-import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
+import { HamburgerIcon, CloseIcon, ChevronDownIcon } from '@chakra-ui/icons';
 import { NavLink as RouterLink } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MODULES_NAVLINK } from '../utils/constants';
+import { MODULES_NAVLINK, DROPDOWN_MENUS } from '../utils/constants';
 
 const MotionVStack = motion(VStack);
 
@@ -47,8 +52,7 @@ export const ModulesNavbar = () => {
         px: { sm: 'xs', lg: '3xl' },
         py: 'sm',
         a: {
-          px: { base: 'xs', lg: '0' },
-          rounded: 'md',
+          px: 'xs',
           color: 'brand.blue',
           textAlign: 'center',
           _hover: {
@@ -72,6 +76,28 @@ export const ModulesNavbar = () => {
             gap: 'xl',
           }}
         >
+          {DROPDOWN_MENUS.map((menu) => (
+            <Menu key={menu.name}>
+              <MenuButton
+                as={ChakraLink}
+                sx={{ display: 'flex', alignItems: 'center' }}
+              >
+                {menu.name} <ChevronDownIcon />
+              </MenuButton>
+              <MenuList>
+                {menu.items.map((item) => (
+                  <MenuItem
+                    key={item.path}
+                    as={RouterLink}
+                    to={item.path}
+                    sx={{ textAlign: 'center' }}
+                  >
+                    {item.name}
+                  </MenuItem>
+                ))}
+              </MenuList>
+            </Menu>
+          ))}
           {MODULES_NAVLINK.map((module) => (
             <ChakraLink
               key={module.path}
@@ -121,6 +147,23 @@ export const ModulesNavbar = () => {
               py: 'sm',
             }}
           >
+            {DROPDOWN_MENUS.map((menu) => (
+              <Menu key={menu.name}>
+                <MenuButton
+                  as={ChakraLink}
+                  sx={{ display: 'flex', alignItems: 'center' }}
+                >
+                  {menu.name} <ChevronDownIcon />
+                </MenuButton>
+                <MenuList>
+                  {menu.items.map((item) => (
+                    <MenuItem key={item.path} as={RouterLink} to={item.path}>
+                      {item.name}
+                    </MenuItem>
+                  ))}
+                </MenuList>
+              </Menu>
+            ))}
             {MODULES_NAVLINK.map((module) => (
               <ChakraLink
                 key={module.path}

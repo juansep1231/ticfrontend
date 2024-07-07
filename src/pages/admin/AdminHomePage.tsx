@@ -9,6 +9,7 @@ import { AdminMembersTable } from './components/AdminMembersTable';
 import { EditMemberModal } from './components/EditMemberModal';
 import { InformationTable } from './components/InformationTable';
 import { EditInformationModal } from './components/EditInformationModal';
+import { AddIcon } from '@chakra-ui/icons';
 
 const initialMembers: Member[] = [
   {
@@ -168,16 +169,16 @@ export const AdminHome = () => {
               </Text>
               <Flex sx={{ gap: 'sm' }}>
                 <Button
+                  leftIcon={<AddIcon />}
                   onClick={() => setAddInfoModalOpen(true)}
-                  sx={{ width: '3xs' }}
                 >
-                  Añadir información
+                  Información
                 </Button>
                 <Button
+                  leftIcon={<AddIcon />}
                   onClick={() => setIsAddMemberModalOpen(true)}
-                  sx={{ width: '3xs' }}
                 >
-                  Añadir miembro
+                  Miembro
                 </Button>
               </Flex>
             </Flex>

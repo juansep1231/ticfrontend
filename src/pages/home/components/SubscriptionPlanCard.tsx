@@ -1,13 +1,7 @@
 import { Box, Flex, Heading, List, ListItem, Text } from '@chakra-ui/react';
 
 import { MyIcon } from '../../../components/MyIcon';
-
-interface Plan {
-  id: number;
-  title: string;
-  price: number;
-  benefits: string[];
-}
+import { Plan } from '../../../types/organizational-models';
 
 interface SubscriptionPlanProps {
   plan: Plan;
