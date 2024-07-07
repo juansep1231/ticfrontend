@@ -6,10 +6,13 @@ import { HelpPage } from '../pages/help/HelpPage';
 import { LoginPage } from '../pages/login/LoginPage';
 import { AdminHome } from '../pages/admin/AdminHomePage';
 import { ResetPasswordPage } from '../pages/reset-password/ResetPassword';
-import EventsPage from '../pages/landing/events/EventPage';
-import FinantialPage from '../pages/landing/finantial/FinantialPage';
-import InventoryPage from '../pages/landing/inventory/InventoryPage';
-import OrganizationalPage from '../pages/landing/organizational/OrganizationalPage';
+import { EventsPage } from '../pages/landing/events/EventPage';
+import { ProductsPage } from '../pages/landing/inventory/products/ProductsPage';
+import { FinantialPage } from '../pages/landing/finantial/FinantialPage';
+import { InventoryPage } from '../pages/landing/inventory/InventoryPage';
+import { SuppliersPage } from '../pages/landing/suppliers/SuppliersPage';
+import { SubscribersPage } from '../pages/landing/subscriptions/subscribers/SusbcribersPage';
+import { SubscriptionPlansPage } from '../pages/landing/subscriptions/subscription-plans/SusbcriptionPlansPage';
 
 import { Layout } from './Layout';
 
@@ -68,6 +71,14 @@ const router = createBrowserRouter([
     ),
   },
   {
+    path: '/proveedores',
+    element: (
+      <Layout>
+        <SuppliersPage />
+      </Layout>
+    ),
+  },
+  {
     path: '/finanzas',
     element: (
       <Layout>
@@ -84,10 +95,26 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: '/aportaciones',
+    path: '/inventario/productos',
     element: (
       <Layout>
-        <OrganizationalPage />
+        <ProductsPage />
+      </Layout>
+    ),
+  },
+  {
+    path: '/aportaciones/aportantes',
+    element: (
+      <Layout>
+        <SubscribersPage />
+      </Layout>
+    ),
+  },
+  {
+    path: '/aportaciones/planes-aportacion',
+    element: (
+      <Layout>
+        <SubscriptionPlansPage />
       </Layout>
     ),
   },

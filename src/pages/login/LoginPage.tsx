@@ -30,7 +30,7 @@ export const LoginPage = () => {
           roundedTopRight: { sm: 'none', md: 'xl' },
           roundedBottomLeft: { sm: 'xl', md: 'none' },
           w: '400px',
-          h: '580px',
+          h: '480px',
           gap: 'md',
           p: 'xl',
           color: 'white',

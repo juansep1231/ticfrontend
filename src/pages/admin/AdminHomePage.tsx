@@ -59,6 +59,7 @@ const initialInfo: OrganizationalInfo[] = [
       'Vision de FEPON es sdcfvbghmksxyubhsnamclzdsbofuhbdlfueb eybfliejbnfjÑW Hefyblfbwef eiufbñwejnf ehfñiw',
   },
 ];
+
 export const AdminHome = () => {
   const [isAddInfoModalOpen, setAddInfoModalOpen] = useState(false);
   const [isEditInfoModalOpen, setIsEditInfoModalOpen] = useState(false);
@@ -197,7 +198,7 @@ export const AdminHome = () => {
             }}
           >
             <InformationTable
-              info={information}
+              url={''}
               onEdit={openInfoEditModal}
               onDelete={handleDeleteInfo}
             />
@@ -217,7 +218,7 @@ export const AdminHome = () => {
           }}
         >
           <AdminMembersTable
-            members={members}
+            url={''}
             onEdit={openMemberEditModal}
             onDelete={handleDeleteMember}
           />

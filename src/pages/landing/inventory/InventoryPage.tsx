@@ -1,21 +1,30 @@
-import { Box, Heading, List, ListItem, Link } from '@chakra-ui/react';
-import { Link as RouterLink } from 'react-router-dom';
+import { AddIcon, DownloadIcon, SearchIcon } from '@chakra-ui/icons';
+import { Heading, Flex, Text, Link } from '@chakra-ui/react';
+import { InventoryTable } from './components/InventoryTable';
 
-const InventoryPage = () => {
+export const InventoryPage = () => {
   return (
-    <Box p="lg" bg="primary.100">
-      <Heading as="h1" mb="md" fontSize="heading.desktop.1">
-        INVENTARIO
-      </Heading>
-      <List spacing="xs" textColor="text.default">
-        <ListItem>
-          <Link as={RouterLink} to="/">
-            Regresar a home
-          </Link>
-        </ListItem>
-      </List>
-    </Box>
+    <Flex
+      flex="1"
+      sx={{ flexDirection: 'column', gap: 'lg', px: { base: 'md', lg: '3xl' } }}
+    >
+      <Heading>Inventario</Heading>
+      <Text sx={{ color: 'text.default', textAlign: 'justify' }}>
+        Antes de añadir un movimiento de inventario, asegúrate de que tu
+        producto y proveedor ya se encuentren registrados. En caso de no estar
+        seguro revisa los
+        <Link
+          href="/inventario/productos"
+          sx={{ color: 'brand.blue', ml: '3xs' }}
+        >
+          productos existentes
+        </Link>{' '}
+        y los{' '}
+        <Link href="/proveedores" sx={{ color: 'brand.blue', ml: '3xs' }}>
+          proveedores disponibles.
+        </Link>
+      </Text>
+      <InventoryTable />
+    </Flex>
   );
 };
-
-export default InventoryPage;

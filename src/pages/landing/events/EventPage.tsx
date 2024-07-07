@@ -1,21 +1,20 @@
-import { Box, Heading, List, ListItem, Link } from '@chakra-ui/react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Heading, Flex, Link, Text } from '@chakra-ui/react';
+import { useState } from 'react';
 
-const EventsPage = () => {
+export const EventsPage = () => {
   return (
-    <Box p="lg" bg="primary.100">
-      <Heading as="h1" mb="md" fontSize="heading.desktop.1">
-        EVENTOS
-      </Heading>
-      <List spacing="xs" textColor="text.default">
-        <ListItem>
-          <Link as={RouterLink} to="/">
-            Regresar a home
-          </Link>
-        </ListItem>
-      </List>
-    </Box>
+    <Flex
+      flex="1"
+      sx={{ flexDirection: 'column', gap: 'lg', px: { base: 'md', lg: '3xl' } }}
+    >
+      <Heading>Eventos</Heading>
+      <Text sx={{ color: 'text.default', textAlign: 'justify' }}>
+        Antes de añadir un evento, asegúrate de que el proveedor ya se encuentre
+        registrado. En caso de no estar seguro revisa los
+        <Link href="/proveedores" sx={{ color: 'brand.blue', ml: '3xs' }}>
+          proveedores disponibles.
+        </Link>
+      </Text>
+    </Flex>
   );
 };
-
-export default EventsPage;

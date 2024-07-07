@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { FormField } from '../../../components/FormField';
-import { positions, User } from '../../../types/organizational-models';
+import { User } from '../../../types/organizational-models';
 import { userSchema } from '../../../utils/validations-helper';
 
 interface LoginFormProps {
@@ -36,7 +36,7 @@ export const LoginForm = ({ onSubmit }: LoginFormProps) => {
         roundedTopLeft: 'xl',
         roundedTopRight: { sm: 'xl', md: 'none' },
         w: '400px',
-        h: '580px',
+        h: '480px',
         p: 'xl',
       }}
     >
@@ -62,14 +62,6 @@ export const LoginForm = ({ onSubmit }: LoginFormProps) => {
             type="email"
             register={register}
             errors={errors.email}
-          />
-          <FormField
-            id="position"
-            label="Rol"
-            placeholder="Seleccione el rol"
-            register={register}
-            errors={errors.position}
-            options={positions}
           />
           <FormField
             id="password"

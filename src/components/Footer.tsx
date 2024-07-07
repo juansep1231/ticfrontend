@@ -17,10 +17,18 @@ export const Footer = () => {
         borderColor: 'surface.default',
       }}
     >
-      <Flex sx={{ flexDirection: 'column', textColor: 'text.300' }}>
-        <Text>
-          Federación de Estudiantes de la Escuela Politécnica Nacional
-        </Text>
+      <Flex sx={{ flexDirection: 'column', textColor: 'text.300', gap: 'sm' }}>
+        <Box>
+          <Text>
+            Federación de Estudiantes de la Escuela Politécnica Nacional
+          </Text>
+          <Flex
+            sx={{ alignItems: 'center', justifyContent: 'center', gap: 'xs' }}
+          >
+            <MyIcon icon="FiMail" size={16} />
+            <Text>fepon@epn.edu.ec</Text>
+          </Flex>
+        </Box>
         <Text>Copyright © {getCurrentYear()}</Text>
       </Flex>
       <Flex

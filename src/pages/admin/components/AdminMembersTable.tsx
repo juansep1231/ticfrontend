@@ -235,8 +235,8 @@ export const AdminMembersTable = ({
         isOpen={isModalOpen}
         onClose={handleCloseModal}
         onConfirm={handleConfirmDelete}
-        title="Eliminar información"
-        body="¿Estás seguro de que deseas eliminar este miembro?"
+        title="Eliminar miembro administrativo"
+        body="¿Estás seguro de que deseas eliminar este miembro administrativo?"
       />
     </>
   );
