@@ -20,17 +20,19 @@ import { Member } from '../../../types/organizational-models';
 import { ADMIN_MEMBERS_TABLE_HEADERS } from '../../../utils/constants';
 
 interface AdminMembersTableProps {
-  url: string;
+  members: Member[];
+  error: Error | null;
+  isLoading: boolean ;
   onEdit: (member: Member) => void;
-  onDelete: (id: number | undefined) => void;
+  onDelete: (id: number) => void;
 }
-
 export const AdminMembersTable = ({
-  url,
+  members,
+  error,
+  isLoading,
   onEdit,
   onDelete,
 }: AdminMembersTableProps) => {
-  const { data: members, isLoading, error } = useFetchData(url);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedMemberId, setSelectedMemberId] = useState<
     number | undefined

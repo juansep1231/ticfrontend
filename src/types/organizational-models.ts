@@ -70,6 +70,7 @@ export interface User {
 
 export interface OrganizationalInfo {
   id?: number;
+  state_id?: number;
   mission: string;
   vision: string;
 }

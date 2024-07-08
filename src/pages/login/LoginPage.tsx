@@ -3,10 +3,19 @@ import { Flex, Heading, Image, Text } from '@chakra-ui/react';
 import { User } from '../../types/organizational-models';
 
 import { LoginForm } from './components/LoginForm';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { firebaseApp } from '../../firebase/firebase-config';
+
+const auth = getAuth(firebaseApp);
 
 export const LoginPage = () => {
-  const handleLogin = (formData: User) => {
+  const handleLogin = async  (formData: User) => {
     console.log('Formulario de login enviado:', formData);
+    try{
+      await signInWithEmailAndPassword(auth, formData.email, formData.password)
+    }catch(error){
+      console.log(error)
+    }
   };
 
   return (

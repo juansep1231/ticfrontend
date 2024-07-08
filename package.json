@@ -31,6 +31,7 @@
     "typescript-eslint-parser": "^22.0.0",
     "vite": "^5.2.13"
   },
+   "type": "module",
   "packageManager": "yarn@4.2.2",
   "dependencies": {
     "@chakra-ui/icons": "^2.1.1",
@@ -42,6 +43,8 @@
     "@fontsource-variable/open-sans": "^5.0.29",
     "@hookform/resolvers": "^3.7.0",
     "date-fns": "^3.6.0",
+    "dotenv": "^16.4.5",
+    "firebase": "^10.12.3",
     "framer-motion": "^11.2.10",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

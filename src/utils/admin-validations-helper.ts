@@ -18,6 +18,7 @@ export const userSchema = yup.object().shape({
 
 export const infoSchema = yup.object().shape({
   id: yup.number().integer().positive().optional(),
+  state_id: yup.number().integer().positive().optional(),
   mission: yup.string().required('La misión es requerida'),
   vision: yup.string().required('La visión es requerida'),
 });

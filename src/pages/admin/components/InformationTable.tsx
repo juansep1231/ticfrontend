@@ -20,17 +20,20 @@ import { OrganizationalInfo } from '../../../types/organizational-models';
 import { INFO_TABLE_HEADERS } from '../../../utils/constants';
 
 interface InformationTableProps {
-  url: string;
+  info: OrganizationalInfo[];
+  error: Error | null;
+  isLoading: boolean;
   onEdit: (info: OrganizationalInfo) => void;
-  onDelete: (id: number | undefined) => void;
+  onDelete: (id: number) => void;
 }
-
 export const InformationTable = ({
-  url,
+  info,
+  error,
+  isLoading,
   onEdit,
   onDelete,
 }: InformationTableProps) => {
-  const { data: info, isLoading, error } = useFetchData(url);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedInfoId, setSelectedInfoId] = useState<number | undefined>();
 

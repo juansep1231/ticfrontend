@@ -13,16 +13,16 @@ import {
 } from '@chakra-ui/react';
 
 import {
-  faculties,
-  careers,
-  positions,
-  semesters,
   Member,
 } from '../../../types/organizational-models';
 import { FormField } from '../../../components/FormField';
 import { memberSchema } from '../../../utils/admin-validations-helper';
 
 import { RegisterModal } from './RegisterModal';
+import useFetchRoles from '../../../hooks/fetchRolesHook';
+import useFetchSemesters from '../../../hooks/fetchSemestersHook';
+import { useFetchCareers } from '../../../hooks/FetchCareerHook';
+import { useFetchFaculties } from '../../../hooks/fetchFacultyHook';
 
 interface AddMemberModalProps {
   isOpen: boolean;
@@ -52,6 +52,11 @@ export const AddMemberModal = ({
     setIsRegisterModalOpen(true);
   };
 
+  const { roles, isLoadingRoles, roleErrors } = useFetchRoles();  
+  const { semesters, isLoadingSemesters, semesterErrors } = useFetchSemesters();
+  
+  const { careersData, careersLoading, careersError } =  useFetchCareers();  
+  const { facultiesData, facultiesLoading, facultiesError } =  useFetchFaculties();  
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose}>
@@ -62,80 +67,80 @@ export const AddMemberModal = ({
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody textColor="text.default">
-            <FormField
-              id="firstName"
-              label="Nombres"
-              placeholder="Ingrese los nombres"
-              register={register}
-              errors={errors.firstName}
-            />
-            <FormField
-              id="lastName"
-              label="Apellidos"
-              placeholder="Ingrese los apellidos"
-              register={register}
-              errors={errors.lastName}
-            />
-            <FormField
-              id="birthDate"
-              label="Fecha de Nacimiento"
-              placeholder="Seleccione la fecha de nacimiento"
-              type="date"
-              register={register}
-              errors={errors.birthDate}
-            />
-            <FormField
-              id="cellphone"
-              label="Número de Celular"
-              placeholder="Ingrese el número de celular"
-              register={register}
-              errors={errors.cellphone}
-            />
-            <FormField
-              id="faculty"
-              label="Facultad"
-              placeholder="Seleccione la facultad"
-              register={register}
-              errors={errors.faculty}
-              options={faculties}
-            />
-            <FormField
-              id="career"
-              label="Carrera"
-              placeholder="Seleccione la carrera"
-              register={register}
-              errors={errors.career}
-              options={careers}
-            />
-            <FormField
-              id="semester"
-              label="Semestre"
-              placeholder="Seleccione el semestre"
-              register={register}
-              errors={errors.semester}
-              options={semesters}
-            />
-            <FormField
-              id="email"
-              label="Correo Institucional"
-              placeholder="Ingrese el correo institucional"
-              type="email"
-              register={register}
-              errors={errors.email}
-            />
-            <FormField
-              id="position"
-              label="Rol"
-              placeholder="Seleccione el rol"
-              register={register}
-              errors={errors.position}
-              options={positions}
-            />
-            <ModalFooter>
-              <Button type="submit" onClick={handleSubmit(onSubmit)}>
-                Guardar
-              </Button>
-            </ModalFooter>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <FormField
+                id="firstName"
+                label="Nombres"
+                placeholder="Ingrese los nombres"
+                register={register}
+                errors={errors.firstName}
+              />
+              <FormField
+                id="lastName"
+                label="Apellidos"
+                placeholder="Ingrese los apellidos"
+                register={register}
+                errors={errors.lastName}
+              />
+              <FormField
+                id="birthDate"
+                label="Fecha de Nacimiento"
+                placeholder="Seleccione la fecha de nacimiento"
+                type="date"
+                register={register}
+                errors={errors.birthDate}
+              />
+              <FormField
+                id="cellphone"
+                label="Número de Celular"
+                placeholder="Ingrese el número de celular"
+                register={register}
+                errors={errors.cellphone}
+              />
+              <FormField
+                id="faculty"
+                label="Facultad"
+                placeholder="Seleccione la facultad"
+                register={register}
+                errors={errors.faculty}
+                options={facultiesData}
+              />
+              <FormField
+                id="career"
+                label="Carrera"
+                placeholder="Seleccione la carrera"
+                register={register}
+                errors={errors.career}
+                options={careersData}
+              />
+              <FormField
+                id="semester"
+                label="Semestre"
+                placeholder="Seleccione el semestre"
+                register={register}
+                errors={errors.semester}
+                options={semesters}
+              />
+              <FormField
+                id="email"
+                label="Correo Institucional"
+                placeholder="Ingrese el correo institucional"
+                type="email"
+                register={register}
+                errors={errors.email}
+              />
+              <FormField
+                id="position"
+                label="Rol"
+                placeholder="Seleccione el rol"
+                register={register}
+                errors={errors.position}
+                options={roles}
+              />
+              <ModalFooter>
+                <Button type="submit">Guardar</Button>
+              </ModalFooter>
+            </form>
           </ModalBody>
         </ModalContent>
       </Modal>

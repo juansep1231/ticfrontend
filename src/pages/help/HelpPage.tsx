@@ -6,6 +6,7 @@ import { TypeFi } from '../../components/MyIcon';
 
 import { GlosaryCard } from './components/GlossaryCard';
 import { Questions } from './components/Questions';
+import { useAuth } from '../../contexts/auth-context';
 
 export const HelpPage: React.FC = () => {
   const questionList = questionsBank.map((q, i) => {
@@ -32,6 +33,16 @@ export const HelpPage: React.FC = () => {
     'FiSmile',
   ];
 
+  const { token } = useAuth();
+
+  const fetchData = async () => {
+    if (token) {
+      console.log(token)
+      return;
+    }else{
+      console.log("valio pito el token")
+    }
+  }
   const glosaryList = glosaryBank.map((g, i) => {
     const iconIndex = i % FeatIcons.length;
     const icon = FeatIcons[iconIndex];
@@ -48,6 +59,7 @@ export const HelpPage: React.FC = () => {
     >
       <Flex sx={{ flexDirection: 'column', gap: 'md', pb: 'xl' }}>
         <Heading>Ayuda</Heading>
+        <button onClick={fetchData}>Fetch Data</button>
         <Box>
           <Text sx={{ textColor: 'text.default', textAlign: 'justify' }}>
             Recuerda cambiar tu contraseña la primera vez que ingreses al

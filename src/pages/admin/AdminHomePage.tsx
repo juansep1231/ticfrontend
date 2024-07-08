@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Heading, Flex, Text, Image, Button } from '@chakra-ui/react';
 
 import { Member, OrganizationalInfo } from '../../types/organizational-models';
@@ -10,6 +10,10 @@ import { EditMemberModal } from './components/EditMemberModal';
 import { InformationTable } from './components/InformationTable';
 import { EditInformationModal } from './components/EditInformationModal';
 import { AddIcon } from '@chakra-ui/icons';
+import { useFetchAdministrativeMembers } from '../../hooks/AdminHooks/fetchAdminTableHook';
+import { useFetchAssociations } from '../../hooks/AdminHooks/fetchInformationTableHook';
+import useUpdateAssociation from '../../hooks/AdminHooks/updateInformationTableHook';
+import usePatchAssociationState from '../../hooks/AdminHooks/patchInformationTableHook';
 
 const initialMembers: Member[] = [
   {
@@ -72,7 +76,10 @@ export const AdminHome = () => {
   const [selectedInfo, setSelectedInfo] = useState<OrganizationalInfo | null>(
     null
   );
-
+  const {administrativeMembers, isLoadingAdministrativeMembers, administrativeMemberErrors, } =  useFetchAdministrativeMembers();
+  const { associations, isLoadingAssociations, associationErrors, updateAssociationState } = useFetchAssociations(); 
+  const { updateAssociation,updateError } = useUpdateAssociation();
+  const { patchAssociationState, patchError } = usePatchAssociationState();
   const handleAddMember = (newMember: Member) => {
     setMembers((prevMembers) => [...prevMembers, newMember]);
     console.log('Miembro agregado:', newMember);
@@ -98,17 +105,32 @@ export const AdminHome = () => {
     setIsEditInfoModalOpen(true);
   };
 
-  const handleEditInformation = (data: { info: OrganizationalInfo }) => {
-    setInformation(
-      information.map((inf) => (inf.id === data.info.id ? data.info : inf))
-    );
-    console.log('Informacion organizacional actualizada:', data.info);
+  const handleEditInformation = async (data: { info: OrganizationalInfo }) => {
+    try {
+      const updatedInfo = { mission: data.info.mission, vision: data.info.vision };
+      await updateAssociation(data.info.id!, updatedInfo);
+
+      updateAssociationState(data.info.id!, { ...data.info, ...updatedInfo });
+
+      console.log('Updated organizational information:', data.info);
+      console.log('Informacion organizacional actualizada:', data.info);
+    } catch (error) {
+      console.error('Failed to update association:', error);
+    }
+    
   };
 
-  const handleDeleteInfo = (id: number | undefined) => {
-    setInformation(information.filter((info) => info.id !== id));
-    console.log('Informacion organizacional eliminada:', id);
+  const handleDeleteInfo = async (id: number | undefined) => {
+    try {
+      await  patchAssociationState(id!);
+      updateAssociationState(id!,{ state_id: 2 });
+      console.log('Informacion organizacional eliminada:', id);
+
+    } catch (error) {
+      console.error('Failed to update association state:', error);
+    }
   };
+
 
   return (
     <Flex
@@ -198,7 +220,9 @@ export const AdminHome = () => {
             }}
           >
             <InformationTable
-              url={''}
+              info={associations}
+              isLoading={isLoadingAssociations}
+              error={associationErrors}
               onEdit={openInfoEditModal}
               onDelete={handleDeleteInfo}
             />
@@ -218,7 +242,9 @@ export const AdminHome = () => {
           }}
         >
           <AdminMembersTable
-            url={''}
+            members={administrativeMembers}
+            isLoading={isLoadingAdministrativeMembers}
+            error={administrativeMemberErrors}
             onEdit={openMemberEditModal}
             onDelete={handleDeleteMember}
           />

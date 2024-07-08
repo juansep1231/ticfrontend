@@ -1,9 +1,10 @@
-import { Button, Center, Flex, Heading, Link, Text } from '@chakra-ui/react';
+import { Button, Center, Flex, Heading, Link, Text, useToast } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 
 import { resetPassworSchema } from '../../../utils/admin-validations-helper';
 import { FormField } from '../../../components/FormField';
+import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
 
 interface ResetPassworFormProps {
   onClick: () => void;
@@ -17,8 +18,30 @@ export const ResetPasswordForm = ({ onClick }: ResetPassworFormProps) => {
   } = useForm<{ email: string }>({
     resolver: yupResolver(resetPassworSchema),
   });
+  const auth = getAuth();
+  const toast = useToast();
 
-  const onSubmit = (data: { email: string }) => {
+  const onSubmit = async (data: { email: string }) => {
+    try {
+      await sendPasswordResetEmail(auth, data.email);
+      toast({
+        title: 'Email Sent',
+        description: 'Revisa tu correo para reestablecer tu contraseña',
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      });
+    } catch (error) {
+      if(error instanceof Error){
+        toast({
+          title: 'Error',
+          description: error.message,
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+        });
+      }
+    } 
     console.log(data);
     onClick();
   };

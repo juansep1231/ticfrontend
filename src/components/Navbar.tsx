@@ -11,9 +11,12 @@ import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import { NavLink as RouterLink } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { NAV_LINKS } from '../utils/constants';
+import { getAuth, signOut } from 'firebase/auth';
+import { firebaseApp } from '../firebase/firebase-config';
 
 const MotionVStack = motion(VStack);
 
+const auth = getAuth(firebaseApp);
 export const Navbar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toggleMenu = () => {
@@ -91,7 +94,9 @@ export const Navbar = () => {
             >
               {link.name}
             </ChakraLink>
+          
           ))}
+          <button onClick={() => signOut(auth)}>Cerrar sesion</button>
           <ChakraLink
             as={RouterLink}
             to="/inicio-sesion"
