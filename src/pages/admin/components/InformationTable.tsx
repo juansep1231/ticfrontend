@@ -13,11 +13,11 @@ import {
 } from '@chakra-ui/react';
 
 import { FaTrash, FaEdit } from 'react-icons/fa';
-import { ConfirmationModal } from '../../../components/ConfirmationModal'; // Importa el componente del modal
-import { useErrorToast } from '../../../hooks/useErrorToast'; // Importa el hook de error
-import { useFetchData } from '../../../hooks/exampleHook'; // Importa el hook de datos
-
+import { ConfirmationModal } from '../../../components/ConfirmationModal';
+import { useErrorToast } from '../../../hooks/useErrorToast';
+import { useFetchData } from '../../../hooks/exampleHook';
 import { OrganizationalInfo } from '../../../types/organizational-models';
+import { INFO_TABLE_HEADERS } from '../../../utils/constants';
 
 interface InformationTableProps {
   url: string;
@@ -64,7 +64,7 @@ export const InformationTable = ({
           sx={{
             'border': '1px solid',
             'borderColor': 'brand.blue',
-            'borderCollapse': 'center',
+            'borderCollapse': 'collapse',
             'width': '100%',
             'textColor': 'surface.default',
             'fontSize': 'text.md',
@@ -88,33 +88,27 @@ export const InformationTable = ({
             <Tr sx={{ textColor: 'surface.default' }}>
               <Th
                 sx={{
-                  width: '20',
                   borderRight: '1px',
-                  borderColor: 'primary.100',
+                  width: '20',
                 }}
               ></Th>
-              <Th
-                sx={{
-                  borderRight: '1px',
-                  borderColor: 'primary.100',
-                }}
-              >
-                Misión
-              </Th>
-              <Th
-                sx={{
-                  borderLeft: '1px',
-                  borderColor: 'primary.100',
-                }}
-              >
-                Visión
-              </Th>
+              {INFO_TABLE_HEADERS.map((header) => (
+                <Th
+                  key={header.key}
+                  sx={{
+                    borderRight: header.key ? '1px' : '',
+                    borderColor: 'primary.100',
+                  }}
+                >
+                  {header.label}
+                </Th>
+              ))}
             </Tr>
           </Thead>
           <Tbody>
             {info.length === 0 ? (
               <Tr>
-                <Td colSpan={3}>
+                <Td colSpan={INFO_TABLE_HEADERS.length}>
                   No olvides ingresar la información organizacional
                 </Td>
               </Tr>
@@ -171,7 +165,7 @@ export const InformationTable = ({
         isOpen={isModalOpen}
         onClose={handleCloseModal}
         onConfirm={handleConfirmDelete}
-        title="Eiminar información"
+        title="Eliminar información"
         body="¿Está seguro de eliminar esta información?"
       />
     </>

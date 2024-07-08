@@ -7,27 +7,42 @@ import {
   Th,
   TableContainer,
   Flex,
+  Spinner,
+  Td,
+  IconButton,
 } from '@chakra-ui/react';
 
-import { ConfirmationModal } from '../../../../components/ConfirmationModal';
 import { EVENTS_TABLE_HEADERS } from '../../../../utils/constants';
+import { ConfirmationModal } from '../../../../components/ConfirmationModal';
+import { useErrorToast } from '../../../../hooks/useErrorToast';
+import { FaEdit, FaTrash } from 'react-icons/fa';
+import { EventView } from '../../../../types/event-models';
+import { useFetchData } from '../../../../hooks/exampleHook';
 
 import { TableOptions } from './TableOptions';
 
-export const EventsTable = () => {
-  //const { data: members, isLoading, error } = useFetchData(url);
+interface EventTableProps {
+  events: EventView[];
+  onEdit: (event: EventView) => void;
+  onDelete: (id: number | undefined) => void;
+}
+
+export const EventsTable = ({ events, onEdit, onDelete }: EventTableProps) => {
+  //const { data: events, isLoading, error } = useFetchData(url);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedEventId, setSelectedEventId] = useState<number | undefined>();
 
   //useErrorToast(error);
 
   const handleDeleteClick = (id: number | undefined) => {
+    setSelectedEventId(id);
     setIsModalOpen(true);
   };
 
   const handleConfirmDelete = () => {
-    /*if (selectedMemberId !== undefined) {
-      onDelete(selectedMemberId);
-    }*/
+    if (selectedEventId !== undefined) {
+      onDelete(selectedEventId);
+    }
     setIsModalOpen(false);
   };
 
@@ -75,6 +90,12 @@ export const EventsTable = () => {
         >
           <Thead>
             <Tr sx={{ textColor: 'surface.default' }}>
+              <Th
+                sx={{
+                  borderRight: '1px',
+                  width: '20',
+                }}
+              ></Th>
               {EVENTS_TABLE_HEADERS.map((header, index) => (
                 <Th
                   key={index}
@@ -88,7 +109,67 @@ export const EventsTable = () => {
               ))}
             </Tr>
           </Thead>
-          <Tbody></Tbody>
+          <Tbody>
+            {events.length === 0 ? (
+              <Tr>
+                <Td colSpan={EVENTS_TABLE_HEADERS.length}>
+                  No olvides ingresar eventos
+                </Td>
+              </Tr>
+            ) : (
+              events.map((event) => (
+                <Tr key={event.id}>
+                  <Td>
+                    <Flex
+                      sx={{
+                        gap: 'sm',
+                        flexDirection: { sm: 'column', lg: 'row' },
+                      }}
+                    >
+                      <IconButton
+                        aria-label="Edit Event"
+                        icon={<FaEdit size={16} />}
+                        onClick={() => onEdit(event)}
+                        size="sm"
+                        sx={{
+                          bg: 'none',
+                          color: 'brand.blue',
+                          _hover: {
+                            bg: 'secondary.100',
+                            color: 'primary.default',
+                          },
+                        }}
+                      />
+                      <IconButton
+                        aria-label="Delete Event"
+                        icon={<FaTrash size={16} />}
+                        onClick={() => handleDeleteClick(event.id)}
+                        size="sm"
+                        sx={{
+                          bg: 'none',
+                          color: 'brand.blue',
+                          _hover: {
+                            bg: 'secondary.100',
+                            color: 'primary.default',
+                          },
+                        }}
+                      />
+                    </Flex>
+                  </Td>
+                  <Td>{event.title}</Td>
+                  <Td>{event.description}</Td>
+                  <Td>{event.startDate}</Td>
+                  <Td>{event.endDate}</Td>
+                  <Td>{event.budget}</Td>
+                  <Td>{event.budgetStatus}</Td>
+                  <Td>{event.location}</Td>
+                  <Td>{event.provider}</Td>
+                  <Td>{event.status}</Td>
+                  <Td>{event.income}</Td>
+                </Tr>
+              ))
+            )}
+          </Tbody>
         </Table>
       </TableContainer>
 
@@ -102,3 +183,5 @@ export const EventsTable = () => {
     </Flex>
   );
 };
+
+export default EventsTable;

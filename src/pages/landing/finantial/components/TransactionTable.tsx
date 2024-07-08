@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Table,
   Thead,
@@ -7,31 +7,45 @@ import {
   Th,
   TableContainer,
   Flex,
+  Td,
+  IconButton,
 } from '@chakra-ui/react';
 
 import { ConfirmationModal } from '../../../../components/ConfirmationModal';
 import { TRANSACTION_TABLE_HEADERS } from '../../../../utils/constants';
+import { Transaction } from '../../../../types/finantial-models';
 
 import { TableOptions } from './TableOptions';
+import { FaEdit, FaTrash } from 'react-icons/fa';
 
-export const TransactionTable = () => {
+interface TransactionTableProps {
+  transactions: Transaction[];
+  onEdit: (transaction: Transaction) => void;
+  onDelete: (id: number | undefined) => void;
+}
+
+export const TransactionTable = ({
+  transactions,
+  onEdit,
+  onDelete,
+}: TransactionTableProps) => {
   //const { data: members, isLoading, error } = useFetchData(url);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedMemberId, setSelectedMemberId] = useState<
+  const [selectedTransactionId, setSelectedTransactionId] = useState<
     number | undefined
   >();
 
   //useErrorToast(error);
 
   const handleDeleteClick = (id: number | undefined) => {
-    setSelectedMemberId(id);
+    setSelectedTransactionId(id);
     setIsModalOpen(true);
   };
 
   const handleConfirmDelete = () => {
-    /*if (selectedMemberId !== undefined) {
-      onDelete(selectedMemberId);
-    }*/
+    if (selectedTransactionId !== undefined) {
+      onDelete(selectedTransactionId);
+    }
     setIsModalOpen(false);
   };
 
@@ -79,6 +93,12 @@ export const TransactionTable = () => {
         >
           <Thead>
             <Tr sx={{ textColor: 'surface.default' }}>
+              <Th
+                sx={{
+                  borderRight: '1px',
+                  width: '20',
+                }}
+              ></Th>
               {TRANSACTION_TABLE_HEADERS.map((header, index) => (
                 <Th
                   key={index}
@@ -92,7 +112,63 @@ export const TransactionTable = () => {
               ))}
             </Tr>
           </Thead>
-          <Tbody></Tbody>
+          <Tbody>
+            {transactions.length === 0 ? (
+              <Tr>
+                <Td colSpan={TRANSACTION_TABLE_HEADERS.length}>
+                  No olvides ingresar eventos
+                </Td>
+              </Tr>
+            ) : (
+              transactions.map((transaction) => (
+                <Tr key={transaction.id}>
+                  <Td>
+                    <Flex
+                      sx={{
+                        gap: 'sm',
+                        flexDirection: { sm: 'column', lg: 'row' },
+                      }}
+                    >
+                      <IconButton
+                        aria-label="Edit Transaction"
+                        icon={<FaEdit size={16} />}
+                        onClick={() => onEdit(transaction)}
+                        size="sm"
+                        sx={{
+                          bg: 'none',
+                          color: 'brand.blue',
+                          _hover: {
+                            bg: 'secondary.100',
+                            color: 'primary.default',
+                          },
+                        }}
+                      />
+                      <IconButton
+                        aria-label="Delete Event"
+                        icon={<FaTrash size={16} />}
+                        onClick={() => handleDeleteClick(transaction.id)}
+                        size="sm"
+                        sx={{
+                          bg: 'none',
+                          color: 'brand.blue',
+                          _hover: {
+                            bg: 'secondary.100',
+                            color: 'primary.default',
+                          },
+                        }}
+                      />
+                    </Flex>
+                  </Td>
+                  <Td>{transaction.date}</Td>
+                  <Td>{transaction.originAccount}</Td>
+                  <Td>{transaction.destinationAccount}</Td>
+                  <Td>{transaction.value}</Td>
+                  <Td>{transaction.transactionType}</Td>
+                  <Td>{transaction.description}</Td>
+                </Tr>
+              ))
+            )}
+          </Tbody>
         </Table>
       </TableContainer>
 

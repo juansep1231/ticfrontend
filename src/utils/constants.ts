@@ -1,7 +1,23 @@
 export const MODULES_NAVLINK = [{ name: 'Finanzas', path: '/finanzas' }];
 
+export const ADMIN_MEMBERS_TABLE_HEADERS = [
+  { key: 'position', label: 'Rol' },
+  { key: 'firstName', label: 'Nombre' },
+  { key: 'lastName', label: 'Apellido' },
+  { key: 'birthDate', label: 'Fecha de Nacimiento' },
+  { key: 'cellphone', label: 'Número de Celular' },
+  { key: 'faculty', label: 'Facultad' },
+  { key: 'career', label: 'Carrera' },
+  { key: 'semester', label: 'Semestre' },
+  { key: 'email', label: 'Correo Institucional' },
+];
+
+export const INFO_TABLE_HEADERS = [
+  { key: 'mission', label: 'Misión' },
+  { key: 'vision', label: 'Visión' },
+];
+
 export const SUBSCRIBER_TABLE_HEADERS = [
-  '',
   'Fecha', //P
   'Nombre Completo', //I
   'Facultad', //Selector
@@ -12,7 +28,6 @@ export const SUBSCRIBER_TABLE_HEADERS = [
 ];
 
 export const SUBSCRIPTION_PLAN_TABLE_HEADERS = [
-  '',
   'Nombre', //Picker
   'Precio', //I
   'Beneficios', //I
@@ -20,7 +35,6 @@ export const SUBSCRIPTION_PLAN_TABLE_HEADERS = [
 ];
 
 export const TRANSACTION_TABLE_HEADERS = [
-  '',
   'Fecha', //Picker
   'Cuenta de origen', //I
   'Cuenta de destino', //I
@@ -30,7 +44,6 @@ export const TRANSACTION_TABLE_HEADERS = [
 ];
 
 export const INVENTORY_TABLE_HEADERS = [
-  '',
   'Producto', //Selector
   'Tipo de movimiento', //Selector: COMPRA, VENTA, DONACIÓN, DESECHO
   'Cantidad', //I
@@ -38,7 +51,6 @@ export const INVENTORY_TABLE_HEADERS = [
 ];
 
 export const PRODUCTS_TABLE_HEADERS = [
-  '',
   'Nombre', //I
   'Categoría', //Selector
   'Descripción', //I
@@ -49,14 +61,12 @@ export const PRODUCTS_TABLE_HEADERS = [
 ];
 
 export const SUPPLIERS_TABLE_HEADERS = [
-  '',
   'Nombre', //I
   'Teléfono Celular', //I
   'Correo', //PL INPUT
 ];
 
 export const EVENTS_TABLE_HEADERS = [
-  '',
   'Título', //I
   'Descripción', //I
   'Fecha de inicio', //P

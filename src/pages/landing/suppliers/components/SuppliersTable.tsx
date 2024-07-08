@@ -7,27 +7,45 @@ import {
   Th,
   TableContainer,
   Flex,
+  Td,
+  IconButton,
 } from '@chakra-ui/react';
 
 import { ConfirmationModal } from '../../../../components/ConfirmationModal';
 import { SUPPLIERS_TABLE_HEADERS } from '../../../../utils/constants';
+import { Supplier } from '../../../../types/supplier-models';
 
 import { TableOptions } from './TableOptions';
+import { FaEdit, FaTrash } from 'react-icons/fa';
 
-export const SuppliersTable = () => {
+interface SuppliersTableProps {
+  suppliers: Supplier[];
+  onEdit: (supplier: Supplier) => void;
+  onDelete: (id: number | undefined) => void;
+}
+
+export const SuppliersTable = ({
+  suppliers,
+  onEdit,
+  onDelete,
+}: SuppliersTableProps) => {
   //const { data: members, isLoading, error } = useFetchData(url);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedSupplierId, setSelectedSupplierId] = useState<
+    number | undefined
+  >();
 
   //useErrorToast(error);
 
   const handleDeleteClick = (id: number | undefined) => {
+    setSelectedSupplierId(id);
     setIsModalOpen(true);
   };
 
   const handleConfirmDelete = () => {
-    /*if (selectedMemberId !== undefined) {
-      onDelete(selectedMemberId);
-    }*/
+    if (selectedSupplierId !== undefined) {
+      onDelete(selectedSupplierId);
+    }
     setIsModalOpen(false);
   };
 
@@ -75,6 +93,12 @@ export const SuppliersTable = () => {
         >
           <Thead>
             <Tr sx={{ textColor: 'surface.default' }}>
+              <Th
+                sx={{
+                  borderRight: '1px',
+                  width: '20',
+                }}
+              ></Th>
               {SUPPLIERS_TABLE_HEADERS.map((header, index) => (
                 <Th
                   key={index}
@@ -88,7 +112,60 @@ export const SuppliersTable = () => {
               ))}
             </Tr>
           </Thead>
-          <Tbody></Tbody>
+          <Tbody>
+            {suppliers.length === 0 ? (
+              <Tr>
+                <Td colSpan={SUPPLIERS_TABLE_HEADERS.length}>
+                  No olvides ingresar eventos
+                </Td>
+              </Tr>
+            ) : (
+              suppliers.map((supplier) => (
+                <Tr key={supplier.id}>
+                  <Td>
+                    <Flex
+                      sx={{
+                        gap: 'sm',
+                        flexDirection: { sm: 'column', lg: 'row' },
+                      }}
+                    >
+                      <IconButton
+                        aria-label="Edit Event"
+                        icon={<FaEdit size={16} />}
+                        onClick={() => onEdit(supplier)}
+                        size="sm"
+                        sx={{
+                          bg: 'none',
+                          color: 'brand.blue',
+                          _hover: {
+                            bg: 'secondary.100',
+                            color: 'primary.default',
+                          },
+                        }}
+                      />
+                      <IconButton
+                        aria-label="Delete Event"
+                        icon={<FaTrash size={16} />}
+                        onClick={() => handleDeleteClick(supplier.id)}
+                        size="sm"
+                        sx={{
+                          bg: 'none',
+                          color: 'brand.blue',
+                          _hover: {
+                            bg: 'secondary.100',
+                            color: 'primary.default',
+                          },
+                        }}
+                      />
+                    </Flex>
+                  </Td>
+                  <Td>{supplier.name}</Td>
+                  <Td>{supplier.phone}</Td>
+                  <Td>{supplier.email}</Td>
+                </Tr>
+              ))
+            )}
+          </Tbody>
         </Table>
       </TableContainer>
 

@@ -7,31 +7,45 @@ import {
   Th,
   TableContainer,
   Flex,
+  Td,
+  IconButton,
 } from '@chakra-ui/react';
 
 import { ConfirmationModal } from '../../../../../components/ConfirmationModal';
 import { SUBSCRIBER_TABLE_HEADERS } from '../../../../../utils/constants';
+import { Subscriber } from '../../../../../types/subscription-models';
 
 import { TableOptions } from './TableOptions';
+import { FaEdit, FaTrash } from 'react-icons/fa';
 
-export const SubscribersTable = () => {
+interface SubscribersTableProps {
+  subscribers: Subscriber[];
+  onEdit: (subscriber: Subscriber) => void;
+  onDelete: (id: number | undefined) => void;
+}
+
+export const SubscribersTable = ({
+  subscribers,
+  onEdit,
+  onDelete,
+}: SubscribersTableProps) => {
   //const { data: members, isLoading, error } = useFetchData(url);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedMemberId, setSelectedMemberId] = useState<
+  const [selectedSubscriberId, setSelectedSubscriberId] = useState<
     number | undefined
   >();
 
   //useErrorToast(error);
 
   const handleDeleteClick = (id: number | undefined) => {
-    setSelectedMemberId(id);
+    setSelectedSubscriberId(id);
     setIsModalOpen(true);
   };
 
   const handleConfirmDelete = () => {
-    /*if (selectedMemberId !== undefined) {
-      onDelete(selectedMemberId);
-    }*/
+    if (selectedSubscriberId !== undefined) {
+      onDelete(selectedSubscriberId);
+    }
     setIsModalOpen(false);
   };
 
@@ -92,7 +106,64 @@ export const SubscribersTable = () => {
               ))}
             </Tr>
           </Thead>
-          <Tbody></Tbody>
+          <Tbody>
+            {subscribers.length === 0 ? (
+              <Tr>
+                <Td colSpan={SUBSCRIBER_TABLE_HEADERS.length}>
+                  No olvides ingresar aportantes.
+                </Td>
+              </Tr>
+            ) : (
+              subscribers.map((subscriber) => (
+                <Tr key={subscriber.id}>
+                  <Td>
+                    <Flex
+                      sx={{
+                        gap: 'sm',
+                        flexDirection: { sm: 'column', lg: 'row' },
+                      }}
+                    >
+                      <IconButton
+                        aria-label="Edit Event"
+                        icon={<FaEdit size={16} />}
+                        onClick={() => onEdit(subscriber)}
+                        size="sm"
+                        sx={{
+                          bg: 'none',
+                          color: 'brand.blue',
+                          _hover: {
+                            bg: 'secondary.100',
+                            color: 'primary.default',
+                          },
+                        }}
+                      />
+                      <IconButton
+                        aria-label="Delete Event"
+                        icon={<FaTrash size={16} />}
+                        onClick={() => handleDeleteClick(subscriber.id)}
+                        size="sm"
+                        sx={{
+                          bg: 'none',
+                          color: 'brand.blue',
+                          _hover: {
+                            bg: 'secondary.100',
+                            color: 'primary.default',
+                          },
+                        }}
+                      />
+                    </Flex>
+                  </Td>
+                  <Td>{subscriber.date}</Td>
+                  <Td>{subscriber.name}</Td>
+                  <Td>{subscriber.faculty}</Td>
+                  <Td>{subscriber.career}</Td>
+                  <Td>{subscriber.email}</Td>
+                  <Td>{subscriber.plan}</Td>
+                  <Td>{subscriber.price}</Td>
+                </Tr>
+              ))
+            )}
+          </Tbody>
         </Table>
       </TableContainer>
 

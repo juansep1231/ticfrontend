@@ -17,6 +17,7 @@ import { ConfirmationModal } from '../../../components/ConfirmationModal'; // Im
 import { useErrorToast } from '../../../hooks/useErrorToast'; // Importa el hook de error
 import { useFetchData } from '../../../hooks/exampleHook'; // Importa el hook de datos
 import { Member } from '../../../types/organizational-models';
+import { ADMIN_MEMBERS_TABLE_HEADERS } from '../../../utils/constants';
 
 interface AdminMembersTableProps {
   url: string;
@@ -89,89 +90,27 @@ export const AdminMembersTable = ({
             <Tr sx={{ textColor: 'surface.default' }}>
               <Th
                 sx={{
-                  width: '20',
                   borderRight: '1px',
-                  borderColor: 'primary.100',
+                  width: '20',
                 }}
               ></Th>
-              <Th
-                sx={{
-                  borderRight: '1px',
-                  borderColor: 'primary.100',
-                }}
-              >
-                Rol
-              </Th>
-              <Th
-                sx={{
-                  borderRight: '1px',
-                  borderColor: 'primary.100',
-                }}
-              >
-                Nombre
-              </Th>
-              <Th
-                sx={{
-                  borderRight: '1px',
-                  borderColor: 'primary.100',
-                }}
-              >
-                Apellido
-              </Th>
-              <Th
-                sx={{
-                  borderRight: '1px',
-                  borderColor: 'primary.100',
-                }}
-              >
-                Fecha de Nacimiento
-              </Th>
-              <Th
-                sx={{
-                  borderRight: '1px',
-                  borderColor: 'primary.100',
-                }}
-              >
-                Número de Celular
-              </Th>
-              <Th
-                sx={{
-                  borderRight: '1px',
-                  borderColor: 'primary.100',
-                }}
-              >
-                Facultad
-              </Th>
-              <Th
-                sx={{
-                  borderRight: '1px',
-                  borderColor: 'primary.100',
-                }}
-              >
-                Carrera
-              </Th>
-              <Th
-                sx={{
-                  borderRight: '1px',
-                  borderColor: 'primary.100',
-                }}
-              >
-                Semestre
-              </Th>
-              <Th
-                sx={{
-                  borderLeft: '1px',
-                  borderColor: 'primary.100',
-                }}
-              >
-                Correo Institucional
-              </Th>
+              {ADMIN_MEMBERS_TABLE_HEADERS.map((header) => (
+                <Th
+                  key={header.key}
+                  sx={{
+                    borderRight: header.key ? '1px' : '',
+                    borderColor: 'primary.100',
+                  }}
+                >
+                  {header.label}
+                </Th>
+              ))}
             </Tr>
           </Thead>
           <Tbody>
             {members.length === 0 ? (
               <Tr>
-                <Td colSpan={10}>
+                <Td colSpan={ADMIN_MEMBERS_TABLE_HEADERS.length}>
                   No olvides ingresar miembros administrativos
                 </Td>
               </Tr>

@@ -7,31 +7,45 @@ import {
   Th,
   TableContainer,
   Flex,
+  Td,
+  IconButton,
 } from '@chakra-ui/react';
 
 import { ConfirmationModal } from '../../../../components/ConfirmationModal';
+import { Inventory } from '../../../../types/inventory-models';
 import { INVENTORY_TABLE_HEADERS } from '../../../../utils/constants';
 
 import { TableOptions } from './TableOptions';
+import { FaEdit, FaTrash } from 'react-icons/fa';
 
-export const InventoryTable = () => {
+interface InventoryTableProps {
+  movements: Inventory[];
+  onEdit: (movement: Inventory) => void;
+  onDelete: (id: number | undefined) => void;
+}
+
+export const InventoryTable = ({
+  movements,
+  onEdit,
+  onDelete,
+}: InventoryTableProps) => {
   //const { data: members, isLoading, error } = useFetchData(url);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedMemberId, setSelectedMemberId] = useState<
+  const [selectedMovementId, setSelectedMovementId] = useState<
     number | undefined
   >();
 
   //useErrorToast(error);
 
   const handleDeleteClick = (id: number | undefined) => {
-    setSelectedMemberId(id);
+    setSelectedMovementId(id);
     setIsModalOpen(true);
   };
 
   const handleConfirmDelete = () => {
-    /*if (selectedMemberId !== undefined) {
-      onDelete(selectedMemberId);
-    }*/
+    if (selectedMovementId !== undefined) {
+      onDelete(selectedMovementId);
+    }
     setIsModalOpen(false);
   };
 
@@ -79,12 +93,17 @@ export const InventoryTable = () => {
         >
           <Thead>
             <Tr sx={{ textColor: 'surface.default' }}>
+              <Th
+                sx={{
+                  borderRight: '1px',
+                  width: '20',
+                }}
+              ></Th>
               {INVENTORY_TABLE_HEADERS.map((header, index) => (
                 <Th
                   key={index}
                   sx={{
                     borderRight: '1px',
-                    borderColor: 'primary.100',
                   }}
                 >
                   {header}
@@ -92,7 +111,61 @@ export const InventoryTable = () => {
               ))}
             </Tr>
           </Thead>
-          <Tbody></Tbody>
+          <Tbody>
+            {movements.length === 0 ? (
+              <Tr>
+                <Td colSpan={INVENTORY_TABLE_HEADERS.length}>
+                  No olvides ingresar eventos
+                </Td>
+              </Tr>
+            ) : (
+              movements.map((movment) => (
+                <Tr key={movment.id}>
+                  <Td>
+                    <Flex
+                      sx={{
+                        gap: 'sm',
+                        flexDirection: { sm: 'column', lg: 'row' },
+                      }}
+                    >
+                      <IconButton
+                        aria-label="Edit Movement"
+                        icon={<FaEdit size={16} />}
+                        onClick={() => onEdit(movment)}
+                        size="sm"
+                        sx={{
+                          bg: 'none',
+                          color: 'brand.blue',
+                          _hover: {
+                            bg: 'secondary.100',
+                            color: 'primary.default',
+                          },
+                        }}
+                      />
+                      <IconButton
+                        aria-label="Delete Movement"
+                        icon={<FaTrash size={16} />}
+                        onClick={() => handleDeleteClick(movment.id)}
+                        size="sm"
+                        sx={{
+                          bg: 'none',
+                          color: 'brand.blue',
+                          _hover: {
+                            bg: 'secondary.100',
+                            color: 'primary.default',
+                          },
+                        }}
+                      />
+                    </Flex>
+                  </Td>
+                  <Td>{movment.product}</Td>
+                  <Td>{movment.movementType}</Td>
+                  <Td>{movment.quantity}</Td>
+                  <Td>{movment.date}</Td>
+                </Tr>
+              ))
+            )}
+          </Tbody>
         </Table>
       </TableContainer>
 
