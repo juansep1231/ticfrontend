@@ -1,10 +1,10 @@
 import { Box, Flex, Heading, Text } from '@chakra-ui/react';
 
 import { MyIcon } from '../../../components/MyIcon';
-import { HomeMember } from '../../../types/organizational-models';
+import { Member } from '../../../types/organizational-models';
 
 interface MemberProps {
-  member: HomeMember;
+  member: Member;
 }
 
 export const MemberCard = ({ member }: MemberProps) => {
@@ -28,7 +28,7 @@ export const MemberCard = ({ member }: MemberProps) => {
               textColor: 'black',
             }}
           >
-            {member.name}
+            {member.firstName} {member.lastName}
           </Text>
           <Text>{member.position}</Text>
         </Box>
@@ -60,7 +60,7 @@ export const MemberCard = ({ member }: MemberProps) => {
             >
               <MyIcon icon="FiPhone" size={14} />
             </Box>
-            <Text sx={{ textColor: 'text.default' }}>{member.telf}</Text>
+            <Text sx={{ textColor: 'text.default' }}>{member.cellphone}</Text>
           </Flex>
         </Flex>
       </Flex>

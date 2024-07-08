@@ -1,13 +1,18 @@
 import { Box, Flex, Heading, List, ListItem, Text } from '@chakra-ui/react';
 
 import { MyIcon } from '../../../components/MyIcon';
-import { Plan } from '../../../types/organizational-models';
+import { SubscriptionPlan } from '../../../types/subscription-models';
 
 interface SubscriptionPlanProps {
-  plan: Plan;
+  plan: SubscriptionPlan;
 }
 
 export const SubscriptionPlanCard = ({ plan }: SubscriptionPlanProps) => {
+  const benefitsArray =
+    typeof plan.benefits === 'string'
+      ? plan.benefits.split(',')
+      : plan.benefits;
+
   return (
     <Box
       sx={{
@@ -29,7 +34,7 @@ export const SubscriptionPlanCard = ({ plan }: SubscriptionPlanProps) => {
         }}
       >
         <Heading sx={{ fontSize: 'heading.desktop.subtitle' }}>
-          {plan.title}
+          {plan.planName}
         </Heading>
         <Heading
           sx={{ fontSize: 'heading.desktop.2', textColor: 'brand.blue' }}
@@ -38,7 +43,7 @@ export const SubscriptionPlanCard = ({ plan }: SubscriptionPlanProps) => {
         </Heading>
         <Heading sx={{ fontSize: 'text.lg' }}>Incluye:</Heading>
         <List spacing="xs">
-          {plan.benefits.map((benefit, index) => (
+          {benefitsArray.map((benefit, index) => (
             <ListItem key={index}>
               <Flex sx={{ gap: 'md', alignItems: 'center' }}>
                 <Box

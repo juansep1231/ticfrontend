@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { AddIcon, DownloadIcon, SearchIcon } from '@chakra-ui/icons';
 import {
   Button,
@@ -6,6 +7,10 @@ import {
   InputGroup,
   InputLeftElement,
 } from '@chakra-ui/react';
+
+import { Inventory } from '../../../../types/inventory-models';
+
+import { AddInventoryModal } from './AddInventoryModal';
 
 interface TableOptionsProps {
   searchMovement: string;
@@ -16,6 +21,12 @@ export const TableOptions = ({
   searchMovement: searchMovement,
   onSearchMovementChange: onSearchMovementChange,
 }: TableOptionsProps) => {
+  const [isAddInventoryModalOpen, setIsAddInventoryModalOpen] = useState(false);
+
+  const handleAddInventory = (newInventory: Inventory) => {
+    console.log('Movimiento agregado:', newInventory);
+  };
+
   return (
     <Flex
       sx={{
@@ -37,7 +48,7 @@ export const TableOptions = ({
       <Flex sx={{ gap: 'sm' }}>
         <Button
           leftIcon={<AddIcon />}
-          onClick={() => console.log('Añadir movimiento de inventario')}
+          onClick={() => setIsAddInventoryModalOpen(true)}
         >
           Movimiento
         </Button>
@@ -48,6 +59,12 @@ export const TableOptions = ({
           Excel
         </Button>
       </Flex>
+
+      <AddInventoryModal
+        isOpen={isAddInventoryModalOpen}
+        onClose={() => setIsAddInventoryModalOpen(false)}
+        onAddInventory={handleAddInventory}
+      />
     </Flex>
   );
 };

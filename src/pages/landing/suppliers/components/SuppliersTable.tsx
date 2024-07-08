@@ -17,14 +17,10 @@ import { TableOptions } from './TableOptions';
 export const SuppliersTable = () => {
   //const { data: members, isLoading, error } = useFetchData(url);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedMemberId, setSelectedMemberId] = useState<
-    number | undefined
-  >();
 
   //useErrorToast(error);
 
   const handleDeleteClick = (id: number | undefined) => {
-    setSelectedMemberId(id);
     setIsModalOpen(true);
   };
 

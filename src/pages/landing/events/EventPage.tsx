@@ -1,7 +1,10 @@
 import { Heading, Flex, Link, Text } from '@chakra-ui/react';
 import { useState } from 'react';
+import { EventsTable } from './components/EventsTable';
 
 export const EventsPage = () => {
+  const [isAddSupplierModalOpen, setAddSupplierModalOpen] = useState(false);
+
   return (
     <Flex
       flex="1"
@@ -15,6 +18,7 @@ export const EventsPage = () => {
           proveedores disponibles.
         </Link>
       </Text>
+      <EventsTable />
     </Flex>
   );
 };

@@ -73,19 +73,3 @@ export interface OrganizationalInfo {
   mission: string;
   vision: string;
 }
-
-export interface HomeMember {
-  id?: number;
-  name: string;
-  position: string;
-  semester: string;
-  email: string;
-  telf: string;
-}
-
-export interface Plan {
-  id?: number;
-  title: string;
-  price: number;
-  benefits: string[];
-}

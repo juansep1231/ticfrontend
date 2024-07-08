@@ -4,7 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import { FormField } from '../../../components/FormField';
 import { User } from '../../../types/organizational-models';
-import { userSchema } from '../../../utils/validations-helper';
+import { userSchema } from '../../../utils/admin-validations-helper';
 
 interface LoginFormProps {
   onSubmit: (formData: User) => void;

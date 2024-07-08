@@ -1,5 +1,6 @@
 import { Heading, Flex, Link, Text } from '@chakra-ui/react';
-import { useState } from 'react';
+
+import { SuppliersTable } from './components/SuppliersTable';
 
 export const SuppliersPage = () => {
   return (
@@ -18,6 +19,7 @@ export const SuppliersPage = () => {
           añadir movimientos de inventario.
         </Link>
       </Text>
+      <SuppliersTable />
     </Flex>
   );
 };

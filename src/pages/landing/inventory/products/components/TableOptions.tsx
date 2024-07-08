@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { AddIcon, DownloadIcon, SearchIcon } from '@chakra-ui/icons';
 import {
   Button,
@@ -6,6 +7,10 @@ import {
   InputGroup,
   InputLeftElement,
 } from '@chakra-ui/react';
+
+import { Product } from '../../../../../types/inventory-models';
+
+import { AddProductModal } from './AddProductModal';
 
 interface TableOptionsProps {
   searchProduct: string;
@@ -16,6 +21,12 @@ export const TableOptions = ({
   searchProduct: searchProduct,
   onSearchProductChange: onSearchProductChange,
 }: TableOptionsProps) => {
+  const [isAddProductModalOpen, setIsAddProductModalOpen] = useState(false);
+
+  const handleAddProduct = (newProduct: Product) => {
+    console.log('Producto agregado:', newProduct);
+  };
+
   return (
     <Flex
       sx={{
@@ -37,7 +48,7 @@ export const TableOptions = ({
       <Flex sx={{ gap: 'sm' }}>
         <Button
           leftIcon={<AddIcon />}
-          onClick={() => console.log('Añadir producto')}
+          onClick={() => setIsAddProductModalOpen(true)}
         >
           Producto
         </Button>
@@ -48,6 +59,12 @@ export const TableOptions = ({
           Excel
         </Button>
       </Flex>
+
+      <AddProductModal
+        isOpen={isAddProductModalOpen}
+        onClose={() => setIsAddProductModalOpen(false)}
+        onAddProduct={handleAddProduct}
+      />
     </Flex>
   );
 };

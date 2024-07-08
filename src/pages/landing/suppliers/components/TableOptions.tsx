@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { AddIcon, DownloadIcon, SearchIcon } from '@chakra-ui/icons';
 import {
   Button,
@@ -7,15 +8,24 @@ import {
   InputLeftElement,
 } from '@chakra-ui/react';
 
+import { Supplier } from '../../../../types/supplier-models';
+import { AddSupplierModal } from './AddSupplierModal';
+
 interface TableOptionsProps {
   searchSupplier: string;
   onSearchSupplierChange: (name: string) => void;
 }
 
 export const TableOptions = ({
-  searchSupplier: searchSupplier,
-  onSearchSupplierChange: onSearchSupplierChange,
+  searchSupplier,
+  onSearchSupplierChange,
 }: TableOptionsProps) => {
+  const [isAddSupplierModalOpen, setIsAddSupplierModalOpen] = useState(false);
+
+  const handleAddSupplier = (newEvent: Supplier) => {
+    console.log('Proveedor agregado:', newEvent);
+  };
+
   return (
     <Flex
       sx={{
@@ -37,7 +47,7 @@ export const TableOptions = ({
       <Flex sx={{ gap: 'sm' }}>
         <Button
           leftIcon={<AddIcon />}
-          onClick={() => console.log('Añadir evento')}
+          onClick={() => setIsAddSupplierModalOpen(true)}
         >
           Proveedor
         </Button>
@@ -48,6 +58,12 @@ export const TableOptions = ({
           Excel
         </Button>
       </Flex>
+
+      <AddSupplierModal
+        isOpen={isAddSupplierModalOpen}
+        onClose={() => setIsAddSupplierModalOpen(false)}
+        onAddSupplier={handleAddSupplier}
+      />
     </Flex>
   );
 };

@@ -2,82 +2,90 @@ import { Heading, Flex, Text, Image, Button } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
 import { moduleCardData } from '../../utils/modules-card-data';
-import { HomeMember, Plan } from '../../types/organizational-models';
+import { Member } from '../../types/organizational-models';
 import { modulesFeatIcons } from '../../utils/modules-card-data';
+import { SubscriptionPlan } from '../../types/subscription-models';
 
 import { LinkCard } from './components/LinkCard';
 import { MemberCard } from './components/MemberCard';
 import { SubscriptionPlanCard } from './components/SubscriptionPlanCard';
 import { MisionVisionCard } from './components/MisonVisionCard';
 
-const plans: Plan[] = [
+const plans: SubscriptionPlan[] = [
   {
     id: 1,
-    title: 'Prueba',
+    planName: 'Prueba',
     price: 10,
-    benefits: [
-      'Acceso a cursos gratuitos',
-      'Colada morada en el dia de los difuntos',
-      'Funda de caramelos en navidad',
-    ],
+    benefits:
+      'Acceso a cursos gratuitos, Colada morada en el dia de los difuntos, Funda de caramelos en navidad',
+    academicPeriod: '2024-B',
   },
   {
     id: 2,
-    title: 'Gratis',
+    planName: 'Basic',
     price: 15,
-    benefits: [
-      'Acceso a cursos gratuitos',
-      'Colada morada en el dia de los difuntos',
-      'Funda de caramelos en navidad',
-    ],
+    benefits:
+      'Acceso a cursos gratuitos, Colada morada en el dia de los difuntos, Funda de caramelos en navidad',
+    academicPeriod: '2024-B',
   },
   {
-    id: 3,
-    title: 'Premium',
-    price: 20,
-    benefits: [
-      'Acceso a cursos gratuitos',
-      'Colada morada en el dia de los difuntos',
-      'Funda de caramelos en navidad',
-      'Acceso a cursos gratuitos',
-      'Colada morada en el dia de los difuntos',
-      'Funda de caramelos en navidad',
-    ],
+    id: 1,
+    planName: 'Premium',
+    price: 10,
+    benefits:
+      'Acceso a cursos gratuitos, Colada morada en el dia de los difuntos, Funda de caramelos en navidad',
+    academicPeriod: '2024-B',
   },
 ];
 
-const members: HomeMember[] = [
+const members: Member[] = [
   {
     id: 1,
-    name: 'Valery Vallejo',
-    position: 'Presidente',
+    firstName: 'Valery',
+    lastName: 'Vallejo',
+    birthDate: '1995-01-01',
+    cellphone: '0983885744',
+    faculty: 'Facultad de Ingeniería Eléctrica y Electrónica',
+    career: 'Ingeniería Eléctrica',
     semester: 'Noveno',
     email: 'valery.vallejo@epn.edu.ec',
-    telf: '0983885744',
+    position: 'Presidente',
   },
   {
     id: 2,
-    name: 'Valery Vallejo',
-    position: 'Vicepresidente Cultural',
+    firstName: 'Javier',
+    lastName: 'Revelo',
+    birthDate: '1995-01-01',
+    cellphone: '0983885744',
+    faculty: 'Facultad de Ingeniería Eléctrica y Electrónica',
+    career: 'Ingeniería Eléctrica',
     semester: 'Noveno',
     email: 'valery.vallejo@epn.edu.ec',
-    telf: '0983885744',
+    position: 'Vicepresidente Financiero',
   },
   {
     id: 3,
-    name: 'Valery Vallejo',
-    position: 'Vicepresidente Financiero',
+    firstName: 'Juan',
+    lastName: 'Posso',
+    birthDate: '1995-01-01',
+    cellphone: '0983885744',
+    faculty: 'Facultad de Ingeniería Eléctrica y Electrónica',
+    career: 'Ingeniería Eléctrica',
     semester: 'Noveno',
     email: 'valery.vallejo@epn.edu.ec',
-    telf: '0983885744',
+    position: 'Vicepresidente Académico',
   },
   {
     id: 4,
-    name: 'Valery Vallejo',
-    position: 'Vicepresidente Académico',
+    firstName: 'Cristian',
+    lastName: 'Verduga',
+    birthDate: '1995-01-01',
+    cellphone: '0983885744',
+    faculty: 'Facultad de Ingeniería Eléctrica y Electrónica',
+    career: 'Ingeniería Eléctrica',
     semester: 'Noveno',
     email: 'valery.vallejo@epn.edu.ec',
-    telf: '0983885744',
+    position: 'Vicepresidente Académico',
   },
 ];
 

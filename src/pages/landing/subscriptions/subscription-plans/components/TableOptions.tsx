@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { AddIcon, DownloadIcon, SearchIcon } from '@chakra-ui/icons';
 import {
   Button,
@@ -6,6 +7,10 @@ import {
   InputGroup,
   InputLeftElement,
 } from '@chakra-ui/react';
+
+import { SubscriptionPlan } from '../../../../../types/subscription-models';
+
+import { AddSubscriptionPlanrModal } from './AddSubscriptionPlanModal';
 
 interface TableOptionsProps {
   searchPlan: string;
@@ -16,6 +21,12 @@ export const TableOptions = ({
   searchPlan: searchPlan,
   onSearchPlanChange: onSearchPlanChange,
 }: TableOptionsProps) => {
+  const [isAddPlanModalOpen, setIsAddPlanModalOpen] = useState(false);
+
+  const handleAddPlan = (newPlan: SubscriptionPlan) => {
+    console.log('Plan de aportación agregado:', newPlan);
+  };
+
   return (
     <Flex
       sx={{
@@ -37,7 +48,7 @@ export const TableOptions = ({
       <Flex sx={{ gap: 'sm' }}>
         <Button
           leftIcon={<AddIcon />}
-          onClick={() => console.log('Añadir plan de suscripción')}
+          onClick={() => setIsAddPlanModalOpen(true)}
         >
           Plan
         </Button>
@@ -48,6 +59,12 @@ export const TableOptions = ({
           Excel
         </Button>
       </Flex>
+
+      <AddSubscriptionPlanrModal
+        isOpen={isAddPlanModalOpen}
+        onClose={() => setIsAddPlanModalOpen(false)}
+        onAddSubscriptionPlan={handleAddPlan}
+      />
     </Flex>
   );
 };

@@ -12,7 +12,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { positions, User } from '../../../types/organizational-models';
-import { userSchema } from '../../../utils/validations-helper';
+import { userSchema } from '../../../utils/admin-validations-helper';
 import { FormField } from '../../../components/FormField';
 
 interface RegisterModalProps {

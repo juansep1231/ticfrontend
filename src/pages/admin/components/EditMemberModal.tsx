@@ -20,7 +20,7 @@ import {
   Member,
 } from '../../../types/organizational-models';
 import { FormField } from '../../../components/FormField';
-import { memberSchema } from '../../../utils/validations-helper';
+import { memberSchema } from '../../../utils/admin-validations-helper';
 
 interface EditMemberModalProps {
   isOpen: boolean;

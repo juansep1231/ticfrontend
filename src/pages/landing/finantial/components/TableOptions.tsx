@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { AddIcon, DownloadIcon, SearchIcon } from '@chakra-ui/icons';
 import {
   Button,
@@ -6,6 +7,9 @@ import {
   InputGroup,
   InputLeftElement,
 } from '@chakra-ui/react';
+
+import { Transaction } from '../../../../types/finantial-models';
+import { AddTransactionModal } from './AddTransactionModal';
 
 interface TableOptionsProps {
   searchTransaction: string;
@@ -16,6 +20,13 @@ export const TableOptions = ({
   searchTransaction: searchTransaction,
   onSearchTransactionChange: onSearchTransactionChange,
 }: TableOptionsProps) => {
+  const [isAddTransactionModalOpen, setIsAddTransactionModalOpen] =
+    useState(false);
+
+  const handleAddTransaction = (newTransaction: Transaction) => {
+    console.log('Transacción agregada:', newTransaction);
+  };
+
   return (
     <Flex
       sx={{
@@ -37,7 +48,7 @@ export const TableOptions = ({
       <Flex sx={{ gap: 'sm' }}>
         <Button
           leftIcon={<AddIcon />}
-          onClick={() => console.log('Añadir transacción')}
+          onClick={() => setIsAddTransactionModalOpen(true)}
         >
           Transacción
         </Button>
@@ -48,6 +59,12 @@ export const TableOptions = ({
           Excel
         </Button>
       </Flex>
+
+      <AddTransactionModal
+        isOpen={isAddTransactionModalOpen}
+        onClose={() => setIsAddTransactionModalOpen(false)}
+        onAddTransaction={handleAddTransaction}
+      />
     </Flex>
   );
 };

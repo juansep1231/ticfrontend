@@ -2,7 +2,7 @@ import { Button, Center, Flex, Heading, Link, Text } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 
-import { resetPassworSchema } from '../../../utils/validations-helper';
+import { resetPassworSchema } from '../../../utils/admin-validations-helper';
 import { FormField } from '../../../components/FormField';
 
 interface ResetPassworFormProps {

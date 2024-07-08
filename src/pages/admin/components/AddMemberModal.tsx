@@ -20,7 +20,7 @@ import {
   Member,
 } from '../../../types/organizational-models';
 import { FormField } from '../../../components/FormField';
-import { memberSchema } from '../../../utils/validations-helper';
+import { memberSchema } from '../../../utils/admin-validations-helper';
 
 import { RegisterModal } from './RegisterModal';
 
@@ -30,11 +30,11 @@ interface AddMemberModalProps {
   onAddMember: (member: Member) => void;
 }
 
-export const AddMemberModal: React.FC<AddMemberModalProps> = ({
+export const AddMemberModal = ({
   isOpen,
   onClose,
   onAddMember,
-}) => {
+}: AddMemberModalProps) => {
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
 
   const {

@@ -6,6 +6,9 @@ import {
   InputGroup,
   InputLeftElement,
 } from '@chakra-ui/react';
+import { AddEventModal } from './AddEventModal';
+import { useState } from 'react';
+import { EventView } from '../../../../types/event-models';
 
 interface TableOptionsProps {
   searchEvent: string;
@@ -16,6 +19,12 @@ export const TableOptions = ({
   searchEvent,
   onSearchEventChange,
 }: TableOptionsProps) => {
+  const [isAddEventModalOpen, setIsAddEventModalOpen] = useState(false);
+
+  const handleAddEvent = (newEvent: EventView) => {
+    console.log('Evento agregado:', newEvent);
+  };
+
   return (
     <Flex
       sx={{
@@ -33,7 +42,7 @@ export const TableOptions = ({
       <Flex sx={{ gap: 'sm' }}>
         <Button
           leftIcon={<AddIcon />}
-          onClick={() => console.log('Añadir evento')}
+          onClick={() => setIsAddEventModalOpen(true)}
         >
           Evento
         </Button>
@@ -44,6 +53,12 @@ export const TableOptions = ({
           Excel
         </Button>
       </Flex>
+
+      <AddEventModal
+        isOpen={isAddEventModalOpen}
+        onClose={() => setIsAddEventModalOpen(false)}
+        onAddEvent={handleAddEvent}
+      />
     </Flex>
   );
 };

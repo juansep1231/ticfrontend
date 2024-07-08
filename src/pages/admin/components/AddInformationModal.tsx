@@ -13,7 +13,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { FormField } from '../../../components/FormField';
-import { infoSchema } from '../../../utils/validations-helper';
+import { infoSchema } from '../../../utils/admin-validations-helper';
 import { OrganizationalInfo } from '../../../types/organizational-models';
 
 interface AddInformationModalProps {
