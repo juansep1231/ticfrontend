@@ -19,7 +19,7 @@ export const useFetchSemesters = () => {
         }
 
         const data: SemesterDTO[] = await response.json();
-        setData(data.map(semester => semester.semester_Name));
+        setData(data.map((semester) => semester.semester_Name));
         console.log('Fetched data:', data);
       } catch (error: any) {
         if (error instanceof Error) {

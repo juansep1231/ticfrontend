@@ -87,6 +87,8 @@ export const ProductsPage = () => {
         products={products}
         onEdit={openEditProductModal}
         onDelete={handleDeleteProduct}
+        error={null}
+        isLoading={false}
       />
 
       <EditProductModal

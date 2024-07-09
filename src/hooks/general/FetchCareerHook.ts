@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 interface CareerDTO {
-    career_Name: string;
+  career_Name: string;
 }
 
 export const useFetchCareers = () => {
@@ -20,8 +20,8 @@ export const useFetchCareers = () => {
         }
 
         const data: CareerDTO[] = await response.json();
-        setCareersData(data.map(career => career.career_Name));
-        console.log(data);//impresion de los datos
+        setCareersData(data.map((career) => career.career_Name));
+        console.log(data); //impresion de los datos
       } catch (error) {
         if (error instanceof Error) {
           setCareersError(error);

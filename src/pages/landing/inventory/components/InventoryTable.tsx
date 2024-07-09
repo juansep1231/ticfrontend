@@ -20,12 +20,16 @@ import { FaEdit, FaTrash } from 'react-icons/fa';
 
 interface InventoryTableProps {
   movements: Inventory[];
+  error: Error | null;
+  isLoading: boolean;
   onEdit: (movement: Inventory) => void;
   onDelete: (id: number | undefined) => void;
 }
 
 export const InventoryTable = ({
   movements,
+  error,
+  isLoading,
   onEdit,
   onDelete,
 }: InventoryTableProps) => {

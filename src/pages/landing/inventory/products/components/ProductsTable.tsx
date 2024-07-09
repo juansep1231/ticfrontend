@@ -20,12 +20,16 @@ import { FaEdit, FaTrash } from 'react-icons/fa';
 
 interface ProductsTableProps {
   products: Product[];
+  error: Error | null;
+  isLoading: boolean;
   onEdit: (product: Product) => void;
   onDelete: (id: number | undefined) => void;
 }
 
 export const ProductsTable = ({
   products,
+  error,
+  isLoading,
   onEdit,
   onDelete,
 }: ProductsTableProps) => {
@@ -43,9 +47,9 @@ export const ProductsTable = ({
   };
 
   const handleConfirmDelete = () => {
-    /*if (selectedMemberId !== undefined) {
-      onDelete(selectedMemberId);
-    }*/
+    if (selectedProductId !== undefined) {
+      onDelete(selectedProductId);
+    }
     setIsModalOpen(false);
   };
 

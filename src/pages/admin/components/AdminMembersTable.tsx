@@ -14,15 +14,15 @@ import {
 import { FaTrash, FaEdit } from 'react-icons/fa';
 
 import { ConfirmationModal } from '../../../components/ConfirmationModal'; // Importa el componente del modal
-import { useErrorToast } from '../../../hooks/useErrorToast'; // Importa el hook de error
-import { useFetchData } from '../../../hooks/exampleHook'; // Importa el hook de datos
+import { useErrorToast } from '../../../hooks/general/useErrorToast'; // Importa el hook de error
+import { useFetchData } from '../../../hooks/general/exampleHook'; // Importa el hook de datos
 import { Member } from '../../../types/organizational-models';
 import { ADMIN_MEMBERS_TABLE_HEADERS } from '../../../utils/constants';
 
 interface AdminMembersTableProps {
   members: Member[];
   error: Error | null;
-  isLoading: boolean ;
+  isLoading: boolean;
   onEdit: (member: Member) => void;
   onDelete: (id: number) => void;
 }

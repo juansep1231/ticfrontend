@@ -95,6 +95,8 @@ export const SubscriptionPlansPage = () => {
         plans={transactions}
         onEdit={openEditTransactionModal}
         onDelete={handleDeleteTransaction}
+        error={null}
+        isLoading={false}
       />
 
       <EditSubscriptionPlanrModal

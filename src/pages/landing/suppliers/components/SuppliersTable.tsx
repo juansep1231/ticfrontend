@@ -20,12 +20,16 @@ import { FaEdit, FaTrash } from 'react-icons/fa';
 
 interface SuppliersTableProps {
   suppliers: Supplier[];
+  error: Error | null;
+  isLoading: boolean;
   onEdit: (supplier: Supplier) => void;
   onDelete: (id: number | undefined) => void;
 }
 
 export const SuppliersTable = ({
   suppliers,
+  error,
+  isLoading,
   onEdit,
   onDelete,
 }: SuppliersTableProps) => {

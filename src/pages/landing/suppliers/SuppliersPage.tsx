@@ -86,6 +86,8 @@ export const SuppliersPage = () => {
         suppliers={suppliers}
         onEdit={openEditMovementModal}
         onDelete={handleDeleteMovement}
+        error={null}
+        isLoading={false}
       />
 
       <EditSupplierModal

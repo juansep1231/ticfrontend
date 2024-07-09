@@ -1,4 +1,12 @@
-import { Button, Center, Flex, Heading, Link, Text, useToast } from '@chakra-ui/react';
+import {
+  Button,
+  Center,
+  Flex,
+  Heading,
+  Link,
+  Text,
+  useToast,
+} from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 
@@ -32,7 +40,7 @@ export const ResetPasswordForm = ({ onClick }: ResetPassworFormProps) => {
         isClosable: true,
       });
     } catch (error) {
-      if(error instanceof Error){
+      if (error instanceof Error) {
         toast({
           title: 'Error',
           description: error.message,
@@ -41,7 +49,7 @@ export const ResetPasswordForm = ({ onClick }: ResetPassworFormProps) => {
           isClosable: true,
         });
       }
-    } 
+    }
     console.log(data);
     onClick();
   };

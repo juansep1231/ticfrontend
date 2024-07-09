@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 export interface FacultyDTO {
-    faculty_Name: string;
-  }
-
+  faculty_Name: string;
+}
 
 export const useFetchFaculties = () => {
   const [facultiesData, setFacultiesData] = useState<string[]>([]);
@@ -19,7 +18,7 @@ export const useFetchFaculties = () => {
         }
 
         const data: FacultyDTO[] = await response.json();
-        setFacultiesData(data.map(faculty => faculty.faculty_Name));
+        setFacultiesData(data.map((faculty) => faculty.faculty_Name));
         console.log(data);
       } catch (error) {
         if (error instanceof Error) {

@@ -14,20 +14,28 @@ import {
 
 import { EVENTS_TABLE_HEADERS } from '../../../../utils/constants';
 import { ConfirmationModal } from '../../../../components/ConfirmationModal';
-import { useErrorToast } from '../../../../hooks/useErrorToast';
+import { useErrorToast } from '../../../../hooks/general/useErrorToast';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import { EventView } from '../../../../types/event-models';
-import { useFetchData } from '../../../../hooks/exampleHook';
+import { useFetchData } from '../../../../hooks/general/exampleHook';
 
 import { TableOptions } from './TableOptions';
 
 interface EventTableProps {
   events: EventView[];
+  error: Error | null;
+  isLoading: boolean;
   onEdit: (event: EventView) => void;
   onDelete: (id: number | undefined) => void;
 }
 
-export const EventsTable = ({ events, onEdit, onDelete }: EventTableProps) => {
+export const EventsTable = ({
+  events,
+  error,
+  isLoading,
+  onEdit,
+  onDelete,
+}: EventTableProps) => {
   //const { data: events, isLoading, error } = useFetchData(url);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedEventId, setSelectedEventId] = useState<number | undefined>();

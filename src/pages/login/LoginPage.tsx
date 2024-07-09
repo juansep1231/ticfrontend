@@ -9,12 +9,12 @@ import { firebaseApp } from '../../firebase/firebase-config';
 const auth = getAuth(firebaseApp);
 
 export const LoginPage = () => {
-  const handleLogin = async  (formData: User) => {
+  const handleLogin = async (formData: User) => {
     console.log('Formulario de login enviado:', formData);
-    try{
-      await signInWithEmailAndPassword(auth, formData.email, formData.password)
-    }catch(error){
-      console.log(error)
+    try {
+      await signInWithEmailAndPassword(auth, formData.email, formData.password);
+    } catch (error) {
+      console.log(error);
     }
   };
 

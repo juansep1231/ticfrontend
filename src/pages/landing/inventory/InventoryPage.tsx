@@ -95,6 +95,8 @@ export const InventoryPage = () => {
         movements={movements}
         onEdit={openEditMovementModal}
         onDelete={handleDeleteMovement}
+        error={null}
+        isLoading={false}
       />
 
       <EditInventoryModal

@@ -20,12 +20,16 @@ import { FaEdit, FaTrash } from 'react-icons/fa';
 
 interface SubscriptionPlanTableProps {
   plans: SubscriptionPlan[];
+  error: Error | null;
+  isLoading: boolean;
   onEdit: (plan: SubscriptionPlan) => void;
   onDelete: (id: number | undefined) => void;
 }
 
 export const SubscriptionPlansTable = ({
   plans,
+  error,
+  isLoading,
   onEdit,
   onDelete,
 }: SubscriptionPlanTableProps) => {

@@ -74,3 +74,9 @@ export interface OrganizationalInfo {
   mission: string;
   vision: string;
 }
+
+export interface UserData {
+  uid: string | null;
+  email: string | null;
+  role: string | null;
+}

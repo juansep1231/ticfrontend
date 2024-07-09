@@ -20,12 +20,16 @@ import { FaEdit, FaTrash } from 'react-icons/fa';
 
 interface SubscribersTableProps {
   subscribers: Subscriber[];
+  error: Error | null;
+  isLoading: boolean;
   onEdit: (subscriber: Subscriber) => void;
   onDelete: (id: number | undefined) => void;
 }
 
 export const SubscribersTable = ({
   subscribers,
+  error,
+  isLoading,
   onEdit,
   onDelete,
 }: SubscribersTableProps) => {
@@ -93,6 +97,12 @@ export const SubscribersTable = ({
         >
           <Thead>
             <Tr sx={{ textColor: 'surface.default' }}>
+              <Th
+                sx={{
+                  borderRight: '1px',
+                  width: '20',
+                }}
+              ></Th>
               {SUBSCRIBER_TABLE_HEADERS.map((header, index) => (
                 <Th
                   key={index}

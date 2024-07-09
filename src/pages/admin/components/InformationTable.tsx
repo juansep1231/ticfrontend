@@ -14,8 +14,8 @@ import {
 
 import { FaTrash, FaEdit } from 'react-icons/fa';
 import { ConfirmationModal } from '../../../components/ConfirmationModal';
-import { useErrorToast } from '../../../hooks/useErrorToast';
-import { useFetchData } from '../../../hooks/exampleHook';
+import { useErrorToast } from '../../../hooks/general/useErrorToast';
+import { useFetchData } from '../../../hooks/general/exampleHook';
 import { OrganizationalInfo } from '../../../types/organizational-models';
 import { INFO_TABLE_HEADERS } from '../../../utils/constants';
 
@@ -33,7 +33,6 @@ export const InformationTable = ({
   onEdit,
   onDelete,
 }: InformationTableProps) => {
-
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedInfoId, setSelectedInfoId] = useState<number | undefined>();
 

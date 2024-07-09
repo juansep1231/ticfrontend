@@ -12,17 +12,15 @@ import {
   Button,
 } from '@chakra-ui/react';
 
-import {
-  Member,
-} from '../../../types/organizational-models';
+import { Member } from '../../../types/organizational-models';
 import { FormField } from '../../../components/FormField';
 import { memberSchema } from '../../../utils/admin-validations-helper';
 
 import { RegisterModal } from './RegisterModal';
-import useFetchRoles from '../../../hooks/fetchRolesHook';
-import useFetchSemesters from '../../../hooks/fetchSemestersHook';
-import { useFetchCareers } from '../../../hooks/FetchCareerHook';
-import { useFetchFaculties } from '../../../hooks/fetchFacultyHook';
+import useFetchRoles from '../../../hooks/general/fetchRolesHook';
+import useFetchSemesters from '../../../hooks/general/fetchSemestersHook';
+import { useFetchCareers } from '../../../hooks/general/FetchCareerHook';
+import { useFetchFaculties } from '../../../hooks/general/fetchFacultyHook';
 
 interface AddMemberModalProps {
   isOpen: boolean;
@@ -52,11 +50,12 @@ export const AddMemberModal = ({
     setIsRegisterModalOpen(true);
   };
 
-  const { roles, isLoadingRoles, roleErrors } = useFetchRoles();  
+  const { roles, isLoadingRoles, roleErrors } = useFetchRoles();
   const { semesters, isLoadingSemesters, semesterErrors } = useFetchSemesters();
-  
-  const { careersData, careersLoading, careersError } =  useFetchCareers();  
-  const { facultiesData, facultiesLoading, facultiesError } =  useFetchFaculties();  
+
+  const { careersData, careersLoading, careersError } = useFetchCareers();
+  const { facultiesData, facultiesLoading, facultiesError } =
+    useFetchFaculties();
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose}>

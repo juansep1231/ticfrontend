@@ -10,88 +10,44 @@ import { EditMemberModal } from './components/EditMemberModal';
 import { InformationTable } from './components/InformationTable';
 import { EditInformationModal } from './components/EditInformationModal';
 import { AddIcon } from '@chakra-ui/icons';
-import { useFetchAdministrativeMembers } from '../../hooks/AdminHooks/fetchAdminTableHook';
-import { useFetchAssociations } from '../../hooks/AdminHooks/fetchInformationTableHook';
-import useUpdateAssociation from '../../hooks/AdminHooks/updateInformationTableHook';
-import usePatchAssociationState from '../../hooks/AdminHooks/patchInformationTableHook';
-
-const initialMembers: Member[] = [
-  {
-    id: 1,
-    firstName: 'Valery',
-    lastName: 'Vallejo',
-    birthDate: '1995-01-01',
-    cellphone: '0983885744',
-    faculty: 'Facultad de Ingeniería Eléctrica y Electrónica',
-    career: 'Ingeniería Eléctrica',
-    semester: 'Noveno',
-    email: 'valery.vallejo@epn.edu.ec',
-    position: 'Presidente',
-  },
-  {
-    id: 2,
-    firstName: 'Javier',
-    lastName: 'Revelo',
-    birthDate: '1995-01-01',
-    cellphone: '0983885744',
-    faculty: 'Facultad de Ingeniería Eléctrica y Electrónica',
-    career: 'Ingeniería Eléctrica',
-    semester: 'Noveno',
-    email: 'valery.vallejo@epn.edu.ec',
-    position: 'Vicepresidente Financiero',
-  },
-  {
-    id: 3,
-    firstName: 'Juan',
-    lastName: 'Posso',
-    birthDate: '1995-01-01',
-    cellphone: '0983885744',
-    faculty: 'Facultad de Ingeniería Eléctrica y Electrónica',
-    career: 'Ingeniería Eléctrica',
-    semester: 'Noveno',
-    email: 'valery.vallejo@epn.edu.ec',
-    position: 'Vicepresidente Académico',
-  },
-];
-
-const initialInfo: OrganizationalInfo[] = [
-  {
-    id: 1,
-    mission:
-      'Misión de FEPON es sdcfvbghmksxyubhsnamclzdsbofuhbdlfueb eybfliejbnfjÑW Hefyblfbwef eiufbñwejnf ehfñiw',
-    vision:
-      'Vision de FEPON es sdcfvbghmksxyubhsnamclzdsbofuhbdlfueb eybfliejbnfjÑW Hefyblfbwef eiufbñwejnf ehfñiw',
-  },
-];
+import { useFetchAdministrativeMembers } from '../../hooks/admin/fetchAdminTableHook';
+import { useFetchAssociations } from '../../hooks/admin/fetchInformationTableHook';
+import useUpdateAssociation from '../../hooks/admin/updateInformationTableHook';
+import usePatchAssociationState from '../../hooks/admin/patchInformationTableHook';
 
 export const AdminHome = () => {
   const [isAddInfoModalOpen, setAddInfoModalOpen] = useState(false);
   const [isEditInfoModalOpen, setIsEditInfoModalOpen] = useState(false);
   const [isAddMemberModalOpen, setIsAddMemberModalOpen] = useState(false);
   const [isEditMemberModalOpen, setIsEditMemberModalOpen] = useState(false);
-  const [members, setMembers] = useState<Member[]>(initialMembers);
-  const [information, setInformation] =
-    useState<OrganizationalInfo[]>(initialInfo);
   const [selectedMember, setSelectedMember] = useState<Member | null>(null);
   const [selectedInfo, setSelectedInfo] = useState<OrganizationalInfo | null>(
     null
   );
-  const {administrativeMembers, isLoadingAdministrativeMembers, administrativeMemberErrors, } =  useFetchAdministrativeMembers();
-  const { associations, isLoadingAssociations, associationErrors, updateAssociationState } = useFetchAssociations(); 
-  const { updateAssociation,updateError } = useUpdateAssociation();
+
+  const {
+    administrativeMembers,
+    isLoadingAdministrativeMembers,
+    administrativeMemberErrors,
+  } = useFetchAdministrativeMembers();
+  const {
+    associations,
+    isLoadingAssociations,
+    associationErrors,
+    updateAssociationState,
+  } = useFetchAssociations();
+  const { updateAssociation, updateError } = useUpdateAssociation();
   const { patchAssociationState, patchError } = usePatchAssociationState();
+
   const handleAddMember = (newMember: Member) => {
-    setMembers((prevMembers) => [...prevMembers, newMember]);
     console.log('Miembro agregado:', newMember);
   };
 
   const handleEditMember = (data: { member: Member }) => {
-    setMembers(members.map((m) => (m.id === data.member.id ? data.member : m)));
     console.log('Miembro actualizado:', data.member);
   };
 
   const handleDeleteMember = (id: number | undefined) => {
-    setMembers(members.filter((m) => m.id !== id));
     console.log('Miembro eliminado:', id);
   };
 
@@ -107,7 +63,10 @@ export const AdminHome = () => {
 
   const handleEditInformation = async (data: { info: OrganizationalInfo }) => {
     try {
-      const updatedInfo = { mission: data.info.mission, vision: data.info.vision };
+      const updatedInfo = {
+        mission: data.info.mission,
+        vision: data.info.vision,
+      };
       await updateAssociation(data.info.id!, updatedInfo);
 
       updateAssociationState(data.info.id!, { ...data.info, ...updatedInfo });
@@ -117,20 +76,17 @@ export const AdminHome = () => {
     } catch (error) {
       console.error('Failed to update association:', error);
     }
-    
   };
 
   const handleDeleteInfo = async (id: number | undefined) => {
     try {
-      await  patchAssociationState(id!);
-      updateAssociationState(id!,{ state_id: 2 });
+      await patchAssociationState(id!);
+      updateAssociationState(id!, { state_id: 2 });
       console.log('Informacion organizacional eliminada:', id);
-
     } catch (error) {
       console.error('Failed to update association state:', error);
     }
   };
-
 
   return (
     <Flex

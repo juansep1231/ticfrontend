@@ -10,14 +10,19 @@ import {
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import { NavLink as RouterLink } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { FiLogIn, FiLogOut } from 'react-icons/fi';
+
 import { NAV_LINKS } from '../utils/constants';
 import { getAuth, signOut } from 'firebase/auth';
 import { firebaseApp } from '../firebase/firebase-config';
+import { useAuth } from '../contexts/auth-context';
 
 const MotionVStack = motion(VStack);
 
 const auth = getAuth(firebaseApp);
 export const Navbar = () => {
+  const { token } = useAuth();
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toggleMenu = () => {
     if (isOpen) {
@@ -94,13 +99,14 @@ export const Navbar = () => {
             >
               {link.name}
             </ChakraLink>
-          
           ))}
-          <button onClick={() => signOut(auth)}>Cerrar sesion</button>
           <ChakraLink
             as={RouterLink}
             to="/inicio-sesion"
             sx={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '2xs',
               p: 'xs',
               border: '1px solid',
               borderColor: 'brand.blue',
@@ -114,7 +120,30 @@ export const Navbar = () => {
               },
             }}
           >
-            Ingresar
+            <FiLogIn /> Ingresar
+          </ChakraLink>
+          <ChakraLink
+            as={RouterLink}
+            to="/admin"
+            onClick={() => signOut(auth)}
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '2xs',
+              p: 'xs',
+              border: '1px solid',
+              borderColor: 'brand.blue',
+              _hover: {
+                borderColor: 'primary.default',
+              },
+              _activeLink: {
+                textColor: 'primary.300',
+                borderColor: 'primary.300',
+                fontWeight: 'semibold',
+              },
+            }}
+          >
+            <FiLogOut /> Salir
           </ChakraLink>
         </Flex>
         <IconButton
@@ -168,6 +197,9 @@ export const Navbar = () => {
               as={RouterLink}
               to="/inicio-sesion"
               sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '2xs',
                 p: 'xs',
                 border: '1px solid',
                 borderColor: 'brand.blue',
@@ -181,7 +213,30 @@ export const Navbar = () => {
                 },
               }}
             >
-              Ingresar
+              <FiLogIn /> Ingresar
+            </ChakraLink>
+            <ChakraLink
+              as={RouterLink}
+              to="/admin"
+              onClick={() => signOut(auth)}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '2xs',
+                p: 'xs',
+                border: '1px solid',
+                borderColor: 'brand.blue',
+                _hover: {
+                  borderColor: 'primary.default',
+                },
+                _activeLink: {
+                  textColor: 'primary.300',
+                  borderColor: 'primary.300',
+                  fontWeight: 'semibold',
+                },
+              }}
+            >
+              <FiLogOut /> Salir
             </ChakraLink>
           </MotionVStack>
         ) : null}

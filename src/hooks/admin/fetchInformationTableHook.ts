@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { OrganizationalInfo } from "../../types/organizational-models";
+import { useEffect, useState } from 'react';
+import { OrganizationalInfo } from '../../types/organizational-models';
 
 export const useFetchAssociations = () => {
   const [associations, setData] = useState<OrganizationalInfo[]>([]);
@@ -14,7 +14,9 @@ export const useFetchAssociations = () => {
 
         if (!response.ok) {
           const errorData = await response.json(); // Lee el cuerpo de la respuesta
-          throw new Error(`Error: ${response.status} ${response.statusText} - ${errorData.message}`);
+          throw new Error(
+            `Error: ${response.status} ${response.statusText} - ${errorData.message}`
+          );
         }
 
         const data: OrganizationalInfo[] = await response.json();
@@ -34,17 +36,29 @@ export const useFetchAssociations = () => {
     fetchData();
   }, [endpoint]);
 
-  const updateAssociationState = (id: number, updatedData: Partial<OrganizationalInfo>) => {
-    setData(prevData => {
-      const newData = prevData.map(item => item.id === id ? { ...item, ...updatedData } : item);
-      console.log("Updated data:", newData);
+  const updateAssociationState = (
+    id: number,
+    updatedData: Partial<OrganizationalInfo>
+  ) => {
+    setData((prevData) => {
+      const newData = prevData.map((item) =>
+        item.id === id ? { ...item, ...updatedData } : item
+      );
+      console.log('Updated data:', newData);
       return newData;
     });
   };
 
-  const filteredAssociations = associations.filter(item => item.state_id === 1);
+  const filteredAssociations = associations.filter(
+    (item) => item.state_id === 1
+  );
 
-  return { associations: filteredAssociations, isLoadingAssociations, associationErrors, updateAssociationState };
+  return {
+    associations: filteredAssociations,
+    isLoadingAssociations,
+    associationErrors,
+    updateAssociationState,
+  };
 };
 
 export default useFetchAssociations;

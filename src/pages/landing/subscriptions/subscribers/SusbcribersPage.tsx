@@ -101,6 +101,8 @@ export const SubscribersPage = () => {
         subscribers={subscribers}
         onEdit={openEditMovementModal}
         onDelete={handleDeleteMovement}
+        error={null}
+        isLoading={false}
       />
 
       <EditSubscriberModal

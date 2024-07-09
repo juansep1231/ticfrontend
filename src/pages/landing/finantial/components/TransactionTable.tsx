@@ -20,12 +20,16 @@ import { FaEdit, FaTrash } from 'react-icons/fa';
 
 interface TransactionTableProps {
   transactions: Transaction[];
+  error: Error | null;
+  isLoading: boolean;
   onEdit: (transaction: Transaction) => void;
   onDelete: (id: number | undefined) => void;
 }
 
 export const TransactionTable = ({
   transactions,
+  error,
+  isLoading,
   onEdit,
   onDelete,
 }: TransactionTableProps) => {

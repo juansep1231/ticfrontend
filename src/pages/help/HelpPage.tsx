@@ -37,12 +37,12 @@ export const HelpPage: React.FC = () => {
 
   const fetchData = async () => {
     if (token) {
-      console.log(token)
+      console.log(token);
       return;
-    }else{
-      console.log("valio pito el token")
+    } else {
+      console.log('valio pito el token');
     }
-  }
+  };
   const glosaryList = glosaryBank.map((g, i) => {
     const iconIndex = i % FeatIcons.length;
     const icon = FeatIcons[iconIndex];

@@ -93,6 +93,8 @@ export const EventsPage = () => {
         events={events}
         onEdit={openEditEventModal}
         onDelete={handleDeleteEvent}
+        error={null}
+        isLoading={false}
       />
 
       <EditEventModal

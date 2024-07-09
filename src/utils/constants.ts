@@ -1,5 +1,33 @@
 export const MODULES_NAVLINK = [{ name: 'Finanzas', path: '/finanzas' }];
 
+export const DROPDOWN_MENUS = [
+  {
+    name: 'Aportaciones',
+    items: [
+      { name: 'Aportantes', path: '/aportaciones/aportantes' },
+      {
+        name: 'Planes de suscripción',
+        path: '/aportaciones/planes-aportacion',
+      },
+    ],
+  },
+  {
+    name: 'Eventos',
+    items: [
+      { name: 'Próximos eventos', path: '/eventos' },
+      { name: 'Proveedores', path: '/proveedores' },
+    ],
+  },
+  {
+    name: 'Inventario',
+    items: [
+      { name: 'Inventario', path: '/inventario' },
+      { name: 'Proveedores', path: '/proveedores' },
+      { name: 'Productos', path: '/inventario/productos' },
+    ],
+  },
+];
+
 export const ADMIN_MEMBERS_TABLE_HEADERS = [
   { key: 'position', label: 'Rol' },
   { key: 'firstName', label: 'Nombre' },
@@ -82,32 +110,4 @@ export const EVENTS_TABLE_HEADERS = [
 export const NAV_LINKS = [
   { name: 'Home', path: '/' },
   { name: 'Ayuda', path: '/ayuda' },
-];
-
-export const DROPDOWN_MENUS = [
-  {
-    name: 'Aportaciones',
-    items: [
-      { name: 'Aportantes', path: '/aportaciones/aportantes' },
-      {
-        name: 'Planes de suscripción',
-        path: '/aportaciones/planes-aportacion',
-      },
-    ],
-  },
-  {
-    name: 'Eventos',
-    items: [
-      { name: 'Próximos eventos', path: '/eventos' },
-      { name: 'Proveedores', path: '/proveedores' },
-    ],
-  },
-  {
-    name: 'Inventario',
-    items: [
-      { name: 'Inventario', path: '/inventario' },
-      { name: 'Proveedores', path: '/proveedores' },
-      { name: 'Productos', path: '/inventario/productos' },
-    ],
-  },
 ];

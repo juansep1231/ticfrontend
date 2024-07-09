@@ -81,6 +81,8 @@ export const FinantialPage = () => {
         transactions={transactions}
         onEdit={openEditTransactionModal}
         onDelete={handleDeleteTransaction}
+        error={null}
+        isLoading={false}
       />
 
       <EditTransactionModal

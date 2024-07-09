@@ -6,11 +6,11 @@ import {
   Text,
   IconButton,
   VStack,
+  useDisclosure,
   Menu,
   MenuButton,
   MenuList,
   MenuItem,
-  useDisclosure,
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon, ChevronDownIcon } from '@chakra-ui/icons';
 import { NavLink as RouterLink } from 'react-router-dom';
@@ -21,12 +21,18 @@ const MotionVStack = motion(VStack);
 
 export const ModulesNavbar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [openMenu, setOpenMenu] = useState('');
+
   const toggleMenu = () => {
     if (isOpen) {
       onClose();
     } else {
       onOpen();
     }
+  };
+
+  const handleMenuClick = (menuName: string) => {
+    setOpenMenu(openMenu === menuName ? '' : menuName);
   };
 
   const menuIcon = isOpen ? (
@@ -130,9 +136,9 @@ export const ModulesNavbar = () => {
         />
       </Flex>
       <AnimatePresence>
-        {isOpen ? (
+        {isOpen && (
           <MotionVStack
-            initial={{ height: 1, opacity: 0 }}
+            initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{
@@ -148,21 +154,59 @@ export const ModulesNavbar = () => {
             }}
           >
             {DROPDOWN_MENUS.map((menu) => (
-              <Menu key={menu.name}>
-                <MenuButton
-                  as={ChakraLink}
-                  sx={{ display: 'flex', alignItems: 'center' }}
+              <Box key={menu.name} w="100%">
+                <ChakraLink
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    width: '100%',
+                    justifyContent: 'center',
+                    cursor: 'pointer',
+                    color: 'text.500',
+                    fontWeight: 'normal',
+                  }}
+                  onClick={() => handleMenuClick(menu.name)}
                 >
-                  {menu.name} <ChevronDownIcon />
-                </MenuButton>
-                <MenuList>
-                  {menu.items.map((item) => (
-                    <MenuItem key={item.path} as={RouterLink} to={item.path}>
-                      {item.name}
-                    </MenuItem>
-                  ))}
-                </MenuList>
-              </Menu>
+                  <ChevronDownIcon /> {menu.name}
+                </ChakraLink>
+                <AnimatePresence>
+                  {openMenu === menu.name && (
+                    <MotionVStack
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{
+                        height: { duration: 0.2 },
+                        opacity: { duration: 0.2 },
+                      }}
+                      sx={{
+                        alignItems: 'center',
+                        overflow: 'hidden',
+                        gap: 'md',
+                        mt: 'md',
+                      }}
+                    >
+                      {menu.items.map((item) => (
+                        <ChakraLink
+                          key={item.path}
+                          as={RouterLink}
+                          to={item.path}
+                          sx={{
+                            _activeLink: {
+                              textColor: 'primary.300',
+                              fontWeight: 'semibold',
+                            },
+                            textAlign: 'center',
+                            w: '100%',
+                          }}
+                        >
+                          {item.name}
+                        </ChakraLink>
+                      ))}
+                    </MotionVStack>
+                  )}
+                </AnimatePresence>
+              </Box>
             ))}
             {MODULES_NAVLINK.map((module) => (
               <ChakraLink
@@ -180,7 +224,7 @@ export const ModulesNavbar = () => {
               </ChakraLink>
             ))}
           </MotionVStack>
-        ) : null}
+        )}
       </AnimatePresence>
     </Box>
   );
