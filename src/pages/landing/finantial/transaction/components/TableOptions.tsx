@@ -8,7 +8,7 @@ import {
   InputLeftElement,
 } from '@chakra-ui/react';
 
-import { Transaction } from '../../../../types/finantial-models';
+import { Transaction } from '../../../../../types/finantial-models';
 import { AddTransactionModal } from './AddTransactionModal';
 
 interface TableOptionsProps {

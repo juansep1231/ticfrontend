@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
@@ -12,33 +12,47 @@ import {
   Button,
 } from '@chakra-ui/react';
 
-import { FormField } from '../../../../components/FormField';
-import { transactionSchema } from '../../../../utils/finantial-validations-helper';
+import { FormField } from '../../../../../components/FormField';
+import { transactionSchema } from '../../../../../utils/finantial-validations-helper';
 
-import { Transaction } from '../../../../types/finantial-models';
+import { Transaction } from '../../../../../types/finantial-models';
 
-interface AddTransactionModalProps {
+interface EditTransactionModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onAddTransaction: (transaction: Transaction) => void;
+  transaction: Transaction | null;
+  onSubmit: (data: { transaction: Transaction }) => void;
 }
 
-export const AddTransactionModal = ({
+export const EditTransactionModal = ({
   isOpen,
   onClose,
-  onAddTransaction,
-}: AddTransactionModalProps) => {
+  transaction,
+  onSubmit,
+}: EditTransactionModalProps) => {
   const {
     handleSubmit,
     register,
+    setValue,
     formState: { errors },
   } = useForm<Transaction>({
     resolver: yupResolver(transactionSchema),
   });
 
-  const onSubmit = (data: Transaction) => {
-    console.log('Transacción agregada:', data);
-    onAddTransaction(data);
+  useEffect(() => {
+    if (transaction) {
+      // Set initial form values when info prop changes
+      Object.keys(transaction).forEach((key) => {
+        setValue(
+          key as keyof Transaction,
+          transaction[key as keyof Transaction]
+        );
+      });
+    }
+  }, [transaction, setValue]);
+
+  const handleFormSubmit = (data: Transaction) => {
+    onSubmit({ transaction: data });
     onClose();
   };
 
@@ -47,7 +61,7 @@ export const AddTransactionModal = ({
       <ModalOverlay />
       <ModalContent sx={{ p: 'sm' }}>
         <ModalHeader color="brand.blue" textAlign="center">
-          Agregar Transacción
+          Editar Transacción
         </ModalHeader>
         <ModalCloseButton />
         <ModalBody textColor="text.default">
@@ -96,7 +110,7 @@ export const AddTransactionModal = ({
             errors={errors.description}
           />
           <ModalFooter>
-            <Button type="submit" onClick={handleSubmit(onSubmit)}>
+            <Button type="submit" onClick={handleSubmit(handleFormSubmit)}>
               Guardar
             </Button>
           </ModalFooter>

@@ -1,7 +1,7 @@
-import { Heading, Flex, Text } from '@chakra-ui/react';
+import { Heading, Flex, Text, Link } from '@chakra-ui/react';
 import { useState } from 'react';
 
-import { Transaction } from '../../../types/finantial-models';
+import { Transaction } from '../../../../types/finantial-models';
 
 import { TransactionTable } from './components/TransactionTable';
 import { EditTransactionModal } from './components/EditTransactionModal';
@@ -45,7 +45,7 @@ export const initialTransactions: Transaction[] = [
   },
 ];
 
-export const FinantialPage = () => {
+export const TransactionPage = () => {
   const [isEditTransactionModalOpen, setEditTransactionModalOpen] =
     useState(false);
   const [selectedTrasaction, setSelectedTransaction] =
@@ -74,8 +74,15 @@ export const FinantialPage = () => {
     >
       <Heading>Transacciones</Heading>
       <Text sx={{ color: 'text.default', textAlign: 'justify' }}>
-        En este módulo puedes registrar los movimientos de dinero de la
-        Federaciones de Estudiantes de la Escuela Politécnica Nacional.
+        Antes de añadir una transacción, asegúrate de que las cuentas contables
+        que necesitas ya se encuentren registradas. En caso de no estar seguro
+        revisa las
+        <Link
+          href="/finanzas/cuentas-contables"
+          sx={{ color: 'brand.blue', ml: '3xs' }}
+        >
+          cuentas contables disponibles.
+        </Link>
       </Text>
       <TransactionTable
         transactions={transactions}
