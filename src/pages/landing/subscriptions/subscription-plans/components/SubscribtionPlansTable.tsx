@@ -113,7 +113,7 @@ export const SubscriptionPlansTable = ({
           <Tbody>
             {plans.length === 0 ? (
               <Tr>
-                <Td colSpan={SUBSCRIPTION_PLAN_TABLE_HEADERS.length}>
+                <Td colSpan={SUBSCRIPTION_PLAN_TABLE_HEADERS.length + 1}>
                   No olvides ingresar planes de aportación.
                 </Td>
               </Tr>

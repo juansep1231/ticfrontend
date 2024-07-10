@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Table,
   Thead,
@@ -12,43 +12,43 @@ import {
 } from '@chakra-ui/react';
 
 import { ConfirmationModal } from '../../../../../components/ConfirmationModal';
-import { SUBSCRIBER_TABLE_HEADERS } from '../../../../../utils/constants';
-import { Subscriber } from '../../../../../types/subscription-models';
+import { TRANSACTION_TABLE_HEADERS } from '../../../../../utils/constants';
+import { Transaction } from '../../../../../types/finantial-models';
 
 import { TableOptions } from './TableOptions';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 
-interface SubscribersTableProps {
-  subscribers: Subscriber[];
+interface TransactionTableProps {
+  transactions: Transaction[];
   error: Error | null;
   isLoading: boolean;
-  onEdit: (subscriber: Subscriber) => void;
+  onEdit: (transaction: Transaction) => void;
   onDelete: (id: number | undefined) => void;
 }
 
-export const SubscribersTable = ({
-  subscribers,
+export const TransactionTable = ({
+  transactions,
   error,
   isLoading,
   onEdit,
   onDelete,
-}: SubscribersTableProps) => {
+}: TransactionTableProps) => {
   //const { data: members, isLoading, error } = useFetchData(url);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedSubscriberId, setSelectedSubscriberId] = useState<
+  const [selectedTransactionId, setSelectedTransactionId] = useState<
     number | undefined
   >();
 
   //useErrorToast(error);
 
   const handleDeleteClick = (id: number | undefined) => {
-    setSelectedSubscriberId(id);
+    setSelectedTransactionId(id);
     setIsModalOpen(true);
   };
 
   const handleConfirmDelete = () => {
-    if (selectedSubscriberId !== undefined) {
-      onDelete(selectedSubscriberId);
+    if (selectedTransactionId !== undefined) {
+      onDelete(selectedTransactionId);
     }
     setIsModalOpen(false);
   };
@@ -64,8 +64,8 @@ export const SubscribersTable = ({
   return (
     <Flex sx={{ flexDirection: 'column', gap: 'md' }}>
       <TableOptions
-        searchSubscriber={''}
-        onSearchSubscriberChange={function (name: string): void {
+        searchTransaction={''}
+        onSearchTransactionChange={function (name: string): void {
           throw new Error('Function not implemented.');
         }}
       />
@@ -103,7 +103,7 @@ export const SubscribersTable = ({
                   width: '20',
                 }}
               ></Th>
-              {SUBSCRIBER_TABLE_HEADERS.map((header, index) => (
+              {TRANSACTION_TABLE_HEADERS.map((header, index) => (
                 <Th
                   key={index}
                   sx={{
@@ -117,15 +117,15 @@ export const SubscribersTable = ({
             </Tr>
           </Thead>
           <Tbody>
-            {subscribers.length === 0 ? (
+            {transactions.length === 0 ? (
               <Tr>
-                <Td colSpan={SUBSCRIBER_TABLE_HEADERS.length + 1}>
-                  No olvides ingresar aportantes.
+                <Td colSpan={TRANSACTION_TABLE_HEADERS.length + 1}>
+                  No olvides ingresar transacciones.
                 </Td>
               </Tr>
             ) : (
-              subscribers.map((subscriber) => (
-                <Tr key={subscriber.id}>
+              transactions.map((transaction) => (
+                <Tr key={transaction.id}>
                   <Td>
                     <Flex
                       sx={{
@@ -134,9 +134,9 @@ export const SubscribersTable = ({
                       }}
                     >
                       <IconButton
-                        aria-label="Edit Event"
+                        aria-label="Edit Transaction"
                         icon={<FaEdit size={16} />}
-                        onClick={() => onEdit(subscriber)}
+                        onClick={() => onEdit(transaction)}
                         size="sm"
                         sx={{
                           bg: 'none',
@@ -150,7 +150,7 @@ export const SubscribersTable = ({
                       <IconButton
                         aria-label="Delete Event"
                         icon={<FaTrash size={16} />}
-                        onClick={() => handleDeleteClick(subscriber.id)}
+                        onClick={() => handleDeleteClick(transaction.id)}
                         size="sm"
                         sx={{
                           bg: 'none',
@@ -163,13 +163,12 @@ export const SubscribersTable = ({
                       />
                     </Flex>
                   </Td>
-                  <Td>{subscriber.date}</Td>
-                  <Td>{subscriber.name}</Td>
-                  <Td>{subscriber.faculty}</Td>
-                  <Td>{subscriber.career}</Td>
-                  <Td>{subscriber.email}</Td>
-                  <Td>{subscriber.plan}</Td>
-                  <Td>{subscriber.price}</Td>
+                  <Td>{transaction.date}</Td>
+                  <Td>{transaction.originAccount}</Td>
+                  <Td>{transaction.destinationAccount}</Td>
+                  <Td>{transaction.value}</Td>
+                  <Td>{transaction.transactionType}</Td>
+                  <Td>{transaction.description}</Td>
                 </Tr>
               ))
             )}
@@ -181,8 +180,8 @@ export const SubscribersTable = ({
         isOpen={isModalOpen}
         onClose={handleCloseModal}
         onConfirm={handleConfirmDelete}
-        title="Eliminar aportante"
-        body="¿Estás seguro de que deseas eliminar este aportante?"
+        title="Eliminar transacción"
+        body="¿Estás seguro de que deseas eliminar esta transacción?"
       />
     </Flex>
   );

@@ -119,8 +119,8 @@ export const SuppliersTable = ({
           <Tbody>
             {suppliers.length === 0 ? (
               <Tr>
-                <Td colSpan={SUPPLIERS_TABLE_HEADERS.length}>
-                  No olvides ingresar eventos
+                <Td colSpan={SUPPLIERS_TABLE_HEADERS.length + 1}>
+                  No olvides ingresar proveedores.
                 </Td>
               </Tr>
             ) : (

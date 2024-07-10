@@ -118,8 +118,8 @@ export const InventoryTable = ({
           <Tbody>
             {movements.length === 0 ? (
               <Tr>
-                <Td colSpan={INVENTORY_TABLE_HEADERS.length}>
-                  No olvides ingresar eventos
+                <Td colSpan={INVENTORY_TABLE_HEADERS.length + 1}>
+                  No olvides ingresar movimientos de inventario.
                 </Td>
               </Tr>
             ) : (

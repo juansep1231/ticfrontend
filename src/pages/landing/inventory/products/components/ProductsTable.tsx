@@ -119,8 +119,8 @@ export const ProductsTable = ({
           <Tbody>
             {products.length === 0 ? (
               <Tr>
-                <Td colSpan={PRODUCTS_TABLE_HEADERS.length}>
-                  No olvides ingresar eventos
+                <Td colSpan={PRODUCTS_TABLE_HEADERS.length + 1}>
+                  No olvides ingresar productos.
                 </Td>
               </Tr>
             ) : (
