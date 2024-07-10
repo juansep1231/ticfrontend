@@ -1,5 +1,3 @@
-export const MODULES_NAVLINK = [{ name: 'Finanzas', path: '/finanzas' }];
-
 export const DROPDOWN_MENUS = [
   {
     name: 'Aportaciones',
@@ -26,6 +24,13 @@ export const DROPDOWN_MENUS = [
       { name: 'Productos', path: '/inventario/productos' },
     ],
   },
+  {
+    name: 'Financiero',
+    items: [
+      { name: 'Transacciones', path: '/finanzas/transacciones' },
+      { name: 'Cuentas Contables', path: '/finanzas/cuentas-contables' },
+    ],
+  },
 ];
 
 export const ADMIN_MEMBERS_TABLE_HEADERS = [
@@ -43,6 +48,13 @@ export const ADMIN_MEMBERS_TABLE_HEADERS = [
 export const INFO_TABLE_HEADERS = [
   { key: 'mission', label: 'Misión' },
   { key: 'vision', label: 'Visión' },
+];
+
+export const ACCOUNT_TABLE_HEADERS = [
+  'Tipo de Cuenta', //Selector: Bancos, cuentas por pagar, inventario
+  'Cuenta', //I Nombre de la cuenta
+  'Valor Actual', //I number mayor a cero
+  'Fecha de creación', //Picker
 ];
 
 export const SUBSCRIBER_TABLE_HEADERS = [

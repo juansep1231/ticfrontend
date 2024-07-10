@@ -7,3 +7,11 @@ export interface Transaction {
   transactionType: string;
   description: string;
 }
+
+export interface Account {
+  id?: number;
+  accountType: string;
+  accountName: string;
+  currentValue: number;
+  date: string;
+}
