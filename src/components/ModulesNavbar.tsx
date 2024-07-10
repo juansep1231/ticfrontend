@@ -15,7 +15,7 @@ import {
 import { HamburgerIcon, CloseIcon, ChevronDownIcon } from '@chakra-ui/icons';
 import { NavLink as RouterLink } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MODULES_NAVLINK, DROPDOWN_MENUS } from '../utils/constants';
+import { DROPDOWN_MENUS } from '../utils/constants';
 
 const MotionVStack = motion(VStack);
 
@@ -103,21 +103,6 @@ export const ModulesNavbar = () => {
                 ))}
               </MenuList>
             </Menu>
-          ))}
-          {MODULES_NAVLINK.map((module) => (
-            <ChakraLink
-              key={module.path}
-              as={RouterLink}
-              to={module.path}
-              sx={{
-                _activeLink: {
-                  textColor: 'primary.300',
-                  fontWeight: 'semibold',
-                },
-              }}
-            >
-              {module.name}
-            </ChakraLink>
           ))}
         </Flex>
         <IconButton
@@ -207,21 +192,6 @@ export const ModulesNavbar = () => {
                   )}
                 </AnimatePresence>
               </Box>
-            ))}
-            {MODULES_NAVLINK.map((module) => (
-              <ChakraLink
-                key={module.path}
-                as={RouterLink}
-                to={module.path}
-                sx={{
-                  _activeLink: {
-                    textColor: 'primary.300',
-                    fontWeight: 'semibold',
-                  },
-                }}
-              >
-                {module.name}
-              </ChakraLink>
             ))}
           </MotionVStack>
         )}

@@ -17,7 +17,7 @@ export const Layout = ({ children }: LayoutProps) => {
   return (
     <Flex sx={{ flexDirection: 'column', minHeight: '100vh' }}>
       <Navbar />
-      {user && <ModulesNavbar />}
+      <ModulesNavbar />
       <Flex
         flex="1"
         sx={{

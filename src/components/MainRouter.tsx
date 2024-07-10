@@ -8,7 +8,8 @@ import { AdminHome } from '../pages/admin/AdminHomePage';
 import { ResetPasswordPage } from '../pages/reset-password/ResetPassword';
 import { EventsPage } from '../pages/landing/events/EventPage';
 import { ProductsPage } from '../pages/landing/inventory/products/ProductsPage';
-import { FinantialPage } from '../pages/landing/finantial/FinantialPage';
+import { TransactionPage } from '../pages/landing/finantial/transaction/TransactionPage';
+import { AccountPage } from '../pages/landing/finantial/accounts/AccountPage';
 import { InventoryPage } from '../pages/landing/inventory/InventoryPage';
 import { SuppliersPage } from '../pages/landing/suppliers/SuppliersPage';
 import { SubscribersPage } from '../pages/landing/subscriptions/subscribers/SusbcribersPage';
@@ -77,9 +78,9 @@ const router = createBrowserRouter([
   {
     path: '/eventos',
     element: (
-        <Layout>
-          <EventsPage />
-        </Layout>
+      <Layout>
+        <EventsPage />
+      </Layout>
     ),
   },
   {
@@ -91,10 +92,18 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: '/finanzas',
+    path: '/finanzas/transacciones',
     element: (
       <Layout>
-        <FinantialPage />
+        <TransactionPage />
+      </Layout>
+    ),
+  },
+  {
+    path: '/finanzas/cuentas-contables',
+    element: (
+      <Layout>
+        <AccountPage />
       </Layout>
     ),
   },
