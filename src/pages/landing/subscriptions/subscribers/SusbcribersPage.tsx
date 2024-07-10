@@ -5,6 +5,7 @@ import { Subscriber } from '../../../../types/subscription-models';
 
 import { SubscribersTable } from './components/SubscribersTable';
 import { EditSubscriberModal } from './components/EditSubscriberModal';
+import { useFetchContributors } from '../../../../hooks/organizational/fetchContributorHook';
 
 export const initialSubscribers: Subscriber[] = [
   {
@@ -67,6 +68,14 @@ export const SubscribersPage = () => {
   const [subscribers, setSubscribers] =
     useState<Subscriber[]>(initialSubscribers);
 
+
+    const {
+      contributors,
+      isLoadingContributors,
+      contributorErrors,
+      updateContributorState,
+    } = useFetchContributors();
+
   const handleEditMovement = (data: { subscriber: Subscriber }) => {
     console.log('Movimiento de inventario actualizado:', data.subscriber);
   };
@@ -98,7 +107,7 @@ export const SubscribersPage = () => {
         </Link>
       </Text>
       <SubscribersTable
-        subscribers={subscribers}
+        subscribers={contributors}
         onEdit={openEditMovementModal}
         onDelete={handleDeleteMovement}
         error={null}

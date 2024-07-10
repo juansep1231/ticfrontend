@@ -3,6 +3,7 @@ import { ProductsTable } from './components/ProductsTable';
 import { useState } from 'react';
 import { Product } from '../../../../types/inventory-models';
 import { EditProductModal } from './components/EditProducModal';
+import { useFetchProducts } from '../../../../hooks/inventory/fetchProductHook';
 
 export const initialProducts: Product[] = [
   {
@@ -51,14 +52,18 @@ export const initialProducts: Product[] = [
 export const ProductsPage = () => {
   const [isEditProductModalOpen, setEditProductModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [products, setProducts] = useState<Product[]>(initialProducts);
-
+  const {
+    products,
+    isLoadingProducts,
+    productErrors,
+    updateProductState,
+  } = useFetchProducts();
   const handleEditProduct = (data: { product: Product }) => {
     console.log('Producto actualizado:', data.product);
   };
 
   const handleDeleteProduct = (id: number | undefined) => {
-    setProducts(products.filter((event) => event.id !== id));
+    //setProducts(products.filter((event) => event.id !== id));
     console.log('Producto eliminado:', id);
   };
 

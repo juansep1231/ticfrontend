@@ -1,5 +1,6 @@
 export interface Subscriber {
   id?: number;
+  state_id?: number;
   date: string;
   name: string;
   faculty: string;
@@ -11,6 +12,7 @@ export interface Subscriber {
 
 export interface SubscriptionPlan {
   id?: number;
+  state_id?: number;
   planName: string;
   price: number;
   benefits: string;

@@ -3,6 +3,7 @@ import { SubscriptionPlansTable } from './components/SubscribtionPlansTable';
 import { useState } from 'react';
 import { SubscriptionPlan } from '../../../../types/subscription-models';
 import { EditSubscriptionPlanrModal } from './components/EditSubscriptionPlanModal';
+import { useFetchContributionPlans } from '../../../../hooks/organizational/fetchContributionPlan';
 
 export const initialSubscriptionPlans: SubscriptionPlan[] = [
   {
@@ -62,6 +63,13 @@ export const SubscriptionPlansPage = () => {
     initialSubscriptionPlans
   );
 
+  const {
+    contributionPlans,
+    isLoadingContributionPlans,
+    contributionPlanErrors,
+    updateContributionPlanState,
+  } =  useFetchContributionPlans();
+  
   const handleEditTransaction = (data: { plan: SubscriptionPlan }) => {
     console.log('Plan actualizado:', data.plan);
   };
@@ -92,7 +100,7 @@ export const SubscriptionPlansPage = () => {
         </Link>
       </Text>
       <SubscriptionPlansTable
-        plans={transactions}
+        plans={ contributionPlans}
         onEdit={openEditTransactionModal}
         onDelete={handleDeleteTransaction}
         error={null}

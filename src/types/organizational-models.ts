@@ -64,7 +64,7 @@ export interface Member {
 export interface User {
   id?: number;
   email: string;
-  position: string;
+  position?: string;
   password: string;
 }
 

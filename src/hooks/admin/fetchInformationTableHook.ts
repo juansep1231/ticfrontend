@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { OrganizationalInfo } from '../../types/organizational-models';
+import { DEFAULT_STATE } from '../../utils/constants';
 
 export const useFetchAssociations = () => {
   const [associations, setData] = useState<OrganizationalInfo[]>([]);
@@ -50,7 +51,7 @@ export const useFetchAssociations = () => {
   };
 
   const filteredAssociations = associations.filter(
-    (item) => item.state_id === 1
+    (item) => item.state_id === DEFAULT_STATE
   );
 
   return {
@@ -62,3 +63,17 @@ export const useFetchAssociations = () => {
 };
 
 export default useFetchAssociations;
+
+
+
+export interface ContributorDTO {
+  id?: number;
+  state_id?: number;
+  plan: string;
+  price: string;
+  date: string;
+  name: string;
+  career: string;
+  faculty: string;
+  email: string;
+}

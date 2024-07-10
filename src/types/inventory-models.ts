@@ -8,6 +8,7 @@ export interface Inventory {
 
 export interface Product {
   id?: number;
+  stateid?:number;
   name: string;
   category: string;
   description: string;

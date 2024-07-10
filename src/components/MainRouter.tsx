@@ -77,11 +77,9 @@ const router = createBrowserRouter([
   {
     path: '/eventos',
     element: (
-      <ProtectedRoute authorizedRoles={[VICEPRESIDENTE_ACADEMICO]}>
         <Layout>
           <EventsPage />
         </Layout>
-      </ProtectedRoute>
     ),
   },
   {

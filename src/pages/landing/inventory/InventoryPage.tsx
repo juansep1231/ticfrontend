@@ -3,6 +3,7 @@ import { InventoryTable } from './components/InventoryTable';
 import { useState } from 'react';
 import { Inventory } from '../../../types/inventory-models';
 import { EditInventoryModal } from './components/EditInventoryModal';
+import { useFetchInventoryMovements } from '../../../hooks/inventory/fetchInventoryHook';
 
 export const initialInventory: Inventory[] = [
   {
@@ -56,6 +57,13 @@ export const InventoryPage = () => {
   );
   const [movements, setMovements] = useState<Inventory[]>(initialInventory);
 
+  const {
+    inventoryMovements,
+    isLoadingInventoryMovements,
+    inventoryMovementErrors,
+    updateInventoryMovementState,
+  } = useFetchInventoryMovements();
+
   const handleEditMovement = (data: { movements: Inventory }) => {
     console.log('Movimiento de inventario actualizado:', data.movements);
   };
@@ -92,7 +100,7 @@ export const InventoryPage = () => {
         </Link>
       </Text>
       <InventoryTable
-        movements={movements}
+        movements={inventoryMovements}
         onEdit={openEditMovementModal}
         onDelete={handleDeleteMovement}
         error={null}

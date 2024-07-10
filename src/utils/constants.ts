@@ -111,3 +111,6 @@ export const NAV_LINKS = [
   { name: 'Home', path: '/' },
   { name: 'Ayuda', path: '/ayuda' },
 ];
+
+export const DEFAULT_STATE = 1;
+export const INACTIVE_STATE = 2;

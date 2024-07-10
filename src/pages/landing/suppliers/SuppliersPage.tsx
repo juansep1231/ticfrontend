@@ -5,6 +5,7 @@ import { Supplier } from '../../../types/supplier-models';
 
 import { SuppliersTable } from './components/SuppliersTable';
 import { EditSupplierModal } from './components/EditSupplierModal';
+import { useFetchProviders } from '../../../hooks/inventory/fetchProviderHook';
 
 export const initialSuppliers: Supplier[] = [
   {
@@ -65,7 +66,12 @@ export const SuppliersPage = () => {
     setSelectedSupplier(supplier);
     setEditSupplierModalOpen(true);
   };
-
+  const {
+    providers,
+    isLoadingProviders,
+    providerErrors,
+    updateProviderState,
+  } = useFetchProviders();
   return (
     <Flex
       flex="1"
@@ -83,7 +89,7 @@ export const SuppliersPage = () => {
         </Link>
       </Text>
       <SuppliersTable
-        suppliers={suppliers}
+        suppliers={providers}
         onEdit={openEditMovementModal}
         onDelete={handleDeleteMovement}
         error={null}

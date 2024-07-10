@@ -12,7 +12,7 @@ export const userSchema = yup.object().shape({
     .string()
     .required('El correo es obligatorio')
     .email('El correo no es válido'),
-  position: yup.string().required('El rol es obligatorio'),
+  position: yup.string().optional(),
   password: yup.string().required('La contraseña es obligatoria'),
 });
 
