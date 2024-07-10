@@ -69,9 +69,10 @@ export const AddProductModal = ({
           <FormField
             id="category"
             label="Categoría del producto"
-            placeholder="Ingrese la categoría"
+            placeholder="Seleccione la categoría"
             register={register}
             errors={errors.category}
+            options={['Categoría 1', 'Categoría 2', 'Categoría 3']}
           />
           <FormField
             id="description"
@@ -97,10 +98,9 @@ export const AddProductModal = ({
           <FormField
             id="label"
             label="Etiqueta"
-            placeholder="Seleccione la etiqueta del producto"
+            placeholder="Ingrese la etiqueta del producto"
             register={register}
             errors={errors.label}
-            options={['Etiqueta 1', 'Etiqueta 2', 'Etiqueta 3']}
           />
           <FormField
             id="provider"
