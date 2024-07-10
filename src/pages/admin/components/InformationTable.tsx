@@ -110,7 +110,7 @@ export const InformationTable = ({
           <Tbody>
             {info.length === 0 ? (
               <Tr>
-                <Td colSpan={INFO_TABLE_HEADERS.length}>
+                <Td colSpan={INFO_TABLE_HEADERS.length + 1}>
                   No olvides ingresar la información organizacional
                 </Td>
               </Tr>

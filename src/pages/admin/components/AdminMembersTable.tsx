@@ -112,7 +112,7 @@ export const AdminMembersTable = ({
           <Tbody>
             {members.length === 0 ? (
               <Tr>
-                <Td colSpan={ADMIN_MEMBERS_TABLE_HEADERS.length}>
+                <Td colSpan={ADMIN_MEMBERS_TABLE_HEADERS.length + 1}>
                   No olvides ingresar miembros administrativos
                 </Td>
               </Tr>

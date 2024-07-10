@@ -120,8 +120,8 @@ export const EventsTable = ({
           <Tbody>
             {events.length === 0 ? (
               <Tr>
-                <Td colSpan={EVENTS_TABLE_HEADERS.length}>
-                  No olvides ingresar eventos
+                <Td colSpan={EVENTS_TABLE_HEADERS.length + 1}>
+                  No olvides ingresar eventos.
                 </Td>
               </Tr>
             ) : (
