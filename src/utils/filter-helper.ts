@@ -1,12 +1,18 @@
-import { EventView } from '../types/event-models';
+import { BudgetRequest, EventView } from '../types/event-models';
 import { Account, Transaction } from '../types/finantial-models';
 import { Inventory, Product } from '../types/inventory-models';
 import { Subscriber, SubscriptionPlan } from '../types/subscription-models';
 import { Supplier } from '../types/supplier-models';
 
-export interface Filters {
-  parameter: string;
-}
+export const budgetRequestFilterByEventName = (
+  requests: BudgetRequest[],
+  eventName: string
+): BudgetRequest[] => {
+  if (!eventName) return requests;
+  return requests.filter((request) =>
+    request.eventName.toLowerCase().includes(eventName.toLowerCase())
+  );
+};
 
 export const accountFilterByName = (
   accounts: Account[],
