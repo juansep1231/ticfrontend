@@ -11,7 +11,10 @@ export const DROPDOWN_MENUS = [
   },
   {
     name: 'Eventos',
-    items: [{ name: 'Próximos eventos', path: '/eventos' }],
+    items: [
+      { name: 'Próximos eventos', path: '/eventos' },
+      { name: 'Solicitar presupuesto', path: '/eventos/solicitud-presupuesto' },
+    ],
   },
   {
     name: 'Inventario',
@@ -45,6 +48,13 @@ export const ADMIN_MEMBERS_TABLE_HEADERS = [
 export const INFO_TABLE_HEADERS = [
   { key: 'mission', label: 'Misión' },
   { key: 'vision', label: 'Visión' },
+];
+
+export const BUDGET_REQUEST_TABLE_HEADERS = [
+  'Nombre del evento', //selector
+  'Estado de la solicitud', //selector
+  'Motivo', //I
+  'Valor', //I
 ];
 
 export const ACCOUNT_TABLE_HEADERS = [

@@ -20,3 +20,16 @@ export const eventsSchema = yup.object().shape({
     .positive('Los ingresos deben ser un número positivo')
     .optional(),
 });
+
+export const budgetRequestSchema = yup.object().shape({
+  id: yup.number().integer().positive().optional(),
+  eventName: yup.string().required('El nombre del evento es obligatorio'),
+  requestStatusName: yup
+    .string()
+    .required('El estado de la solicitud es obligatorio'),
+  reason: yup.string().required('La razón es obligatoria'),
+  value: yup
+    .number()
+    .positive('El valor debe ser un número positivo')
+    .required('El valor es obligatorio'),
+});

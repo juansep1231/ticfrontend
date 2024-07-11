@@ -4,32 +4,67 @@ export const modulesFeatIcons: TypeFi[] = [
   'FiUsers',
   'FiTrendingUp',
   'FiFileText',
+  'FiAward',
   'FiCalendar',
+  'FiBox',
+  'FiBriefcase',
+  'FiDollarSign',
+  'FiCreditCard',
 ];
 
 export const moduleCardData = [
   {
-    to: '/organizational',
-    title: 'Aportaciones',
+    to: '/aportaciones/aportantes',
+    title: 'Aportantes',
     description:
-      'Proporciona un resumen sobre los estudiantes que aportan a la federación de estudiantes.',
+      'Consulta la lista de estudiantes que participan en los planes de aportación de FEPON.',
   },
   {
-    to: '/finantial',
-    title: 'Detalles financieros',
+    to: '/finanzas/cuentas-contables',
+    title: 'Cuentas Contables',
     description:
-      'Descubre quiénes somos, nuestro plan de trabajo, y conoce a los miembros que conforman nuestra organización.',
+      'Obtén información detallada sobre las cuentas contables manejadas por FEPON.',
   },
   {
-    to: '/inventory',
+    to: '/inventario',
     title: 'Inventario',
     description:
-      'Accede a información detallada sobre nuestras finanzas, incluyendo presupuestos, gastos y reportes financieros.',
+      'Gestiona y consulta el inventario de FEPON, incluyendo todos los activos y recursos disponibles.',
   },
   {
-    to: '/events',
-    title: 'Próximos eventos',
+    to: '/aportaciones/planes-aportacion',
+    title: 'Planes de Aportación',
     description:
-      'Mantente informado sobre los eventos y actividades programadas, incluyendo fechas, lugares y detalles importantes.',
+      'Descubre los diferentes planes de aportación y cómo contribuyen los estudiantes a FEPON.',
+  },
+  {
+    to: '/inventario/productos',
+    title: 'Productos',
+    description:
+      'Accede a la lista de productos en inventario, con detalles sobre disponibilidad y gestión.',
+  },
+  {
+    to: '/proveedores',
+    title: 'Proveedores',
+    description:
+      'Consulta y gestiona la información de los proveedores asociados a FEPON.',
+  },
+  {
+    to: '/eventos',
+    title: 'Próximos Eventos',
+    description:
+      'Infórmate sobre los próximos eventos organizados por FEPON y sus detalles.',
+  },
+  {
+    to: '/eventos/solicitud-presupuesto',
+    title: 'Solicitar Presupuesto',
+    description:
+      'Revisa y gestiona las solicitudes de presupuesto para los eventos de FEPON.',
+  },
+  {
+    to: '/finanzas/transacciones',
+    title: 'Transacciones',
+    description:
+      'Revisa los detalles de los movimientos financieros y transacciones realizadas por FEPON.',
   },
 ];

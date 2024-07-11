@@ -203,6 +203,7 @@ export const Home = () => {
             sx={{
               flexWrap: 'wrap',
               flexDirection: { base: 'column', lg: 'row' },
+              gap: { base: 'sm', lg: 'none' },
               justifyContent: 'space-between',
             }}
           >

@@ -5,7 +5,9 @@ import { EditEventModal } from './components/EditEventModal';
 import { EventView } from '../../../types/event-models';
 import useFetchEvents from '../../../hooks/Events/fetchEventHook';
 import { formatISO } from 'date-fns';
-import useUpdateEvent, { CreateUpdateEventDTO } from '../../../hooks/Events/updateEventhook';
+import useUpdateEvent, {
+  CreateUpdateEventDTO,
+} from '../../../hooks/Events/updateEventhook';
 /*
 export const initialEvents: EventView[] = [
   {
@@ -64,8 +66,8 @@ export const EventsPage = () => {
   //const [events, setEvents] = useState<EventView[]>(initialEvents);
   const [searchEvent, setSearchEvent] = useState('');
 
-  const {updateEvent, updateError}= useUpdateEvent();
-  const  handleEditEvent = async (data: { event: EventView }) => {
+  const { updateEvent, updateError } = useUpdateEvent();
+  const handleEditEvent = async (data: { event: EventView }) => {
     try {
       const formattedDate = formatISO(new Date(data.event.startDate));
       const formattedDate2 = formatISO(new Date(data.event.endDate));
@@ -81,7 +83,7 @@ export const EventsPage = () => {
         income: data.event.income,
       };
 
-      await updateEvent(data.event.id!,updatedInfo);
+      await updateEvent(data.event.id!, updatedInfo);
 
       updateEventState(data.event.id!, { ...data.event, ...updatedInfo });
 
@@ -91,12 +93,11 @@ export const EventsPage = () => {
     }
   };
 
-  const { events, isLoadingEvents, eventErrors,updateEventState } = useFetchEvents();
-  
-
+  const { events, isLoadingEvents, eventErrors, updateEventState } =
+    useFetchEvents();
 
   const handleDeleteEvent = (id: number | undefined) => {
-    (events.filter((event) => event.id !== id));
+    events.filter((event) => event.id !== id);
     console.log('Evento eliminado:', id);
   };
 
@@ -116,10 +117,12 @@ export const EventsPage = () => {
     >
       <Heading>Eventos</Heading>
       <Text sx={{ color: 'text.default', textAlign: 'justify' }}>
-        Antes de añadir un evento, asegúrate de que el proveedor ya se encuentre
-        registrado. En caso de no estar seguro revisa los
-        <Link href="/proveedores" sx={{ color: 'brand.blue', ml: '3xs' }}>
-          proveedores disponibles.
+        Ahora que añadiste los eventos necesarios, ya puedes
+        <Link
+          href="/eventos/solicitud-presupuesto"
+          sx={{ color: 'brand.blue', mx: '3xs' }}
+        >
+          solicitar tu presupuesto.
         </Link>
       </Text>
       <EventsTable

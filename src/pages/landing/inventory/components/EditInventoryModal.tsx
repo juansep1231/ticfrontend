@@ -17,8 +17,7 @@ import { inventorySchema } from '../../../../utils/inventory-validations-helper'
 
 import { Inventory } from '../../../../types/inventory-models';
 import { useFetchProducts } from '../../../../hooks/inventory/fetchProductHook';
-import useFetchInventoryMovementTypes from '../../../../hooks/inventory/fetchMovementTypeHooks';
-
+import useFetchInventoryMovementTypes from '../../../../hooks/inventory/fetchMovementType';
 
 interface AddInventoryModalProps {
   isOpen: boolean;
@@ -56,9 +55,11 @@ export const EditInventoryModal = ({
     onClose();
   };
   const { products } = useFetchProducts();
-  const { inventoryMovementTypes} = useFetchInventoryMovementTypes();
-  const productNames = products.map(product => product.name);
-  const inventoryMovementTypesNames = inventoryMovementTypes.map(inventoryMovement => inventoryMovement.movement_Type_Name);
+  const { inventoryMovementTypes } = useFetchInventoryMovementTypes();
+  const productNames = products.map((product) => product.name);
+  const inventoryMovementTypesNames = inventoryMovementTypes.map(
+    (inventoryMovement) => inventoryMovement.movement_Type_Name
+  );
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />

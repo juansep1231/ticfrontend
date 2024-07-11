@@ -8,17 +8,22 @@ export interface CreateUpdateAssociationDTO {
 const usePostAssociation = () => {
   const [postError, setPostError] = useState<string | null>(null);
 
-  const postAssociation = async (newAssociation: CreateUpdateAssociationDTO) => {
+  const postAssociation = async (
+    newAssociation: CreateUpdateAssociationDTO
+  ) => {
     setPostError(null);
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}${import.meta.env.VITE_API_ASSOCIATIONS_ENDPOINT}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newAssociation),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_BASE_URL}${import.meta.env.VITE_API_ASSOCIATIONS_ENDPOINT}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(newAssociation),
+        }
+      );
 
       if (!response.ok) {
         const errorData = await response.json();

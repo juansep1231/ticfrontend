@@ -10,3 +10,11 @@ export interface EventView {
   location: string;
   income?: number;
 }
+
+export interface BudgetRequest {
+  id?: number;
+  eventName: string;
+  requestStatusName: string; //EN REVISION, APROBADO, RECHAZADO
+  reason: string;
+  value: number;
+}

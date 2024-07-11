@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Table,
   Thead,
@@ -7,59 +7,55 @@ import {
   Th,
   TableContainer,
   Flex,
+  Spinner,
   Td,
   IconButton,
-  Spinner,
 } from '@chakra-ui/react';
-
-import { ConfirmationModal } from '../../../../components/ConfirmationModal';
-import { SUPPLIERS_TABLE_HEADERS } from '../../../../utils/constants';
-import { Supplier } from '../../../../types/supplier-models';
-
-import { TableOptions } from './TableOptions';
 import { FaEdit, FaTrash } from 'react-icons/fa';
-import { useErrorToast } from '../../../../hooks/general/useErrorToast';
-import { suppliersFilterByName } from '../../../../utils/filter-helper';
 
-interface SuppliersTableProps {
-  suppliers: Supplier[];
+import { ConfirmationModal } from '../../../../../components/ConfirmationModal';
+import { TableOptions } from './TableOptions';
+import { BudgetRequest } from '../../../../../types/event-models';
+import { useErrorToast } from '../../../../../hooks/general/useErrorToast';
+import { budgetRequestFilterByEventName } from '../../../../../utils/filter-helper';
+import { BUDGET_REQUEST_TABLE_HEADERS } from '../../../../../utils/constants';
+//import { initialEvents } from '../EventPage';
+
+interface BudgetRequestTableProps {
+  budgetRequests: BudgetRequest[];
   error: Error | null;
   isLoading: boolean;
-  onEdit: (supplier: Supplier) => void;
+  onEdit: (request: BudgetRequest) => void;
   onDelete: (id: number | undefined) => void;
-  searchSupplier: string;
-  onSearchSupplierChange: (name: string) => void;
+  searchRequest: string;
+  onSearchRequestChange: (name: string) => void;
 }
 
-export const SuppliersTable = ({
-  suppliers,
+export const BudgetRequestTable = ({
+  budgetRequests,
   error,
   isLoading,
   onEdit,
   onDelete,
-  searchSupplier,
-  onSearchSupplierChange,
-}: SuppliersTableProps) => {
+  searchRequest,
+  onSearchRequestChange,
+}: BudgetRequestTableProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedSupplierId, setSelectedSupplierId] = useState<
+  const [selectedBudgetRequestId, setSelectedBudgetRequestId] = useState<
     number | undefined
   >();
-  const [filteredSuppliers, setFilteredSuppliers] = useState<Supplier[]>([]);
-
-  useEffect(() => {
-    setFilteredSuppliers(suppliersFilterByName(suppliers, searchSupplier));
-  }, [suppliers, searchSupplier]);
+  const [filteredRequests, setFilteredRequests] = useState<BudgetRequest[]>([]);
 
   useErrorToast(error);
 
   const handleDeleteClick = (id: number | undefined) => {
-    setSelectedSupplierId(id);
+    setSelectedBudgetRequestId(id);
     setIsModalOpen(true);
   };
 
   const handleConfirmDelete = () => {
-    if (selectedSupplierId !== undefined) {
-      onDelete(selectedSupplierId);
+    if (selectedBudgetRequestId !== undefined) {
+      onDelete(selectedBudgetRequestId);
     }
     setIsModalOpen(false);
   };
@@ -68,15 +64,21 @@ export const SuppliersTable = ({
     setIsModalOpen(false);
   };
 
-  if (isLoading) {
+  useEffect(() => {
+    setFilteredRequests(
+      budgetRequestFilterByEventName(budgetRequests, searchRequest)
+    );
+  }, [budgetRequests, searchRequest]);
+
+  /*if (isLoading) {
     return <Spinner size="xl" />;
-  }
+  }*/
 
   return (
     <Flex sx={{ flexDirection: 'column', gap: 'md' }}>
       <TableOptions
-        searchSupplier={searchSupplier}
-        onSearchSupplierChange={onSearchSupplierChange}
+        searchBudgetRequest={searchRequest}
+        onSearchBudgetRequestChange={onSearchRequestChange}
       />
       <TableContainer>
         <Table
@@ -112,7 +114,7 @@ export const SuppliersTable = ({
                   width: '20',
                 }}
               ></Th>
-              {SUPPLIERS_TABLE_HEADERS.map((header, index) => (
+              {BUDGET_REQUEST_TABLE_HEADERS.map((header, index) => (
                 <Th
                   key={index}
                   sx={{
@@ -126,15 +128,15 @@ export const SuppliersTable = ({
             </Tr>
           </Thead>
           <Tbody>
-            {filteredSuppliers.length === 0 ? (
+            {filteredRequests.length === 0 ? (
               <Tr>
-                <Td colSpan={SUPPLIERS_TABLE_HEADERS.length + 1}>
-                  No olvides ingresar proveedores.
+                <Td colSpan={BUDGET_REQUEST_TABLE_HEADERS.length + 1}>
+                  No olvides ingresar eventos.
                 </Td>
               </Tr>
             ) : (
-              filteredSuppliers.map((supplier) => (
-                <Tr key={supplier.id}>
+              filteredRequests.map((budgetRequest) => (
+                <Tr key={budgetRequest.id}>
                   <Td>
                     <Flex
                       sx={{
@@ -145,7 +147,7 @@ export const SuppliersTable = ({
                       <IconButton
                         aria-label="Edit Event"
                         icon={<FaEdit size={16} />}
-                        onClick={() => onEdit(supplier)}
+                        onClick={() => onEdit(budgetRequest)}
                         size="sm"
                         sx={{
                           bg: 'none',
@@ -159,7 +161,7 @@ export const SuppliersTable = ({
                       <IconButton
                         aria-label="Delete Event"
                         icon={<FaTrash size={16} />}
-                        onClick={() => handleDeleteClick(supplier.id)}
+                        onClick={() => handleDeleteClick(budgetRequest.id)}
                         size="sm"
                         sx={{
                           bg: 'none',
@@ -172,9 +174,10 @@ export const SuppliersTable = ({
                       />
                     </Flex>
                   </Td>
-                  <Td>{supplier.name}</Td>
-                  <Td>{supplier.phone}</Td>
-                  <Td>{supplier.email}</Td>
+                  <Td>{budgetRequest.eventName}</Td>
+                  <Td>{budgetRequest.requestStatusName}</Td>
+                  <Td>{budgetRequest.reason}</Td>
+                  <Td>{budgetRequest.value}</Td>
                 </Tr>
               ))
             )}
@@ -186,8 +189,8 @@ export const SuppliersTable = ({
         isOpen={isModalOpen}
         onClose={handleCloseModal}
         onConfirm={handleConfirmDelete}
-        title="Eliminar proveedor"
-        body="¿Estás seguro de que deseas eliminar este proveedor?"
+        title="Eliminar evento"
+        body="¿Estás seguro de que deseas eliminar este evento?"
       />
     </Flex>
   );

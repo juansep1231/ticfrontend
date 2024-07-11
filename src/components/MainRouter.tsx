@@ -18,6 +18,7 @@ import { SubscriptionPlansPage } from '../pages/landing/subscriptions/subscripti
 import { Layout } from './Layout';
 import { positions } from '../types/organizational-models';
 import ProtectedRoute from './ProtectedRoute';
+import { BudgetRequestPage } from '../pages/landing/events/budget-request/BudgetRequestPage';
 
 const PRESIDENTE = positions[0];
 const VICEPRESIDENTE_ACADEMICO = positions[1];
@@ -80,6 +81,14 @@ const router = createBrowserRouter([
     element: (
       <Layout>
         <EventsPage />
+      </Layout>
+    ),
+  },
+  {
+    path: '/eventos/solicitud-presupuesto',
+    element: (
+      <Layout>
+        <BudgetRequestPage />
       </Layout>
     ),
   },

@@ -25,9 +25,10 @@ interface FormFieldProps<T extends FieldValues> {
   register: UseFormRegister<T>;
   errors: FieldError | undefined;
   options?: string[];
-  value?: string;
+  defaultValue?: string;
   onChange?: (value: string) => void;
   showPasswordToggle?: boolean;
+  disabled?: boolean;
 }
 
 export const FormField = <T extends FieldValues>({
@@ -38,9 +39,10 @@ export const FormField = <T extends FieldValues>({
   register,
   errors,
   options,
-  value,
+  defaultValue,
   onChange,
   showPasswordToggle = false,
+  disabled = false,
 }: FormFieldProps<T>) => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -62,9 +64,10 @@ export const FormField = <T extends FieldValues>({
       {options ? (
         <Select
           {...register(id)}
-          value={value}
+          defaultValue={defaultValue}
           onChange={handleChange}
           placeholder={placeholder}
+          isDisabled={disabled}
         >
           {options.map((option, index) => (
             <option key={index} value={option}>
@@ -73,39 +76,40 @@ export const FormField = <T extends FieldValues>({
           ))}
         </Select>
       ) : type === 'password' && showPasswordToggle ? (
-        <>
-          <InputGroup>
-            <Input
-              {...register(id)}
-              type={showPassword ? 'text' : 'password'}
-              value={value}
-              placeholder={placeholder}
-              onChange={handleChange}
+        <InputGroup>
+          <Input
+            {...register(id)}
+            type={showPassword ? 'text' : 'password'}
+            defaultValue={defaultValue}
+            placeholder={placeholder}
+            onChange={handleChange}
+            isDisabled={disabled}
+          />
+          <InputRightElement
+            sx={{
+              mr: '3xs',
+            }}
+          >
+            <IconButton
+              aria-label={
+                showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'
+              }
+              icon={showPassword ? <ViewOffIcon /> : <ViewIcon />}
+              onClick={togglePasswordVisibility}
+              sx={{ ml: 'xs' }}
+              variant="unstyled"
+              isDisabled={disabled}
             />
-            <InputRightElement
-              sx={{
-                mr: '3xs',
-              }}
-            >
-              <IconButton
-                aria-label={
-                  showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'
-                }
-                icon={showPassword ? <ViewOffIcon /> : <ViewIcon />}
-                onClick={togglePasswordVisibility}
-                sx={{ ml: 'xs' }}
-                variant="unstyled"
-              />
-            </InputRightElement>
-          </InputGroup>
-        </>
+          </InputRightElement>
+        </InputGroup>
       ) : (
         <Input
           {...register(id)}
           type={type}
-          value={value}
+          defaultValue={defaultValue}
           placeholder={placeholder}
           onChange={handleChange}
+          isDisabled={disabled}
         />
       )}
       <FormErrorMessage>{errors ? errors.message : null}</FormErrorMessage>

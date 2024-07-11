@@ -6,9 +6,10 @@ import { Supplier } from '../../../types/supplier-models';
 import { SuppliersTable } from './components/SuppliersTable';
 import { EditSupplierModal } from './components/EditSupplierModal';
 import { useFetchProviders } from '../../../hooks/inventory/fetchProviderHook';
-import useUpdateProvider, { CreateUpdateProviderDTO } from '../../../hooks/inventory/updateProviderHook';
-import usePatchProviderState from '../../../hooks/inventory/patchProviderHook';
-
+import useUpdateProvider, {
+  CreateUpdateProviderDTO,
+} from '../../../hooks/inventory/updateProviderHook';
+import usePatchProviderState from '../../../hooks/inventory/patchProvider';
 
 export const initialSuppliers: Supplier[] = [
   {
@@ -54,27 +55,26 @@ export const SuppliersPage = () => {
   const [selectedSupplier, setSelectedSupplier] = useState<Supplier | null>(
     null
   );
-  const {
-    providers,
-    isLoadingProviders,
-    providerErrors,
-    updateProviderState,
-  } = useFetchProviders();
-  const {updateProvider, updateError} = useUpdateProvider();
- const {patchProviderState, patchError} = usePatchProviderState();
-
+  const [searchSupplier, setSearchSupplier] = useState('');
+  const { providers, isLoadingProviders, providerErrors, updateProviderState } =
+    useFetchProviders();
+  const { updateProvider, updateError } = useUpdateProvider();
+  const { patchProviderState, patchError } = usePatchProviderState();
 
   const handleEditMovement = async (data: { supplier: Supplier }) => {
     try {
       const updatedInfo: CreateUpdateProviderDTO = {
         name: data.supplier.name,
         phone: data.supplier.phone,
-        email: data.supplier.email       
+        email: data.supplier.email,
       };
 
       await updateProvider(data.supplier.id!, updatedInfo);
 
-      updateProviderState(data.supplier.id!, { ...data.supplier, ...updatedInfo });
+      updateProviderState(data.supplier.id!, {
+        ...data.supplier,
+        ...updatedInfo,
+      });
 
       console.log('Updated organizational information:', data.supplier);
     } catch (error) {
@@ -96,7 +96,11 @@ export const SuppliersPage = () => {
     setSelectedSupplier(supplier);
     setEditSupplierModalOpen(true);
   };
- 
+
+  const handleSearchSupplierChange = (name: string) => {
+    setSearchSupplier(name);
+  };
+
   return (
     <Flex
       flex="1"
@@ -119,6 +123,8 @@ export const SuppliersPage = () => {
         onDelete={handleDeleteMovement}
         error={providerErrors}
         isLoading={isLoadingProviders}
+        searchSupplier={searchSupplier}
+        onSearchSupplierChange={handleSearchSupplierChange}
       />
 
       <EditSupplierModal
