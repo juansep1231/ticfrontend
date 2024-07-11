@@ -40,9 +40,9 @@ export const TableOptions = ({
           <SearchIcon sx={{ color: 'text.default' }} />
         </InputLeftElement>
         <Input
-          type="text"
           value={searchMovement}
           placeholder="Buscar un movimiento de inventario"
+          onChange={(e) => onSearchMovementChange(e.target.value)}
         />
       </InputGroup>
       <Flex sx={{ gap: 'sm' }}>

@@ -5,6 +5,7 @@ import { Transaction } from '../../../../types/finantial-models';
 
 import { TransactionTable } from './components/TransactionTable';
 import { EditTransactionModal } from './components/EditTransactionModal';
+import { useFetchTransactions } from '../../../../hooks/financial/fetchTransactionHook';
 
 export const initialTransactions: Transaction[] = [
   {
@@ -50,21 +51,30 @@ export const TransactionPage = () => {
     useState(false);
   const [selectedTrasaction, setSelectedTransaction] =
     useState<Transaction | null>(null);
-  const [transactions, setTransactions] =
-    useState<Transaction[]>(initialTransactions);
+  const [searchTransaction, setSearchTransaction] = useState('');
 
   const handleEditTransaction = (data: { transaction: Transaction }) => {
     console.log('Transacción actualizado:', data.transaction);
   };
 
   const handleDeleteTransaction = (id: number | undefined) => {
-    setTransactions(transactions.filter((event) => event.id !== id));
     console.log('Transacción eliminado:', id);
   };
 
   const openEditTransactionModal = (trasaction: Transaction) => {
     setSelectedTransaction(trasaction);
     setEditTransactionModalOpen(true);
+  };
+
+  const {
+    transactions,
+    isLoadingTransactions,
+    transactionErrors,
+    updateTransactionState,
+  } = useFetchTransactions();
+
+  const handleSearchTransactionChange = (name: string) => {
+    setSearchTransaction(name);
   };
 
   return (
@@ -90,6 +100,8 @@ export const TransactionPage = () => {
         onDelete={handleDeleteTransaction}
         error={null}
         isLoading={false}
+        searchTransaction={searchTransaction}
+        onSearchTransactionChange={handleSearchTransactionChange}
       />
 
       <EditTransactionModal

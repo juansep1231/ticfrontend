@@ -37,7 +37,11 @@ export const TableOptions = ({
         <InputLeftElement>
           <SearchIcon sx={{ color: 'text.default' }} />
         </InputLeftElement>
-        <Input type="text" value={searchEvent} placeholder="Buscar un evento" />
+        <Input
+          placeholder="Buscar un evento"
+          value={searchEvent}
+          onChange={(e) => onSearchEventChange(e.target.value)}
+        />
       </InputGroup>
       <Flex sx={{ gap: 'sm' }}>
         <Button

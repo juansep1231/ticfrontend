@@ -1,5 +1,6 @@
 export interface Inventory {
   id?: number;
+  stateid?: number;
   product: string;
   movementType: string;
   quantity: number;

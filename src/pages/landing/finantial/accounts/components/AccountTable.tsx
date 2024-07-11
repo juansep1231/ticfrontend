@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Table,
   Thead,
@@ -9,6 +9,7 @@ import {
   Flex,
   Td,
   IconButton,
+  Spinner,
 } from '@chakra-ui/react';
 
 import { ConfirmationModal } from '../../../../../components/ConfirmationModal';
@@ -17,6 +18,8 @@ import { Account } from '../../../../../types/finantial-models';
 
 import { TableOptions } from './TableOptions';
 import { FaEdit, FaTrash } from 'react-icons/fa';
+import { accountFilterByName } from '../../../../../utils/filter-helper';
+import { useErrorToast } from '../../../../../hooks/general/useErrorToast';
 
 interface AccountTableProps {
   accounts: Account[];
@@ -24,6 +27,8 @@ interface AccountTableProps {
   isLoading: boolean;
   onEdit: (account: Account) => void;
   onDelete: (id: number | undefined) => void;
+  searchAccount: string;
+  onSearchAccountChange: (name: string) => void;
 }
 
 export const AccountTable = ({
@@ -32,14 +37,21 @@ export const AccountTable = ({
   isLoading,
   onEdit,
   onDelete,
+  searchAccount,
+  onSearchAccountChange,
 }: AccountTableProps) => {
   //const { data: members, isLoading, error } = useFetchData(url);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedAccountId, setSelectedAccountId] = useState<
     number | undefined
   >();
+  const [filteredAccounts, setFilteredAccounts] = useState<Account[]>([]);
 
-  //useErrorToast(error);
+  useEffect(() => {
+    setFilteredAccounts(accountFilterByName(accounts, searchAccount));
+  }, [accounts, searchAccount]);
+
+  useErrorToast(error);
 
   const handleDeleteClick = (id: number | undefined) => {
     setSelectedAccountId(id);
@@ -57,17 +69,15 @@ export const AccountTable = ({
     setIsModalOpen(false);
   };
 
-  /*if (isLoading) {
+  if (isLoading) {
     return <Spinner size="xl" />;
-  }*/
+  }
 
   return (
     <Flex sx={{ flexDirection: 'column', gap: 'md' }}>
       <TableOptions
-        searchAccount={''}
-        onSearchAccountChange={function (name: string): void {
-          throw new Error('Function not implemented.');
-        }}
+        searchAccount={searchAccount}
+        onSearchAccountChange={onSearchAccountChange}
       />
       <TableContainer>
         <Table
@@ -117,14 +127,14 @@ export const AccountTable = ({
             </Tr>
           </Thead>
           <Tbody>
-            {accounts.length === 0 ? (
+            {filteredAccounts.length === 0 ? (
               <Tr>
                 <Td colSpan={ACCOUNT_TABLE_HEADERS.length + 1}>
                   No olvides ingresar cuentas contables.
                 </Td>
               </Tr>
             ) : (
-              accounts.map((account) => (
+              filteredAccounts.map((account) => (
                 <Tr key={account.id}>
                   <Td>
                     <Flex

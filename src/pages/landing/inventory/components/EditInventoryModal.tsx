@@ -16,6 +16,9 @@ import { FormField } from '../../../../components/FormField';
 import { inventorySchema } from '../../../../utils/inventory-validations-helper';
 
 import { Inventory } from '../../../../types/inventory-models';
+import { useFetchProducts } from '../../../../hooks/inventory/fetchProductHook';
+import useFetchInventoryMovementTypes from '../../../../hooks/inventory/fetchMovementTypeHooks';
+
 
 interface AddInventoryModalProps {
   isOpen: boolean;
@@ -52,7 +55,10 @@ export const EditInventoryModal = ({
     onSubmit({ movements: data });
     onClose();
   };
-
+  const { products } = useFetchProducts();
+  const { inventoryMovementTypes} = useFetchInventoryMovementTypes();
+  const productNames = products.map(product => product.name);
+  const inventoryMovementTypesNames = inventoryMovementTypes.map(inventoryMovement => inventoryMovement.movement_Type_Name);
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
@@ -68,7 +74,7 @@ export const EditInventoryModal = ({
             placeholder="Seleccione el producto"
             register={register}
             errors={errors.product}
-            options={['Producto1', 'Producto2', 'Producto3']}
+            options={productNames}
           />
           <FormField
             id="movementType"
@@ -76,7 +82,7 @@ export const EditInventoryModal = ({
             placeholder="Seleccione el tipo de movimiento"
             register={register}
             errors={errors.product}
-            options={['Compra', 'Venta', 'Donación']}
+            options={inventoryMovementTypesNames}
           />
           <FormField
             id="quantity"

@@ -10,10 +10,14 @@ import { EditMemberModal } from './components/EditMemberModal';
 import { InformationTable } from './components/InformationTable';
 import { EditInformationModal } from './components/EditInformationModal';
 import { AddIcon } from '@chakra-ui/icons';
-import { useFetchAdministrativeMembers } from '../../hooks/admin/fetchAdminTableHook';
-import { useFetchAssociations } from '../../hooks/admin/fetchInformationTableHook';
+
 import useUpdateAssociation from '../../hooks/admin/updateInformationTableHook';
 import usePatchAssociationState from '../../hooks/admin/patchInformationTableHook';
+import useUpdateAdministrativeMember, { CreateUpdateAdministrativeMemberDTO } from '../../hooks/admin/updateAdminTableHook';
+import usePatchAdministrativeMemberState from '../../hooks/admin/patchAdminTableHook';
+import useFetchAssociations from '../../hooks/AdminHooks/fetchInformationTableHook';
+import { useFetchAdministrativeMembers } from '../../hooks/admin/fetchAdminTableHook';
+
 
 export const AdminHome = () => {
   const [isAddInfoModalOpen, setAddInfoModalOpen] = useState(false);
@@ -29,26 +33,59 @@ export const AdminHome = () => {
     administrativeMembers,
     isLoadingAdministrativeMembers,
     administrativeMemberErrors,
+    updateAdministrativeMemberState
   } = useFetchAdministrativeMembers();
+
+
   const {
     associations,
     isLoadingAssociations,
     associationErrors,
     updateAssociationState,
   } = useFetchAssociations();
+
+  
   const { updateAssociation, updateError } = useUpdateAssociation();
   const { patchAssociationState, patchError } = usePatchAssociationState();
-
+  const { patchAdministrativeMemberState, patchAdminError } = usePatchAdministrativeMemberState();
+  const { updateAdministrativeMember, updateAdministrativeMemberError  } = useUpdateAdministrativeMember();
   const handleAddMember = (newMember: Member) => {
     console.log('Miembro agregado:', newMember);
   };
 
-  const handleEditMember = (data: { member: Member }) => {
-    console.log('Miembro actualizado:', data.member);
+  const handleEditMember = async (data: { member: Member }) => {
+    try {
+      const updatedInfo: CreateUpdateAdministrativeMemberDTO  = {
+        firstName: data.member.firstName,
+        lastName: data.member.lastName,
+        birthDate: data.member.birthDate,
+        cellphone: data.member.cellphone,
+        faculty: data.member.faculty,
+        career: data.member.career,
+        semester: data.member.semester,
+        email: data.member.email,
+        position:data.member.position  
+
+      };
+      await updateAdministrativeMember(data.member.id!, updatedInfo);
+
+      updateAdministrativeMemberState(data.member.id!, { ...data.member, ...updatedInfo });
+
+      console.log('Updated organizational information:', data.member);
+
+    } catch (error) {
+      console.error('Failed to update association:', error);
+    }
   };
 
-  const handleDeleteMember = (id: number | undefined) => {
-    console.log('Miembro eliminado:', id);
+  const handleDeleteMember = async (id: number | undefined) => {
+    try {
+      await patchAdministrativeMemberState(id!);
+      updateAdministrativeMemberState(id!, { state_id: 2 });
+      console.log('Informacion organizacional eliminada:', id);
+    } catch (error) {
+      console.error('Failed to update association state:', error);
+    }
   };
 
   const openMemberEditModal = (member: Member) => {

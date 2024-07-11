@@ -63,4 +63,3 @@ export const useFetchProducts = () => {
   };
 };
 
-export default useFetchProducts;

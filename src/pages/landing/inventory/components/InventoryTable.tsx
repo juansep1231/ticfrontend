@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Table,
   Thead,
@@ -17,6 +17,7 @@ import { INVENTORY_TABLE_HEADERS } from '../../../../utils/constants';
 
 import { TableOptions } from './TableOptions';
 import { FaEdit, FaTrash } from 'react-icons/fa';
+import { inventoriesFilterByProduct } from '../../../../utils/filter-helper';
 
 interface InventoryTableProps {
   movements: Inventory[];
@@ -24,6 +25,8 @@ interface InventoryTableProps {
   isLoading: boolean;
   onEdit: (movement: Inventory) => void;
   onDelete: (id: number | undefined) => void;
+  searchInventory: string;
+  onSearchInventoryChange: (name: string) => void;
 }
 
 export const InventoryTable = ({
@@ -32,12 +35,23 @@ export const InventoryTable = ({
   isLoading,
   onEdit,
   onDelete,
+  searchInventory,
+  onSearchInventoryChange,
 }: InventoryTableProps) => {
   //const { data: members, isLoading, error } = useFetchData(url);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedMovementId, setSelectedMovementId] = useState<
     number | undefined
   >();
+  const [filteredInventories, setFilteredInventories] = useState<Inventory[]>(
+    []
+  );
+
+  useEffect(() => {
+    setFilteredInventories(
+      inventoriesFilterByProduct(movements, searchInventory)
+    );
+  }, [movements, searchInventory]);
 
   //useErrorToast(error);
 
@@ -64,10 +78,8 @@ export const InventoryTable = ({
   return (
     <Flex sx={{ flexDirection: 'column', gap: 'md' }}>
       <TableOptions
-        searchMovement={''}
-        onSearchMovementChange={function (name: string): void {
-          throw new Error('Function not implemented.');
-        }}
+        searchMovement={searchInventory}
+        onSearchMovementChange={onSearchInventoryChange}
       />
       <TableContainer>
         <Table
@@ -116,14 +128,14 @@ export const InventoryTable = ({
             </Tr>
           </Thead>
           <Tbody>
-            {movements.length === 0 ? (
+            {filteredInventories.length === 0 ? (
               <Tr>
                 <Td colSpan={INVENTORY_TABLE_HEADERS.length + 1}>
                   No olvides ingresar movimientos de inventario.
                 </Td>
               </Tr>
             ) : (
-              movements.map((movment) => (
+              filteredInventories.map((movment) => (
                 <Tr key={movment.id}>
                   <Td>
                     <Flex

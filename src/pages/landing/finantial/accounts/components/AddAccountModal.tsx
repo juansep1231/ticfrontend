@@ -57,6 +57,7 @@ export const AddAccountModal = ({
             placeholder="Seleccione el tipo de cuenta contable"
             register={register}
             errors={errors.accountType}
+            options={['Cuenta 1', 'Cuenta 2', 'Cuenta 3']}
           />
           <FormField
             id="accountName"

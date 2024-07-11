@@ -62,6 +62,14 @@ export const AddEventModal = ({
             errors={errors.title}
           />
           <FormField
+            id="status"
+            label="Estado del evento"
+            placeholder="Seleccione estado del evento"
+            register={register}
+            errors={errors.status}
+            options={['EN REVISIÓN', 'APROBADO', 'EN PROGRESO', 'FINALIZADO']}
+          />
+          <FormField
             id="description"
             label="Descripción"
             placeholder="Ingrese la descripción del evento"
@@ -105,22 +113,6 @@ export const AddEventModal = ({
             placeholder="Ingrese el lugar"
             register={register}
             errors={errors.location}
-          />
-          <FormField
-            id="provider"
-            label="Proveedor"
-            placeholder="Seleccione el proveedor"
-            register={register}
-            errors={errors.provider}
-            options={['Proveedor1', 'Proveedor2', 'Proveedor3']} // Opciones de ejemplo
-          />
-          <FormField
-            id="status"
-            label="Estado del evento"
-            placeholder="Seleccione estado del evento"
-            register={register}
-            errors={errors.status}
-            options={['EN REVISIÓN', 'APROBADO', 'EN PROGRESO', 'FINALIZADO']}
           />
           {watchStatus === 'FINALIZADO' && (
             <FormField

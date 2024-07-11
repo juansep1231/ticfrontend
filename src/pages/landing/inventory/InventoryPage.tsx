@@ -4,6 +4,11 @@ import { useState } from 'react';
 import { Inventory } from '../../../types/inventory-models';
 import { EditInventoryModal } from './components/EditInventoryModal';
 import { useFetchInventoryMovements } from '../../../hooks/inventory/fetchInventoryHook';
+import { formatISO } from 'date-fns';
+import useUpdateInventoryMovement, {
+  CreateUpdateInventoryMovementDTO,
+} from '../../../hooks/inventory/updateInventoryHook';
+import usePatchInventoryMovementState from '../../../hooks/inventory/patchInventoryHook';
 
 export const initialInventory: Inventory[] = [
   {
@@ -55,8 +60,8 @@ export const InventoryPage = () => {
   const [selectedInventory, setSelectedInventory] = useState<Inventory | null>(
     null
   );
-  const [movements, setMovements] = useState<Inventory[]>(initialInventory);
-
+  const [searchInventory, setSearchInventory] = useState('');
+  const { updateInventoryMovement, updateError } = useUpdateInventoryMovement();
   const {
     inventoryMovements,
     isLoadingInventoryMovements,
@@ -64,18 +69,47 @@ export const InventoryPage = () => {
     updateInventoryMovementState,
   } = useFetchInventoryMovements();
 
-  const handleEditMovement = (data: { movements: Inventory }) => {
-    console.log('Movimiento de inventario actualizado:', data.movements);
+  const { patchInventoryMovementState, patchError } = usePatchInventoryMovementState();
+  const handleEditMovement = async (data: { movements: Inventory }) => {
+    try {
+      const formattedDate = formatISO(new Date(data.movements.date));
+      const updatedInfo: CreateUpdateInventoryMovementDTO = {
+        date: formattedDate,
+        product_Name: data.movements.product,
+        inventory_Movement_Type_Name: data.movements.movementType,
+        quantity: data.movements.quantity,
+      };
+
+      await updateInventoryMovement(data.movements.id!, updatedInfo);
+
+      updateInventoryMovementState(data.movements.id!, {
+        ...data.movements,
+        ...updatedInfo,
+      });
+
+      console.log('Updated organizational information:', data.movements);
+    } catch (error) {
+      console.error('Failed to update association:', error);
+    }
   };
 
-  const handleDeleteMovement = (id: number | undefined) => {
-    setMovements(movements.filter((event) => event.id !== id));
-    console.log('Movimiento de transacción eliminado:', id);
+  const handleDeleteMovement = async (id: number | undefined) => {
+    try {
+      await patchInventoryMovementState(id!);
+      updateInventoryMovementState(id!, { stateid: 2 });
+      console.log('Aportante eliminado:', id);
+    } catch (error) {
+      console.error('Failed to update association state:', error);
+    }
   };
 
   const openEditMovementModal = (movement: Inventory) => {
     setSelectedInventory(movement);
     setEditInventoryModalOpen(true);
+  };
+
+  const handleSearchInventoryChange = (name: string) => {
+    setSearchInventory(name);
   };
 
   return (
@@ -103,8 +137,10 @@ export const InventoryPage = () => {
         movements={inventoryMovements}
         onEdit={openEditMovementModal}
         onDelete={handleDeleteMovement}
-        error={null}
-        isLoading={false}
+        error={inventoryMovementErrors}
+        isLoading={isLoadingInventoryMovements}
+        searchInventory={searchInventory}
+        onSearchInventoryChange={handleSearchInventoryChange}
       />
 
       <EditInventoryModal

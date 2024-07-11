@@ -6,6 +6,9 @@ import { Supplier } from '../../../types/supplier-models';
 import { SuppliersTable } from './components/SuppliersTable';
 import { EditSupplierModal } from './components/EditSupplierModal';
 import { useFetchProviders } from '../../../hooks/inventory/fetchProviderHook';
+import useUpdateProvider, { CreateUpdateProviderDTO } from '../../../hooks/inventory/updateProviderHook';
+import usePatchProviderState from '../../../hooks/inventory/patchProviderHook';
+
 
 export const initialSuppliers: Supplier[] = [
   {
@@ -51,27 +54,49 @@ export const SuppliersPage = () => {
   const [selectedSupplier, setSelectedSupplier] = useState<Supplier | null>(
     null
   );
-  const [suppliers, setSuppliers] = useState<Supplier[]>(initialSuppliers);
-
-  const handleEditMovement = (data: { supplier: Supplier }) => {
-    console.log('Movimiento de inventario actualizado:', data.supplier);
-  };
-
-  const handleDeleteMovement = (id: number | undefined) => {
-    setSuppliers(suppliers.filter((event) => event.id !== id));
-    console.log('Movimiento de transacción eliminado:', id);
-  };
-
-  const openEditMovementModal = (supplier: Supplier) => {
-    setSelectedSupplier(supplier);
-    setEditSupplierModalOpen(true);
-  };
   const {
     providers,
     isLoadingProviders,
     providerErrors,
     updateProviderState,
   } = useFetchProviders();
+  const {updateProvider, updateError} = useUpdateProvider();
+ const {patchProviderState, patchError} = usePatchProviderState();
+
+
+  const handleEditMovement = async (data: { supplier: Supplier }) => {
+    try {
+      const updatedInfo: CreateUpdateProviderDTO = {
+        name: data.supplier.name,
+        phone: data.supplier.phone,
+        email: data.supplier.email       
+      };
+
+      await updateProvider(data.supplier.id!, updatedInfo);
+
+      updateProviderState(data.supplier.id!, { ...data.supplier, ...updatedInfo });
+
+      console.log('Updated organizational information:', data.supplier);
+    } catch (error) {
+      console.error('Failed to update association:', error);
+    }
+  };
+
+  const handleDeleteMovement = async (id: number | undefined) => {
+    try {
+      await patchProviderState(id!);
+      updateProviderState(id!, { stateid: 2 });
+      console.log('Informacion organizacional eliminada:', id);
+    } catch (error) {
+      console.error('Failed to update association state:', error);
+    }
+  };
+
+  const openEditMovementModal = (supplier: Supplier) => {
+    setSelectedSupplier(supplier);
+    setEditSupplierModalOpen(true);
+  };
+ 
   return (
     <Flex
       flex="1"
@@ -92,8 +117,8 @@ export const SuppliersPage = () => {
         suppliers={providers}
         onEdit={openEditMovementModal}
         onDelete={handleDeleteMovement}
-        error={null}
-        isLoading={false}
+        error={providerErrors}
+        isLoading={isLoadingProviders}
       />
 
       <EditSupplierModal

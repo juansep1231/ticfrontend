@@ -17,6 +17,9 @@ import { subscriberSchema } from '../../../../../utils/subscription-validations-
 import { Subscriber } from '../../../../../types/subscription-models';
 import { careers, faculties } from '../../../../../types/organizational-models';
 import { useEffect } from 'react';
+import { useFetchFaculties } from '../../../../../hooks/general/fetchFacultyHook';
+import { useFetchCareers } from '../../../../../hooks/general/FetchCareerHook';
+import { useFetchContributionPlans } from '../../../../../hooks/organizational/fetchContributionPlan';
 
 interface EditSubscriberModalProps {
   isOpen: boolean;
@@ -53,7 +56,12 @@ export const EditSubscriberModal = ({
     onSubmit({ subscriber: data });
     onClose();
   };
-
+  const { facultiesData, facultiesLoading, facultiesError } =  useFetchFaculties();
+  const { careersData, careersLoading, careersError } = useFetchCareers();
+  const {
+    contributionPlans,
+  } = useFetchContributionPlans();
+  const planNames = contributionPlans.map(plan => plan.planName);
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
@@ -84,7 +92,7 @@ export const EditSubscriberModal = ({
             placeholder="Seleccione la facultad"
             register={register}
             errors={errors.faculty}
-            options={faculties}
+            options={facultiesData}
           />
           <FormField
             id="career"
@@ -92,7 +100,7 @@ export const EditSubscriberModal = ({
             placeholder="Seleccione la carrera"
             register={register}
             errors={errors.career}
-            options={careers}
+            options={careersData}
           />
           <FormField
             id="email"
@@ -107,7 +115,7 @@ export const EditSubscriberModal = ({
             placeholder="Seleccione el plan de aportación"
             register={register}
             errors={errors.plan}
-            options={['Basico, Ejecutivo, Premium']}
+            options={planNames}
           />
           <FormField
             id="price"

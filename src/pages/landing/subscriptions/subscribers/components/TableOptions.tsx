@@ -17,8 +17,8 @@ interface TableOptionsProps {
 }
 
 export const TableOptions = ({
-  searchSubscriber: searchSubscriber,
-  onSearchSubscriberChange: onSearchSubscriberChange,
+  searchSubscriber,
+  onSearchSubscriberChange,
 }: TableOptionsProps) => {
   const [isAddSubscriberModalOpen, setIsAddSubscriberModalOpen] =
     useState(false);
@@ -40,9 +40,9 @@ export const TableOptions = ({
           <SearchIcon sx={{ color: 'text.default' }} />
         </InputLeftElement>
         <Input
-          type="text"
           value={searchSubscriber}
           placeholder="Buscar un aportante"
+          onChange={(e) => onSearchSubscriberChange(e.target.value)}
         />
       </InputGroup>
       <Flex sx={{ gap: 'sm' }}>

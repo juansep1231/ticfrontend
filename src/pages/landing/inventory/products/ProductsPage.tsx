@@ -4,6 +4,10 @@ import { useState } from 'react';
 import { Product } from '../../../../types/inventory-models';
 import { EditProductModal } from './components/EditProducModal';
 import { useFetchProducts } from '../../../../hooks/inventory/fetchProductHook';
+import useUpdateProduct, {
+  CreateUpdateProductDTO,
+} from '../../../../hooks/inventory/updateProductHook';
+import usePatchProductState from '../../../../hooks/inventory/patchProductHook';
 
 export const initialProducts: Product[] = [
   {
@@ -52,24 +56,51 @@ export const initialProducts: Product[] = [
 export const ProductsPage = () => {
   const [isEditProductModalOpen, setEditProductModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const {
-    products,
-    isLoadingProducts,
-    productErrors,
-    updateProductState,
-  } = useFetchProducts();
-  const handleEditProduct = (data: { product: Product }) => {
-    console.log('Producto actualizado:', data.product);
+  const [searchEvent, setSearchEvent] = useState('');
+
+  const { products, isLoadingProducts, productErrors, updateProductState } =
+    useFetchProducts();
+  const { patchProductState, patchError } = usePatchProductState();
+  const { updateProduct, updateError } = useUpdateProduct();
+  const handleEditProduct = async (data: { product: Product }) => {
+    try {
+      const updatedInfo: CreateUpdateProductDTO = {
+        name: data.product.name,
+        description: data.product.description,
+        price: data.product.price,
+        quantity: data.product.quantity,
+        label: data.product.label,
+        category: data.product.category,
+        provider: data.product.provider,
+      };
+
+      await updateProduct(data.product.id!, updatedInfo);
+
+      updateProductState(data.product.id!, { ...data.product, ...updatedInfo });
+
+      console.log('Updated organizational information:', data.product);
+    } catch (error) {
+      console.error('Failed to update association:', error);
+    }
   };
 
-  const handleDeleteProduct = (id: number | undefined) => {
-    //setProducts(products.filter((event) => event.id !== id));
-    console.log('Producto eliminado:', id);
+  const handleDeleteProduct = async (id: number | undefined) => {
+    try {
+      await patchProductState(id!);
+      updateProductState(id!, { stateid: 2 });
+      console.log('Aportante eliminado:', id);
+    } catch (error) {
+      console.error('Failed to update association state:', error);
+    }
   };
 
   const openEditProductModal = (product: Product) => {
     setSelectedProduct(product);
     setEditProductModalOpen(true);
+  };
+
+  const handleSearchEventChange = (name: string) => {
+    setSearchEvent(name);
   };
 
   return (
@@ -92,8 +123,10 @@ export const ProductsPage = () => {
         products={products}
         onEdit={openEditProductModal}
         onDelete={handleDeleteProduct}
-        error={null}
-        isLoading={false}
+        error={productErrors}
+        isLoading={isLoadingProducts}
+        searchProduct={searchEvent}
+        onSearchProductChange={handleSearchEventChange}
       />
 
       <EditProductModal

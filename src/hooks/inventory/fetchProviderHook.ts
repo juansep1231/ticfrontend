@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Supplier } from '../../types/supplier-models';
+import { DEFAULT_STATE } from '../../utils/constants';
 
 
 export const useFetchProviders = () => {
@@ -50,12 +51,15 @@ export const useFetchProviders = () => {
     });
   };
 
+  const filteredProducts = providers.filter(
+    (item) => item.stateid === DEFAULT_STATE // Adjust the filter condition as needed
+  );
   return {
-    providers,
+    providers:filteredProducts,
     isLoadingProviders,
     providerErrors,
     updateProviderState,
   };
 };
 
-export default useFetchProviders;
+

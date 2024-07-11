@@ -18,8 +18,8 @@ interface TableOptionsProps {
 }
 
 export const TableOptions = ({
-  searchProduct: searchProduct,
-  onSearchProductChange: onSearchProductChange,
+  searchProduct,
+  onSearchProductChange,
 }: TableOptionsProps) => {
   const [isAddProductModalOpen, setIsAddProductModalOpen] = useState(false);
 
@@ -40,9 +40,9 @@ export const TableOptions = ({
           <SearchIcon sx={{ color: 'text.default' }} />
         </InputLeftElement>
         <Input
-          type="text"
           value={searchProduct}
           placeholder="Buscar un producto"
+          onChange={(e) => onSearchProductChange(e.target.value)}
         />
       </InputGroup>
       <Flex sx={{ gap: 'sm' }}>

@@ -50,6 +50,7 @@ export const positions = [
 
 export interface Member {
   id?: number;
+  state_id?: number;
   firstName: string;
   lastName: string;
   birthDate: string;

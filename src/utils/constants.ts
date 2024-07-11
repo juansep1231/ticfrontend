@@ -11,10 +11,7 @@ export const DROPDOWN_MENUS = [
   },
   {
     name: 'Eventos',
-    items: [
-      { name: 'Próximos eventos', path: '/eventos' },
-      { name: 'Proveedores', path: '/proveedores' },
-    ],
+    items: [{ name: 'Próximos eventos', path: '/eventos' }],
   },
   {
     name: 'Inventario',
@@ -51,72 +48,67 @@ export const INFO_TABLE_HEADERS = [
 ];
 
 export const ACCOUNT_TABLE_HEADERS = [
-  'Tipo de Cuenta', //Selector: Bancos, cuentas por pagar, inventario
-  'Cuenta', //I Nombre de la cuenta
-  'Valor Actual', //I number mayor a cero
-  'Fecha de creación', //Picker
+  'Tipo de Cuenta',
+  'Cuenta',
+  'Valor Actual',
+  'Fecha de creación',
 ];
 
 export const SUBSCRIBER_TABLE_HEADERS = [
-  'Fecha', //P
-  'Nombre Completo', //I
-  'Facultad', //Selector
-  'Carrera', //Selector
-  'Correo institucional', //I
-  'Plan de portación', //Selector
-  'Valor', //I
+  'Fecha',
+  'Nombre Completo',
+  'Facultad',
+  'Carrera',
+  'Correo institucional',
+  'Plan de portación',
+  'Valor',
 ];
 
 export const SUBSCRIPTION_PLAN_TABLE_HEADERS = [
-  'Nombre', //Picker
-  'Precio', //I
-  'Beneficios', //I
-  'Periodo académico', //I
+  'Nombre',
+  'Precio',
+  'Beneficios',
+  'Periodo académico',
 ];
 
 export const TRANSACTION_TABLE_HEADERS = [
-  'Fecha', //Picker
-  'Cuenta de origen', //I
-  'Cuenta de destino', //I
-  'Valor', //I
-  'Tipo de transacción', //Selector: INGRESO, EGRESO
-  'Descripción', //I
+  'Fecha',
+  'Cuenta de origen',
+  'Cuenta de destino',
+  'Valor',
+  'Tipo de transacción',
+  'Descripción',
 ];
 
 export const INVENTORY_TABLE_HEADERS = [
-  'Producto', //Selector
-  'Tipo de movimiento', //Selector: COMPRA, VENTA, DONACIÓN, DESECHO
-  'Cantidad', //I
-  'Fecha', //P
+  'Producto',
+  'Tipo de movimiento',
+  'Cantidad',
+  'Fecha',
 ];
 
 export const PRODUCTS_TABLE_HEADERS = [
-  'Nombre', //I
-  'Categoría', //Selector
-  'Descripción', //I
-  'Precio', //I
+  'Nombre',
+  'Categoría',
+  'Descripción',
+  'Precio',
   'Cantidad',
   'Etiqueta',
-  'Proveedor', //Selector
+  'Proveedor',
 ];
 
-export const SUPPLIERS_TABLE_HEADERS = [
-  'Nombre', //I
-  'Teléfono Celular', //I
-  'Correo', //PL INPUT
-];
+export const SUPPLIERS_TABLE_HEADERS = ['Nombre', 'Teléfono Celular', 'Correo'];
 
 export const EVENTS_TABLE_HEADERS = [
-  'Título', //I
-  'Descripción', //I
-  'Fecha de inicio', //P
-  'Fecha de fin', //P
-  'Presupuesto', //I
-  'Estado del presupuesto', //SELECTOR: EN REVISIÓN, APROBADO, RECHAZADO
-  'Lugar', //I
-  'Proveedor', //SELECTOR
-  'Estado', //SELECTOR: EN REVISION, APROBADO, EN PROGRESO, FINALIZADO
-  'Ingresos', //I CUANDO EVENTO ESTE EN FINALIZADO APARECE EL INPUT
+  'Título',
+  'Estado',
+  'Descripción',
+  'Fecha de inicio',
+  'Fecha de fin',
+  'Presupuesto',
+  'Estado del presupuesto',
+  'Lugar',
+  'Ingresos',
 ];
 
 export const NAV_LINKS = [

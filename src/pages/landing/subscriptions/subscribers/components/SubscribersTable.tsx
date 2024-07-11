@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Table,
   Thead,
@@ -9,6 +9,7 @@ import {
   Flex,
   Td,
   IconButton,
+  Spinner,
 } from '@chakra-ui/react';
 
 import { ConfirmationModal } from '../../../../../components/ConfirmationModal';
@@ -17,6 +18,8 @@ import { Subscriber } from '../../../../../types/subscription-models';
 
 import { TableOptions } from './TableOptions';
 import { FaEdit, FaTrash } from 'react-icons/fa';
+import { subscribersFilterByName } from '../../../../../utils/filter-helper';
+import { useErrorToast } from '../../../../../hooks/general/useErrorToast';
 
 interface SubscribersTableProps {
   subscribers: Subscriber[];
@@ -24,6 +27,8 @@ interface SubscribersTableProps {
   isLoading: boolean;
   onEdit: (subscriber: Subscriber) => void;
   onDelete: (id: number | undefined) => void;
+  searchSubscriber: string;
+  onSearchSubscriberChange: (name: string) => void;
 }
 
 export const SubscribersTable = ({
@@ -32,14 +37,24 @@ export const SubscribersTable = ({
   isLoading,
   onEdit,
   onDelete,
+  searchSubscriber,
+  onSearchSubscriberChange,
 }: SubscribersTableProps) => {
-  //const { data: members, isLoading, error } = useFetchData(url);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedSubscriberId, setSelectedSubscriberId] = useState<
     number | undefined
   >();
+  const [filteredSubscribers, setFilteredSubscribers] = useState<Subscriber[]>(
+    []
+  );
 
-  //useErrorToast(error);
+  useEffect(() => {
+    setFilteredSubscribers(
+      subscribersFilterByName(subscribers, searchSubscriber)
+    );
+  }, [subscribers, searchSubscriber]);
+
+  useErrorToast(error);
 
   const handleDeleteClick = (id: number | undefined) => {
     setSelectedSubscriberId(id);
@@ -57,17 +72,15 @@ export const SubscribersTable = ({
     setIsModalOpen(false);
   };
 
-  /*if (isLoading) {
+  if (isLoading) {
     return <Spinner size="xl" />;
-  }*/
+  }
 
   return (
     <Flex sx={{ flexDirection: 'column', gap: 'md' }}>
       <TableOptions
-        searchSubscriber={''}
-        onSearchSubscriberChange={function (name: string): void {
-          throw new Error('Function not implemented.');
-        }}
+        searchSubscriber={searchSubscriber}
+        onSearchSubscriberChange={onSearchSubscriberChange}
       />
       <TableContainer>
         <Table
@@ -117,14 +130,14 @@ export const SubscribersTable = ({
             </Tr>
           </Thead>
           <Tbody>
-            {subscribers.length === 0 ? (
+            {filteredSubscribers.length === 0 ? (
               <Tr>
                 <Td colSpan={SUBSCRIBER_TABLE_HEADERS.length + 1}>
                   No olvides ingresar aportantes.
                 </Td>
               </Tr>
             ) : (
-              subscribers.map((subscriber) => (
+              filteredSubscribers.map((subscriber) => (
                 <Tr key={subscriber.id}>
                   <Td>
                     <Flex

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Table,
   Thead,
@@ -9,6 +9,7 @@ import {
   Flex,
   Td,
   IconButton,
+  Spinner,
 } from '@chakra-ui/react';
 
 import { ConfirmationModal } from '../../../../components/ConfirmationModal';
@@ -17,6 +18,8 @@ import { Supplier } from '../../../../types/supplier-models';
 
 import { TableOptions } from './TableOptions';
 import { FaEdit, FaTrash } from 'react-icons/fa';
+import { useErrorToast } from '../../../../hooks/general/useErrorToast';
+import { suppliersFilterByName } from '../../../../utils/filter-helper';
 
 interface SuppliersTableProps {
   suppliers: Supplier[];
@@ -24,6 +27,8 @@ interface SuppliersTableProps {
   isLoading: boolean;
   onEdit: (supplier: Supplier) => void;
   onDelete: (id: number | undefined) => void;
+  searchSupplier: string;
+  onSearchSupplierChange: (name: string) => void;
 }
 
 export const SuppliersTable = ({
@@ -32,14 +37,20 @@ export const SuppliersTable = ({
   isLoading,
   onEdit,
   onDelete,
+  searchSupplier,
+  onSearchSupplierChange,
 }: SuppliersTableProps) => {
-  //const { data: members, isLoading, error } = useFetchData(url);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedSupplierId, setSelectedSupplierId] = useState<
     number | undefined
   >();
+  const [filteredSuppliers, setFilteredSuppliers] = useState<Supplier[]>([]);
 
-  //useErrorToast(error);
+  useEffect(() => {
+    setFilteredSuppliers(suppliersFilterByName(suppliers, searchSupplier));
+  }, [suppliers, searchSupplier]);
+
+  useErrorToast(error);
 
   const handleDeleteClick = (id: number | undefined) => {
     setSelectedSupplierId(id);
@@ -57,9 +68,9 @@ export const SuppliersTable = ({
     setIsModalOpen(false);
   };
 
-  /*if (isLoading) {
+  if (isLoading) {
     return <Spinner size="xl" />;
-  }*/
+  }
 
   return (
     <Flex sx={{ flexDirection: 'column', gap: 'md' }}>
@@ -117,14 +128,14 @@ export const SuppliersTable = ({
             </Tr>
           </Thead>
           <Tbody>
-            {suppliers.length === 0 ? (
+            {filteredSuppliers.length === 0 ? (
               <Tr>
                 <Td colSpan={SUPPLIERS_TABLE_HEADERS.length + 1}>
                   No olvides ingresar proveedores.
                 </Td>
               </Tr>
             ) : (
-              suppliers.map((supplier) => (
+              filteredSuppliers.map((supplier) => (
                 <Tr key={supplier.id}>
                   <Td>
                     <Flex

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Inventory } from '../../types/inventory-models';
+import { DEFAULT_STATE } from '../../utils/constants';
 
 
 export const useFetchInventoryMovements = () => {
@@ -50,12 +51,12 @@ export const useFetchInventoryMovements = () => {
     });
   };
 
-  /*const filteredInventoryMovements = inventoryMovements.filter(
-    (item) => item.movementType === 'Specific Movement Type' // Adjust the filter condition as needed
-  );*/
+  const filteredInventoryMovements = inventoryMovements.filter(
+    (item) => item.stateid === DEFAULT_STATE // Adjust the filter condition as needed
+  );
 
   return {
-    inventoryMovements,
+    inventoryMovements:filteredInventoryMovements,
     isLoadingInventoryMovements,
     inventoryMovementErrors,
     updateInventoryMovementState,

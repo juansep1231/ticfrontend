@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Table,
   Thead,
@@ -9,6 +9,7 @@ import {
   Flex,
   Td,
   IconButton,
+  Spinner,
 } from '@chakra-ui/react';
 
 import { ConfirmationModal } from '../../../../../components/ConfirmationModal';
@@ -17,6 +18,8 @@ import { PRODUCTS_TABLE_HEADERS } from '../../../../../utils/constants';
 import { TableOptions } from './TableOptions';
 import { Product } from '../../../../../types/inventory-models';
 import { FaEdit, FaTrash } from 'react-icons/fa';
+import { productsFilterByName } from '../../../../../utils/filter-helper';
+import { useErrorToast } from '../../../../../hooks/general/useErrorToast';
 
 interface ProductsTableProps {
   products: Product[];
@@ -24,6 +27,8 @@ interface ProductsTableProps {
   isLoading: boolean;
   onEdit: (product: Product) => void;
   onDelete: (id: number | undefined) => void;
+  searchProduct: string;
+  onSearchProductChange: (name: string) => void;
 }
 
 export const ProductsTable = ({
@@ -32,14 +37,20 @@ export const ProductsTable = ({
   isLoading,
   onEdit,
   onDelete,
+  searchProduct,
+  onSearchProductChange,
 }: ProductsTableProps) => {
-  //const { data: members, isLoading, error } = useFetchData(url);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState<
     number | undefined
   >();
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
 
-  //useErrorToast(error);
+  useEffect(() => {
+    setFilteredProducts(productsFilterByName(products, searchProduct));
+  }, [products, searchProduct]);
+
+  useErrorToast(error);
 
   const handleDeleteClick = (id: number | undefined) => {
     setSelectedProductId(id);
@@ -57,17 +68,15 @@ export const ProductsTable = ({
     setIsModalOpen(false);
   };
 
-  /*if (isLoading) {
+  if (isLoading) {
     return <Spinner size="xl" />;
-  }*/
+  }
 
   return (
     <Flex sx={{ flexDirection: 'column', gap: 'md' }}>
       <TableOptions
-        searchProduct={''}
-        onSearchProductChange={function (name: string): void {
-          throw new Error('Function not implemented.');
-        }}
+        searchProduct={searchProduct}
+        onSearchProductChange={onSearchProductChange}
       />
       <TableContainer>
         <Table
@@ -117,14 +126,14 @@ export const ProductsTable = ({
             </Tr>
           </Thead>
           <Tbody>
-            {products.length === 0 ? (
+            {filteredProducts.length === 0 ? (
               <Tr>
                 <Td colSpan={PRODUCTS_TABLE_HEADERS.length + 1}>
                   No olvides ingresar productos.
                 </Td>
               </Tr>
             ) : (
-              products.map((product) => (
+              filteredProducts.map((product) => (
                 <Tr key={product.id}>
                   <Td>
                     <Flex

@@ -6,6 +6,11 @@ import { Subscriber } from '../../../../types/subscription-models';
 import { SubscribersTable } from './components/SubscribersTable';
 import { EditSubscriberModal } from './components/EditSubscriberModal';
 import { useFetchContributors } from '../../../../hooks/organizational/fetchContributorHook';
+import useUpdateContributor, {
+  CreateUpdateContributorDTO,
+} from '../../../../hooks/organizational/updateContributor';
+import { formatISO } from 'date-fns';
+import usePatchContributorState from '../../../../hooks/organizational/patchContributorHook';
 
 export const initialSubscribers: Subscriber[] = [
   {
@@ -65,29 +70,60 @@ export const SubscribersPage = () => {
     useState(false);
   const [selectedSubscriber, setSelectedSubscriber] =
     useState<Subscriber | null>(null);
-  const [subscribers, setSubscribers] =
-    useState<Subscriber[]>(initialSubscribers);
+  const { updateContributor, updateError } = useUpdateContributor();
+  const [searchSubscriber, setSearchSubscriber] = useState('');
 
+  const {
+    contributors,
+    isLoadingContributors,
+    contributorErrors,
+    updateContributorState,
+  } = useFetchContributors();
 
-    const {
-      contributors,
-      isLoadingContributors,
-      contributorErrors,
-      updateContributorState,
-    } = useFetchContributors();
+  const { patchContributorState, patchError } = usePatchContributorState();
+  const handleEditMovement = async (data: { subscriber: Subscriber }) => {
+    try {
+      const formattedDate = formatISO(new Date(data.subscriber.date));
+      const updatedInfo: CreateUpdateContributorDTO = {
+        date: formattedDate,
+        name: data.subscriber.name,
+        faculty: data.subscriber.faculty,
+        career: data.subscriber.career,
+        email: data.subscriber.email,
+        plan: data.subscriber.plan,
+        price: data.subscriber.price,
+      };
 
-  const handleEditMovement = (data: { subscriber: Subscriber }) => {
-    console.log('Movimiento de inventario actualizado:', data.subscriber);
+      await updateContributor(data.subscriber.id!, updatedInfo);
+
+      updateContributorState(data.subscriber.id!, {
+        ...data.subscriber,
+        ...updatedInfo,
+      });
+
+      console.log('Updated organizational information:', data.subscriber);
+    } catch (error) {
+      console.error('Failed to update association:', error);
+    }
   };
 
-  const handleDeleteMovement = (id: number | undefined) => {
-    setSubscribers(subscribers.filter((event) => event.id !== id));
-    console.log('Movimiento de transacción eliminado:', id);
+  const handleDeleteMovement = async (id: number | undefined) => {
+    try {
+      await patchContributorState(id!);
+      updateContributorState(id!, { state_id: 2 });
+      console.log('Aportante eliminado:', id);
+    } catch (error) {
+      console.error('Failed to update association state:', error);
+    }
   };
 
   const openEditMovementModal = (subscriber: Subscriber) => {
     setSelectedSubscriber(subscriber);
     setEditSubscriberModalOpen(true);
+  };
+
+  const handleSearchSubscriberChange = (name: string) => {
+    setSearchSubscriber(name);
   };
 
   return (
@@ -110,8 +146,10 @@ export const SubscribersPage = () => {
         subscribers={contributors}
         onEdit={openEditMovementModal}
         onDelete={handleDeleteMovement}
-        error={null}
-        isLoading={false}
+        error={contributorErrors}
+        isLoading={isLoadingContributors}
+        searchSubscriber={searchSubscriber}
+        onSearchSubscriberChange={handleSearchSubscriberChange}
       />
 
       <EditSubscriberModal

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Member } from '../../types/organizational-models';
+import { DEFAULT_STATE } from '../../utils/constants';
 
 export const useFetchAdministrativeMembers = () => {
   const [administrativeMembers, setData] = useState<Member[]>([]);
@@ -36,11 +37,30 @@ export const useFetchAdministrativeMembers = () => {
     fetchData();
   }, [endpoint]);
 
+
+  const updateAdministrativeMemberState = (
+    id: number,
+    updatedData: Partial<Member>
+  ) => {
+    setData((prevData) => {
+      const newData = prevData.map((item) =>
+        item.id === id ? { ...item, ...updatedData } : item
+      );
+      console.log('Updated data:', newData);
+      return newData;
+    });
+  };
+
+  const filteredAdministrativeMembers = administrativeMembers.filter(
+    (item) => item.state_id === DEFAULT_STATE
+  );
+
   return {
-    administrativeMembers,
+    administrativeMembers: filteredAdministrativeMembers,
     isLoadingAdministrativeMembers,
     administrativeMemberErrors,
+    updateAdministrativeMemberState
   };
 };
 
-export default useFetchAdministrativeMembers;
+

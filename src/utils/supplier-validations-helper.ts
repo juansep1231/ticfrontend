@@ -12,3 +12,11 @@ export const suppliersSchema = yup.object().shape({
     .email('El correo no es válido')
     .required('El correo es obligatorio'),
 });
+
+export interface Supplier {
+  id?: number;
+  stateid?:number;
+  name: string;
+  phone: string;
+  email: string;
+}

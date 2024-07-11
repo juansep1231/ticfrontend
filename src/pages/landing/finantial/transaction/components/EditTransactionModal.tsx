@@ -76,16 +76,18 @@ export const EditTransactionModal = ({
           <FormField
             id="originAccount"
             label="Cuenta de origen"
-            placeholder="Ingrese la cuenta de origen"
+            placeholder="Seleccione la cuenta de origen"
             register={register}
             errors={errors.originAccount}
+            options={['Cuenta 1', 'Cuenta 2', 'Cuenta 3']}
           />
           <FormField
             id="destinationAccount"
             label="Cuenta de destino"
-            placeholder="Ingrese la cuenta de destino"
+            placeholder="Seleccione la cuenta de destino"
             register={register}
             errors={errors.destinationAccount}
+            options={['Cuenta 1', 'Cuenta 2', 'Cuenta 3']}
           />
           <FormField
             id="value"

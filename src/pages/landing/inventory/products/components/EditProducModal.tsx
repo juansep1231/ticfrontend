@@ -16,6 +16,8 @@ import { FormField } from '../../../../../components/FormField';
 import { productsSchema } from '../../../../../utils/inventory-validations-helper';
 
 import { Product } from '../../../../../types/inventory-models';
+import { useFetchProviders } from '../../../../../hooks/inventory/fetchProviderHook';
+import { useFetchCategories } from '../../../../../hooks/inventory/fetchCategoryHook';
 
 interface EditProductModalProps {
   isOpen: boolean;
@@ -52,7 +54,12 @@ export const EditProductModal = ({
     onSubmit({ product: data });
     onClose();
   };
+  const { providers } =  useFetchProviders();
 
+  const {
+    categoriesData
+  } = useFetchCategories();
+  const providerNames = providers.map(plan => plan.name);
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
@@ -82,7 +89,7 @@ export const EditProductModal = ({
             placeholder="Seleccione la categoría"
             register={register}
             errors={errors.category}
-            options={['Categoría 1', 'Categoría 2', 'Categoría 3']}
+            options={categoriesData}
           />
           <FormField
             id="description"
@@ -118,7 +125,7 @@ export const EditProductModal = ({
             placeholder="Seleccione el proveedor"
             register={register}
             errors={errors.provider}
-            options={['Proveedor1', 'Proveedor2', 'Proveedor3']} // Opciones de ejemplo
+            options={providerNames} // Opciones de ejemplo
           />
           <ModalFooter>
             <Button type="submit" onClick={handleSubmit(handleFormSubmit)}>

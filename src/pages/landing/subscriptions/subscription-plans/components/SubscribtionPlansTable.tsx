@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Table,
   Thead,
@@ -17,6 +17,7 @@ import { SubscriptionPlan } from '../../../../../types/subscription-models';
 
 import { TableOptions } from './TableOptions';
 import { FaEdit, FaTrash } from 'react-icons/fa';
+import { subscriptionPlanFilterByName } from '../../../../../utils/filter-helper';
 
 interface SubscriptionPlanTableProps {
   plans: SubscriptionPlan[];
@@ -24,6 +25,8 @@ interface SubscriptionPlanTableProps {
   isLoading: boolean;
   onEdit: (plan: SubscriptionPlan) => void;
   onDelete: (id: number | undefined) => void;
+  searchPlan: string;
+  onSearchPlanChange: (name: string) => void;
 }
 
 export const SubscriptionPlansTable = ({
@@ -32,10 +35,17 @@ export const SubscriptionPlansTable = ({
   isLoading,
   onEdit,
   onDelete,
+  searchPlan,
+  onSearchPlanChange,
 }: SubscriptionPlanTableProps) => {
   //const { data: members, isLoading, error } = useFetchData(url);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPlanId, setSelectedPlanId] = useState<number | undefined>();
+  const [filteredPlans, setFilteredPlans] = useState<SubscriptionPlan[]>([]);
+
+  useEffect(() => {
+    setFilteredPlans(subscriptionPlanFilterByName(plans, searchPlan));
+  }, [plans, searchPlan]);
 
   //useErrorToast(error);
 
@@ -58,10 +68,8 @@ export const SubscriptionPlansTable = ({
   return (
     <Flex sx={{ flexDirection: 'column', gap: 'md' }}>
       <TableOptions
-        searchPlan={''}
-        onSearchPlanChange={function (name: string): void {
-          throw new Error('Function not implemented.');
-        }}
+        searchPlan={searchPlan}
+        onSearchPlanChange={onSearchPlanChange}
       />
       <TableContainer>
         <Table
@@ -111,14 +119,14 @@ export const SubscriptionPlansTable = ({
             </Tr>
           </Thead>
           <Tbody>
-            {plans.length === 0 ? (
+            {filteredPlans.length === 0 ? (
               <Tr>
                 <Td colSpan={SUBSCRIPTION_PLAN_TABLE_HEADERS.length + 1}>
                   No olvides ingresar planes de aportación.
                 </Td>
               </Tr>
             ) : (
-              plans.map((plan) => (
+              filteredPlans.map((plan) => (
                 <Tr key={plan.id}>
                   <Td>
                     <Flex

@@ -4,6 +4,11 @@ import { useState } from 'react';
 import { SubscriptionPlan } from '../../../../types/subscription-models';
 import { EditSubscriptionPlanrModal } from './components/EditSubscriptionPlanModal';
 import { useFetchContributionPlans } from '../../../../hooks/organizational/fetchContributionPlan';
+import {
+  CreateUpdateContributionPlanDTO,
+  useUpdateContributionPlan,
+} from '../../../../hooks/organizational/updateContributorPlan';
+import usePatchContributionPlanState from '../../../../hooks/organizational/patchContributionPlanHook';
 
 export const initialSubscriptionPlans: SubscriptionPlan[] = [
   {
@@ -59,29 +64,61 @@ export const SubscriptionPlansPage = () => {
   const [selectedPlan, setSelectedPlan] = useState<SubscriptionPlan | null>(
     null
   );
-  const [transactions, setTransactions] = useState<SubscriptionPlan[]>(
-    initialSubscriptionPlans
-  );
+
+  const [searchPlan, setSearchPlan] = useState('');
 
   const {
     contributionPlans,
     isLoadingContributionPlans,
     contributionPlanErrors,
     updateContributionPlanState,
-  } =  useFetchContributionPlans();
-  
-  const handleEditTransaction = (data: { plan: SubscriptionPlan }) => {
-    console.log('Plan actualizado:', data.plan);
+  } = useFetchContributionPlans();
+  const { updateContributionPlan, updateError } = useUpdateContributionPlan();
+  const { patchContributionPlanState, patchError } =
+    usePatchContributionPlanState();
+  const handleEditTransaction = async (data: { plan: SubscriptionPlan }) => {
+    try {
+      const updatedInfo: CreateUpdateContributionPlanDTO = {
+        planName: data.plan.planName,
+        price: data.plan.price,
+        benefits: data.plan.benefits,
+        academic_Period_Name: data.plan.academicPeriod,
+      };
+
+      await updateContributionPlan(data.plan.id!, updatedInfo);
+
+      // Assuming updateContributionPlanState is a function to update the local state
+      updateContributionPlanState(data.plan.id!, {
+        ...data.plan,
+        ...updatedInfo,
+      });
+
+      console.log('Updated contribution plan information:', data.plan);
+    } catch (error) {
+      console.error('Failed to update contribution plan:', error);
+    }
   };
 
-  const handleDeleteTransaction = (id: number | undefined) => {
-    setTransactions(transactions.filter((event) => event.id !== id));
-    console.log('Transacción eliminado:', id);
+  const handleDeleteTransaction = async (id: number | undefined) => {
+    try {
+      await patchContributionPlanState(id!);
+      updateContributionPlanState(id!, { state_id: 2 });
+      console.log('Plan de aportacion eliminado:', id);
+    } catch (error) {
+      console.error(
+        'Falla al actualizar el esatdo del plan de aportacion:',
+        error
+      );
+    }
   };
 
   const openEditTransactionModal = (plan: SubscriptionPlan) => {
     setSelectedPlan(plan);
     setEditPlanModalOpen(true);
+  };
+
+  const handleSearchEventChange = (name: string) => {
+    setSearchPlan(name);
   };
 
   return (
@@ -100,11 +137,13 @@ export const SubscriptionPlansPage = () => {
         </Link>
       </Text>
       <SubscriptionPlansTable
-        plans={ contributionPlans}
+        plans={contributionPlans}
         onEdit={openEditTransactionModal}
         onDelete={handleDeleteTransaction}
         error={null}
         isLoading={false}
+        searchPlan={searchPlan}
+        onSearchPlanChange={handleSearchEventChange}
       />
 
       <EditSubscriptionPlanrModal

@@ -40,9 +40,9 @@ export const TableOptions = ({
           <SearchIcon sx={{ color: 'text.default' }} />
         </InputLeftElement>
         <Input
-          type="text"
           value={searchTransaction}
           placeholder="Buscar una transacción"
+          onChange={(e) => onSearchTransactionChange(e.target.value)}
         />
       </InputGroup>
       <Flex sx={{ gap: 'sm' }}>

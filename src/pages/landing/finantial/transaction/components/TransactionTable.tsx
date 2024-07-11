@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Table,
   Thead,
@@ -9,6 +9,7 @@ import {
   Flex,
   Td,
   IconButton,
+  Spinner,
 } from '@chakra-ui/react';
 
 import { ConfirmationModal } from '../../../../../components/ConfirmationModal';
@@ -17,6 +18,8 @@ import { Transaction } from '../../../../../types/finantial-models';
 
 import { TableOptions } from './TableOptions';
 import { FaEdit, FaTrash } from 'react-icons/fa';
+import { transactionFilterByType } from '../../../../../utils/filter-helper';
+import { useErrorToast } from '../../../../../hooks/general/useErrorToast';
 
 interface TransactionTableProps {
   transactions: Transaction[];
@@ -24,6 +27,8 @@ interface TransactionTableProps {
   isLoading: boolean;
   onEdit: (transaction: Transaction) => void;
   onDelete: (id: number | undefined) => void;
+  searchTransaction: string;
+  onSearchTransactionChange: (name: string) => void;
 }
 
 export const TransactionTable = ({
@@ -32,14 +37,25 @@ export const TransactionTable = ({
   isLoading,
   onEdit,
   onDelete,
+  searchTransaction,
+  onSearchTransactionChange,
 }: TransactionTableProps) => {
-  //const { data: members, isLoading, error } = useFetchData(url);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTransactionId, setSelectedTransactionId] = useState<
     number | undefined
   >();
 
-  //useErrorToast(error);
+  const [filteredTransactions, setFilteredTransactions] = useState<
+    Transaction[]
+  >([]);
+
+  useEffect(() => {
+    setFilteredTransactions(
+      transactionFilterByType(transactions, searchTransaction)
+    );
+  }, [transactions, searchTransaction]);
+
+  useErrorToast(error);
 
   const handleDeleteClick = (id: number | undefined) => {
     setSelectedTransactionId(id);
@@ -57,9 +73,9 @@ export const TransactionTable = ({
     setIsModalOpen(false);
   };
 
-  /*if (isLoading) {
+  if (isLoading) {
     return <Spinner size="xl" />;
-  }*/
+  }
 
   return (
     <Flex sx={{ flexDirection: 'column', gap: 'md' }}>
@@ -117,14 +133,14 @@ export const TransactionTable = ({
             </Tr>
           </Thead>
           <Tbody>
-            {transactions.length === 0 ? (
+            {filteredTransactions.length === 0 ? (
               <Tr>
                 <Td colSpan={TRANSACTION_TABLE_HEADERS.length + 1}>
                   No olvides ingresar transacciones.
                 </Td>
               </Tr>
             ) : (
-              transactions.map((transaction) => (
+              filteredTransactions.map((transaction) => (
                 <Tr key={transaction.id}>
                   <Td>
                     <Flex

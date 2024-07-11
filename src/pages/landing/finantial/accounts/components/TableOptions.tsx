@@ -39,9 +39,9 @@ export const TableOptions = ({
           <SearchIcon sx={{ color: 'text.default' }} />
         </InputLeftElement>
         <Input
-          type="text"
           value={searchAccount}
           placeholder="Buscar una cuenta contable"
+          onChange={(e) => onSearchAccountChange(e.target.value)}
         />
       </InputGroup>
       <Flex sx={{ gap: 'sm' }}>

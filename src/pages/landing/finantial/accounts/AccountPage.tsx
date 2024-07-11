@@ -54,6 +54,7 @@ export const AccountPage = () => {
   const [isEditAccountModalOpen, setEditAccountModalOpen] = useState(false);
   const [selectedAccount, setSelectedAccount] = useState<Account | null>(null);
   const [accounts, setAccount] = useState<Account[]>(initialAccounts);
+  const [searchAccount, setSearchAccount] = useState('');
 
   const handleEditAccount = (data: { account: Account }) => {
     console.log('Cuenta actualizada:', data.account);
@@ -67,6 +68,10 @@ export const AccountPage = () => {
   const openEditAccountModal = (account: Account) => {
     setSelectedAccount(account);
     setEditAccountModalOpen(true);
+  };
+
+  const handleSearchAccountChange = (name: string) => {
+    setSearchAccount(name);
   };
 
   return (
@@ -90,6 +95,8 @@ export const AccountPage = () => {
         onDelete={handleDeleteAccount}
         error={null}
         isLoading={false}
+        searchAccount={searchAccount}
+        onSearchAccountChange={handleSearchAccountChange}
       />
 
       <EditAccountModal

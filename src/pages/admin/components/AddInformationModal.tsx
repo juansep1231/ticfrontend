@@ -15,6 +15,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { FormField } from '../../../components/FormField';
 import { infoSchema } from '../../../utils/admin-validations-helper';
 import { OrganizationalInfo } from '../../../types/organizational-models';
+import usePostAssociation from '../../../hooks/admin/createInformationTableHook';
+import useFetchAssociations from '../../../hooks/admin/fetchInformationTableHook';
 
 interface AddInformationModalProps {
   isOpen: boolean;
@@ -32,9 +34,21 @@ export const AddInformationModal = ({
   } = useForm<OrganizationalInfo>({
     resolver: yupResolver(infoSchema),
   });
+  const { postAssociation, postError } = usePostAssociation();
+  const {addAssociationState} = useFetchAssociations();
+  const onSubmit = async (data: OrganizationalInfo) => {
+    try {
+      const newInfo = {
+        mission: data.mission,
+        vision: data.vision,
+      };
+      await postAssociation(newInfo);
 
-  const onSubmit = (data: OrganizationalInfo) => {
-    console.log(data);
+      addAssociationState(newInfo);
+   
+    } catch (error) {
+      console.error('Failed to update association:', error);
+    }
     onClose();
   };
 

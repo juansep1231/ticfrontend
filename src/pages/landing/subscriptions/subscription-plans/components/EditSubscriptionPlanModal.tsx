@@ -16,6 +16,7 @@ import { subscriptionPlanSchema } from '../../../../../utils/subscription-valida
 
 import { SubscriptionPlan } from '../../../../../types/subscription-models';
 import { useEffect } from 'react';
+import { useFetchAcademicPeriods } from '../../../../../hooks/general/fetchAcademicPeriodHook';
 
 interface EditSubscriptionPlanModalProps {
   isOpen: boolean;
@@ -51,6 +52,7 @@ export const EditSubscriptionPlanrModal = ({
     }
   }, [plan, setValue]);
 
+  const { academicPeriodsData, academicPeriodsLoading, academicPeriodsError } = useFetchAcademicPeriods();
   const handleFormSubmit = (data: SubscriptionPlan) => {
     onSubmit({ plan: data });
     onClose();
@@ -92,7 +94,7 @@ export const EditSubscriptionPlanrModal = ({
             placeholder="Seleccione el periodo académico"
             register={register}
             errors={errors.academicPeriod}
-            options={['2024-A', '2024-B', '2025-A', '2025-B']}
+            options={academicPeriodsData}
           />
           <ModalFooter>
             <Button type="submit" onClick={handleSubmit(handleFormSubmit)}>

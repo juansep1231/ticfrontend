@@ -18,8 +18,8 @@ interface TableOptionsProps {
 }
 
 export const TableOptions = ({
-  searchPlan: searchPlan,
-  onSearchPlanChange: onSearchPlanChange,
+  searchPlan,
+  onSearchPlanChange,
 }: TableOptionsProps) => {
   const [isAddPlanModalOpen, setIsAddPlanModalOpen] = useState(false);
 
@@ -40,9 +40,9 @@ export const TableOptions = ({
           <SearchIcon sx={{ color: 'text.default' }} />
         </InputLeftElement>
         <Input
-          type="text"
           value={searchPlan}
           placeholder="Buscar un plan de suscripción"
+          onChange={(e) => onSearchPlanChange(e.target.value)}
         />
       </InputGroup>
       <Flex sx={{ gap: 'sm' }}>

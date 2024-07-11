@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Table,
   Thead,
@@ -14,12 +14,11 @@ import {
 
 import { EVENTS_TABLE_HEADERS } from '../../../../utils/constants';
 import { ConfirmationModal } from '../../../../components/ConfirmationModal';
-import { useErrorToast } from '../../../../hooks/general/useErrorToast';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import { EventView } from '../../../../types/event-models';
-import { useFetchData } from '../../../../hooks/general/exampleHook';
-
+import { eventsFilterByName } from '../../../../utils/filter-helper';
 import { TableOptions } from './TableOptions';
+//import { initialEvents } from '../EventPage';
 
 interface EventTableProps {
   events: EventView[];
@@ -27,6 +26,8 @@ interface EventTableProps {
   isLoading: boolean;
   onEdit: (event: EventView) => void;
   onDelete: (id: number | undefined) => void;
+  searchEvent: string;
+  onSearchEventChange: (name: string) => void;
 }
 
 export const EventsTable = ({
@@ -35,10 +36,13 @@ export const EventsTable = ({
   isLoading,
   onEdit,
   onDelete,
+  searchEvent,
+  onSearchEventChange,
 }: EventTableProps) => {
-  //const { data: events, isLoading, error } = useFetchData(url);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedEventId, setSelectedEventId] = useState<number | undefined>();
+  const [filteredEvents, setFilteredEvents] =
+    useState<EventView[]>([]);
 
   //useErrorToast(error);
 
@@ -58,6 +62,11 @@ export const EventsTable = ({
     setIsModalOpen(false);
   };
 
+
+  useEffect(() => {
+    setFilteredEvents(eventsFilterByName(events, searchEvent));
+  }, [events, searchEvent]);
+
   /*if (isLoading) {
     return <Spinner size="xl" />;
   }*/
@@ -65,10 +74,8 @@ export const EventsTable = ({
   return (
     <Flex sx={{ flexDirection: 'column', gap: 'md' }}>
       <TableOptions
-        searchEvent={''}
-        onSearchEventChange={function (name: string): void {
-          throw new Error('Function not implemented.');
-        }}
+        searchEvent={searchEvent}
+        onSearchEventChange={onSearchEventChange}
       />
       <TableContainer>
         <Table
@@ -118,14 +125,14 @@ export const EventsTable = ({
             </Tr>
           </Thead>
           <Tbody>
-            {events.length === 0 ? (
+            {filteredEvents.length === 0 ? (
               <Tr>
                 <Td colSpan={EVENTS_TABLE_HEADERS.length + 1}>
                   No olvides ingresar eventos.
                 </Td>
               </Tr>
             ) : (
-              events.map((event) => (
+              filteredEvents.map((event) => (
                 <Tr key={event.id}>
                   <Td>
                     <Flex
@@ -165,14 +172,13 @@ export const EventsTable = ({
                     </Flex>
                   </Td>
                   <Td>{event.title}</Td>
+                  <Td>{event.status}</Td>
                   <Td>{event.description}</Td>
                   <Td>{event.startDate}</Td>
                   <Td>{event.endDate}</Td>
                   <Td>{event.budget}</Td>
                   <Td>{event.budgetStatus}</Td>
                   <Td>{event.location}</Td>
-                  <Td>{event.provider}</Td>
-                  <Td>{event.status}</Td>
                   <Td>{event.income}</Td>
                 </Tr>
               ))

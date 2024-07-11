@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { DEFAULT_STATE } from '../../utils/constants';
 import { Subscriber } from '../../types/subscription-models';
+import { format, isValid, parseISO } from 'date-fns';
+import { formatDate } from '../../utils/format-date-helper';
 
 
 
@@ -23,6 +25,7 @@ export const useFetchContributors = () => {
         }
 
         const data: Subscriber[] = await response.json();
+
         setContributors(data);
         console.log('Fetched contributors:', data);
       } catch (error: any) {
@@ -45,7 +48,7 @@ export const useFetchContributors = () => {
   ) => {
     setContributors((prevData) => {
       const newData = prevData.map((item) =>
-        item.id === id ? { ...item, ...updatedData } : item
+        item.id === id ? { ...item, ...updatedData, date: formatDate(updatedData.date || item.date) } : item
       );
       console.log('Updated contributors:', newData);
       return newData;

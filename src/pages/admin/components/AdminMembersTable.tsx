@@ -15,7 +15,6 @@ import { FaTrash, FaEdit } from 'react-icons/fa';
 
 import { ConfirmationModal } from '../../../components/ConfirmationModal'; // Importa el componente del modal
 import { useErrorToast } from '../../../hooks/general/useErrorToast'; // Importa el hook de error
-import { useFetchData } from '../../../hooks/general/exampleHook'; // Importa el hook de datos
 import { Member } from '../../../types/organizational-models';
 import { ADMIN_MEMBERS_TABLE_HEADERS } from '../../../utils/constants';
 
