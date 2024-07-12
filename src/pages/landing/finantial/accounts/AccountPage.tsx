@@ -5,7 +5,10 @@ import { Account } from '../../../../types/finantial-models';
 
 import { AccountTable } from './components/AccountTable';
 import { EditAccountModal } from './components/EditAccountModal';
-
+import useFetchAccountingAccounts from '../../../../hooks/financial/fetchAccountingAccountHook';
+import { formatISO } from 'date-fns';
+import useUpdateAccountingAccount, { CreateUpdateAccountingAccountDTO } from '../../../../hooks/financial/updateAccountingAccountHook';
+/*
 export const initialAccounts: Account[] = [
   {
     id: 1,
@@ -49,15 +52,36 @@ export const initialAccounts: Account[] = [
     currentValue: 120000.0,
     date: '2024-01-06',
   },
-];
+];*/
 export const AccountPage = () => {
   const [isEditAccountModalOpen, setEditAccountModalOpen] = useState(false);
   const [selectedAccount, setSelectedAccount] = useState<Account | null>(null);
-  const [accounts, setAccount] = useState<Account[]>(initialAccounts);
-  const [searchAccount, setSearchAccount] = useState('');
+  const {accountingAccounts,
+    isLoadingAccounts,
+    accountErrors,
+    updateAccountState,}=useFetchAccountingAccounts();
+  const [accounts, setAccount] = useState<Account[]>(accountingAccounts);
+ const { updateAccountingAccount, updateError }=useUpdateAccountingAccount();
+  const handleEditAccount = async (data: { account: Account }) => {
+    //console.log('Cuenta actualizada:', data.account);
+    try {
+      const formattedDate = formatISO(new Date(data.account.date));
+      const updatedInfo: CreateUpdateAccountingAccountDTO = {
+       accountName:data.account.accountName,
+       accountingAccountStatus:data.account.accountingAccountStatus,
+       currentValue: data.account.currentValue,
+       initialBalance:data.account.initialBalance,
+       initialBalanceDate:formattedDate
+      };
 
-  const handleEditAccount = (data: { account: Account }) => {
-    console.log('Cuenta actualizada:', data.account);
+      await updateAccountingAccount(data.account.id!,updatedInfo);
+
+      updateAccountState(data.account.id!, { ...data.account, ...updatedInfo });
+
+      console.log('Updated event information:', data.account);
+    } catch (error) {
+      console.error('Failed to update event:', error);
+    }
   };
 
   const handleDeleteAccount = (id: number | undefined) => {
@@ -65,13 +89,10 @@ export const AccountPage = () => {
     console.log('Cuenta eliminada:', id);
   };
 
+
   const openEditAccountModal = (account: Account) => {
     setSelectedAccount(account);
     setEditAccountModalOpen(true);
-  };
-
-  const handleSearchAccountChange = (name: string) => {
-    setSearchAccount(name);
   };
 
   return (
@@ -90,13 +111,11 @@ export const AccountPage = () => {
         </Link>
       </Text>
       <AccountTable
-        accounts={accounts}
+        accounts={accountingAccounts}
         onEdit={openEditAccountModal}
         onDelete={handleDeleteAccount}
         error={null}
         isLoading={false}
-        searchAccount={searchAccount}
-        onSearchAccountChange={handleSearchAccountChange}
       />
 
       <EditAccountModal

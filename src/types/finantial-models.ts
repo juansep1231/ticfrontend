@@ -9,9 +9,16 @@ export interface Transaction {
 }
 
 export interface Account {
+  /*id?: number;
+  accountType: string;
+  accountName: string;
+  currentValue: number;
+  date: string;*/
   id?: number;
   accountType: string;
   accountName: string;
   currentValue: number;
   date: string;
+  initialBalance: number;
+  accountingAccountStatus: string;
 }

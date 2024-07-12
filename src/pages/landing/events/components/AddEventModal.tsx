@@ -16,6 +16,9 @@ import { FormField } from '../../../../components/FormField';
 import { eventsSchema } from '../../../../utils/event-validations-helper';
 
 import { EventView } from '../../../../types/event-models';
+import useFetchFinancialStates from '../../../../hooks/Events/fetchFinancialRequestStateHook';
+import useFetchEventStates from '../../../../hooks/Events/fetchEventStatusHook';
+
 
 interface AddEventModalProps {
   isOpen: boolean;
@@ -36,7 +39,8 @@ export const AddEventModal = ({
   } = useForm<EventView>({
     resolver: yupResolver(eventsSchema),
   });
-
+  const {financialStatesData, financialStatesLoading, financialStatesError,} = useFetchFinancialStates();
+  const {eventStatesData, eventStatesLoading, eventStatesError} = useFetchEventStates();
   const watchStatus = watch('status');
 
   const onSubmit = (data: EventView) => {
@@ -67,7 +71,7 @@ export const AddEventModal = ({
             placeholder="Seleccione estado del evento"
             register={register}
             errors={errors.status}
-            options={['EN REVISIÓN', 'APROBADO', 'EN PROGRESO', 'FINALIZADO']}
+            options={eventStatesData}
           />
           <FormField
             id="description"
@@ -105,7 +109,7 @@ export const AddEventModal = ({
             placeholder="Seleccione el estado del presupuesto"
             register={register}
             errors={errors.budgetStatus}
-            options={['EN REVISIÓN', 'APROBADO', 'RECHAZADO']}
+            options={financialStatesData}
           />
           <FormField
             id="location"
