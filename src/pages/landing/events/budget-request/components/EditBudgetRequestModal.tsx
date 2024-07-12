@@ -15,6 +15,9 @@ import {
 import { FormField } from '../../../../../components/FormField';
 import { budgetRequestSchema } from '../../../../../utils/event-validations-helper';
 import { BudgetRequest } from '../../../../../types/event-models';
+import useFetchFinancialStates from '../../../../../hooks/Events/fetchFinancialRequestStateHook';
+import useFetchEvents from '../../../../../hooks/Events/fetchEventHook';
+import useFetchEventNames from '../../../../../hooks/Events/fetchEventNamesHook';
 
 interface AddBugdetRequestModalProps {
   isOpen: boolean;
@@ -58,6 +61,11 @@ export const EditBudgetRequestModal = ({
     onClose();
   };
 
+  const {financialStatesData, financialStatesLoading, financialStatesError,} = useFetchFinancialStates();
+  const {
+    eventNames, isLoading, error
+  }=useFetchEventNames();
+
   useEffect(() => {
     setValue('requestStatusName', 'EN REVISION');
   }, [setValue]);
@@ -77,7 +85,7 @@ export const EditBudgetRequestModal = ({
             placeholder="Selecciona el evento"
             register={register}
             errors={errors.eventName}
-            options={['Evento 1', 'Evento 2', 'Evento 3']}
+            options={eventNames}
             disabled={requestStatusName === 'APROBADO'}
           />
           <FormField
@@ -86,7 +94,7 @@ export const EditBudgetRequestModal = ({
             placeholder="Seleccione estado de la solicitud de presupuesto"
             register={register}
             errors={errors.requestStatusName}
-            options={['EN REVISION', 'APROBADO', 'RECHAZADO']}
+            options={financialStatesData}
             defaultValue="EN REVISION"
             disabled={requestStatusName === 'APROBADO'}
           />
