@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 export interface FinantialRequestDTO {
-    Request_Id: number;
-    Request_Status_Name: string;
-    Value: number;
-    Reason: string;
+  id?: number;
+  eventName: string;
+  requestStatusName: string; //EN REVISION, APROBADO, RECHAZADO
+  reason: string;
+  value: number;
   }
   
 
@@ -48,7 +49,7 @@ export const useFetchFinantialRequests = () => {
   ) => {
     setFinantialRequests((prevData) => {
       const newData = prevData.map((item) =>
-        item.Request_Id === id ? { ...item, ...updatedData } : item
+        item.id === id ? { ...item, ...updatedData } : item
       );
       console.log('Updated finantial requests:', newData);
       return newData;
