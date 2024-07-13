@@ -12,15 +12,15 @@ import {
   Center,
   Spinner,
 } from '@chakra-ui/react';
+import { FaEdit, FaTrash } from 'react-icons/fa';
 
 import { ConfirmationModal } from '../../../../components/ConfirmationModal';
 import { Inventory } from '../../../../types/inventory-models';
 import { INVENTORY_TABLE_HEADERS } from '../../../../utils/constants';
-
-import { TableOptions } from './TableOptions';
-import { FaEdit, FaTrash } from 'react-icons/fa';
 import { inventoriesFilterByProduct } from '../../../../utils/filter-helper';
 import { useErrorToast } from '../../../../hooks/general/useErrorToast';
+
+import { TableOptions } from './TableOptions';
 
 interface InventoryTableProps {
   movements: Inventory[];
@@ -30,6 +30,7 @@ interface InventoryTableProps {
   onDelete: (id: number | undefined) => void;
   searchInventory: string;
   onSearchInventoryChange: (name: string) => void;
+  onAddInventory: (inventory: Inventory) => void;
 }
 
 export const InventoryTable = ({
@@ -40,6 +41,7 @@ export const InventoryTable = ({
   onDelete,
   searchInventory,
   onSearchInventoryChange,
+  onAddInventory,
 }: InventoryTableProps) => {
   //const { data: members, isLoading, error } = useFetchData(url);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -88,6 +90,7 @@ export const InventoryTable = ({
         inventories={movements}
         searchMovement={searchInventory}
         onSearchMovementChange={onSearchInventoryChange}
+        onAddInventory={onAddInventory}
       />
       <TableContainer>
         <Table

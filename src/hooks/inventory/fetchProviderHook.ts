@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
+
 import { Supplier } from '../../types/supplier-models';
 import { DEFAULT_STATE } from '../../utils/constants';
-import { add } from 'date-fns';
-
 
 export const useFetchProviders = () => {
   const [providers, setProviders] = useState<Supplier[]>([]);
@@ -39,10 +38,7 @@ export const useFetchProviders = () => {
     fetchProviders();
   }, [endpoint]);
 
-  const updateProviderState = (
-    id: number,
-    updatedData: Partial<Supplier>
-  ) => {
+  const updateProviderState = (id: number, updatedData: Partial<Supplier>) => {
     setProviders((prevData) => {
       const newData = prevData.map((item) =>
         item.id === id ? { ...item, ...updatedData } : item
@@ -53,10 +49,9 @@ export const useFetchProviders = () => {
   };
 
   const addProviderState = (newContributionPlan: Supplier) => {
-
     setProviders((prevData) => {
       const newData = [...prevData, newContributionPlan];
-      console.log('Added new associationd:', newData,"dsdsdsd");
+      console.log('Added new associationd:', newData, 'dsdsdsd');
       return newData;
     });
   };
@@ -64,12 +59,10 @@ export const useFetchProviders = () => {
     (item) => item.stateid === DEFAULT_STATE // Adjust the filter condition as needed
   );
   return {
-    providers:filteredProducts,
+    providers: filteredProducts,
     isLoadingProviders,
     providerErrors,
     updateProviderState,
-    addProviderState
+    addProviderState,
   };
 };
-
-

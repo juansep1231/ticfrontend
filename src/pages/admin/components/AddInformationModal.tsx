@@ -15,8 +15,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { FormField } from '../../../components/FormField';
 import { infoSchema } from '../../../utils/admin-validations-helper';
 import { OrganizationalInfo } from '../../../types/organizational-models';
-import usePostAssociation from '../../../hooks/admin/createInformationTableHook';
-import useFetchAssociations from '../../../hooks/admin/fetchInformationTableHook';
 
 interface AddInformationModalProps {
   isOpen: boolean;
@@ -27,7 +25,7 @@ interface AddInformationModalProps {
 export const AddInformationModal = ({
   isOpen,
   onClose,
-  onAddMember
+  onAddMember,
 }: AddInformationModalProps) => {
   const {
     register,
@@ -36,7 +34,7 @@ export const AddInformationModal = ({
   } = useForm<OrganizationalInfo>({
     resolver: yupResolver(infoSchema),
   });
- 
+
   const onSubmit = async (data: OrganizationalInfo) => {
     onAddMember(data);
     onClose();

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { AddIcon, DownloadIcon, SearchIcon } from '@chakra-ui/icons';
+import { AddIcon, SearchIcon } from '@chakra-ui/icons';
 import {
   Button,
   Flex,
@@ -17,19 +17,17 @@ interface TableOptionsProps {
   requests: BudgetRequest[];
   searchBudgetRequest: string;
   onSearchBudgetRequestChange: (name: string) => void;
+  onAddBudgetRequest: (request: BudgetRequest) => void;
 }
 
 export const TableOptions = ({
   requests,
   searchBudgetRequest,
   onSearchBudgetRequestChange,
+  onAddBudgetRequest,
 }: TableOptionsProps) => {
   const [isAddBudgetRequestModalOpen, setIsAddBudgetRequestModalOpen] =
     useState(false);
-
-  const handleAddBudgetRequest = (newRequest: BudgetRequest) => {
-    console.log('Solicitud agregada:', newRequest);
-  };
 
   return (
     <Flex
@@ -62,7 +60,7 @@ export const TableOptions = ({
       <AddBudgetRequestModal
         isOpen={isAddBudgetRequestModalOpen}
         onClose={() => setIsAddBudgetRequestModalOpen(false)}
-        onAddBudgetRequest={handleAddBudgetRequest}
+        onAddBudgetRequest={onAddBudgetRequest}
       />
     </Flex>
   );

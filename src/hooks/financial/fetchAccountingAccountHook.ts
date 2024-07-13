@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
+import { CreateUpdateAccountingAccountDTO } from './updateAccountingAccountHook';
 
-interface AccountingAccountDTO {
+export interface AccountingAccountDTO {
     id?: number;
     accountType: string;
     accountName: string;
@@ -58,11 +59,21 @@ export const useFetchAccountingAccounts = () => {
     });
   };
 
+
+  const addAccountState = (newEvent:AccountingAccountDTO) => {
+
+    setAccountingAccounts((prevData) => {
+      const newData = [...prevData, newEvent];
+      console.log('Added new member:', newData,"dsdsdsd");
+      return newData;
+    });
+  };
   return {
     accountingAccounts,
     isLoadingAccounts,
     accountErrors,
     updateAccountState,
+    addAccountState
   };
 };
 

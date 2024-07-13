@@ -12,15 +12,15 @@ import {
   Spinner,
   Center,
 } from '@chakra-ui/react';
+import { FaEdit, FaTrash } from 'react-icons/fa';
 
 import { ConfirmationModal } from '../../../../../components/ConfirmationModal';
 import { SUBSCRIBER_TABLE_HEADERS } from '../../../../../utils/constants';
 import { Subscriber } from '../../../../../types/subscription-models';
-
-import { TableOptions } from './TableOptions';
-import { FaEdit, FaTrash } from 'react-icons/fa';
 import { subscribersFilterByName } from '../../../../../utils/filter-helper';
 import { useErrorToast } from '../../../../../hooks/general/useErrorToast';
+
+import { TableOptions } from './TableOptions';
 
 interface SubscribersTableProps {
   subscribers: Subscriber[];
@@ -30,6 +30,7 @@ interface SubscribersTableProps {
   onDelete: (id: number | undefined) => void;
   searchSubscriber: string;
   onSearchSubscriberChange: (name: string) => void;
+  onAddSubscriber: (subscriber: Subscriber) => void;
 }
 
 export const SubscribersTable = ({
@@ -40,6 +41,7 @@ export const SubscribersTable = ({
   onDelete,
   searchSubscriber,
   onSearchSubscriberChange,
+  onAddSubscriber,
 }: SubscribersTableProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedSubscriberId, setSelectedSubscriberId] = useState<
@@ -87,6 +89,7 @@ export const SubscribersTable = ({
         subscribers={subscribers}
         searchSubscriber={searchSubscriber}
         onSearchSubscriberChange={onSearchSubscriberChange}
+        onAddSubscriber={onAddSubscriber}
       />
       <TableContainer>
         <Table

@@ -18,7 +18,6 @@ import { ConfirmationModal } from '../../../components/ConfirmationModal'; // Im
 import { useErrorToast } from '../../../hooks/general/useErrorToast'; // Importa el hook de error
 import { Member } from '../../../types/organizational-models';
 import { ADMIN_MEMBERS_TABLE_HEADERS } from '../../../utils/constants';
-import { color } from 'framer-motion';
 
 interface AdminMembersTableProps {
   members: Member[];

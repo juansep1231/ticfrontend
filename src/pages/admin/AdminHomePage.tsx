@@ -1,29 +1,26 @@
 import { useEffect, useState } from 'react';
 import { Heading, Flex, Text, Image, Button } from '@chakra-ui/react';
+import { AddIcon } from '@chakra-ui/icons';
+import { format, formatISO, parseISO } from 'date-fns';
 
 import { Member, OrganizationalInfo } from '../../types/organizational-models';
-
-import { AddInformationModal } from './components/AddInformationModal';
-import { AddMemberModal } from './components/AddMemberModal';
-import { AdminMembersTable } from './components/AdminMembersTable';
-import { EditMemberModal } from './components/EditMemberModal';
-import { InformationTable } from './components/InformationTable';
-import { EditInformationModal } from './components/EditInformationModal';
-import { AddIcon } from '@chakra-ui/icons';
-
 import useUpdateAssociation from '../../hooks/admin/updateInformationTableHook';
 import usePatchAssociationState from '../../hooks/admin/patchInformationTableHook';
-import useUpdateAdministrativeMember, { CreateUpdateAdministrativeMemberDTO } from '../../hooks/admin/updateAdminTableHook';
+import useUpdateAdministrativeMember, {
+  CreateUpdateAdministrativeMemberDTO,
+} from '../../hooks/admin/updateAdminTableHook';
 import usePatchAdministrativeMemberState from '../../hooks/admin/patchAdminTableHook';
-
 import useFetchAdministrativeMembers from '../../hooks/admin/fetchAdminTableHook';
 import useFetchAssociations from '../../hooks/admin/fetchInformationTableHook';
 import usePostAssociation from '../../hooks/admin/createInformationTableHook';
-import { DEFAULT_STATE } from '../../utils/constants';
 import usePostAdministrativeMember from '../../hooks/admin/createMemberTableHook';
-import { format, formatISO, parseISO } from 'date-fns';
 
-
+import { EditInformationModal } from './components/EditInformationModal';
+import { InformationTable } from './components/InformationTable';
+import { EditMemberModal } from './components/EditMemberModal';
+import { AdminMembersTable } from './components/AdminMembersTable';
+import { AddMemberModal } from './components/AddMemberModal';
+import { AddInformationModal } from './components/AddInformationModal';
 
 export const AdminHome = () => {
   const [isAddInfoModalOpen, setAddInfoModalOpen] = useState(false);
@@ -40,27 +37,26 @@ export const AdminHome = () => {
     isLoadingAdministrativeMembers,
     administrativeMemberErrors,
     updateAdministrativeMemberState,
-    addAdminMemberState
+    addAdminMemberState,
   } = useFetchAdministrativeMembers();
-
 
   const {
     associations,
     isLoadingAssociations,
     associationErrors,
     updateAssociationState,
-    addAssociationState
+    addAssociationState,
   } = useFetchAssociations();
 
-  const { postAssociation, postError} = usePostAssociation();
-  const {  postAdministrativeMember, postAdminError} = usePostAdministrativeMember();
-  const { updateAssociation, updateError, } = useUpdateAssociation();
-  const { patchAssociationState, patchError } = usePatchAssociationState();
-  const { patchAdministrativeMemberState, patchAdminError } = usePatchAdministrativeMemberState();
-  const { updateAdministrativeMember, updateAdministrativeMemberError  } = useUpdateAdministrativeMember();
+  const { postAssociation } = usePostAssociation();
+  const { postAdministrativeMember } = usePostAdministrativeMember();
+  const { updateAssociation } = useUpdateAssociation();
+  const { patchAssociationState } = usePatchAssociationState();
+  const { patchAdministrativeMemberState } =
+    usePatchAdministrativeMemberState();
+  const { updateAdministrativeMember } = useUpdateAdministrativeMember();
 
   const handleAddMember = async (createdMember: Member) => {
-
     try {
       const formattedDate = formatISO(new Date(createdMember.birthDate));
       const newAdmin: CreateUpdateAdministrativeMemberDTO = {
@@ -72,18 +68,16 @@ export const AdminHome = () => {
         career: createdMember.career,
         semester: createdMember.semester,
         email: createdMember.email,
-        position: createdMember.position
-
+        position: createdMember.position,
       };
       const newAdminMember = await postAdministrativeMember(newAdmin);
 
       addAdminMemberState(newAdminMember);
-   
     } catch (error) {
       console.error('Failed to update association:', error);
     }
   };
-  
+
   const handleAddInfo = async (newInformation: OrganizationalInfo) => {
     try {
       const newInfo = {
@@ -93,11 +87,10 @@ export const AdminHome = () => {
       const newInformatiom = await postAssociation(newInfo);
 
       addAssociationState(newInformatiom);
-   
     } catch (error) {
       console.error('Failed to update association:', error);
     }
-  }
+  };
 
   useEffect(() => {
     console.log('AssociationsComponent re-rendered', associations);
@@ -105,7 +98,7 @@ export const AdminHome = () => {
   const handleEditMember = async (data: { member: Member }) => {
     const formattedDate = formatISO(new Date(data.member.birthDate));
     try {
-      const updatedInfo: CreateUpdateAdministrativeMemberDTO  = {
+      const updatedInfo: CreateUpdateAdministrativeMemberDTO = {
         firstName: data.member.firstName,
         lastName: data.member.lastName,
         birthDate: formattedDate,
@@ -114,17 +107,22 @@ export const AdminHome = () => {
         career: data.member.career,
         semester: data.member.semester,
         email: data.member.email,
-        position:data.member.position  
-
+        position: data.member.position,
       };
       await updateAdministrativeMember(data.member.id!, updatedInfo);
 
-      const originalFormattedDate = format(parseISO(data.member.birthDate), 'dd/MM/yyyy');
+      const originalFormattedDate = format(
+        parseISO(data.member.birthDate),
+        'dd/MM/yyyy'
+      );
 
-      updateAdministrativeMemberState(data.member.id!, { ...data.member, ...updatedInfo, birthDate: originalFormattedDate  });
+      updateAdministrativeMemberState(data.member.id!, {
+        ...data.member,
+        ...updatedInfo,
+        birthDate: originalFormattedDate,
+      });
 
       console.log('Updated organizational information:', data.member);
-
     } catch (error) {
       console.error('Failed to update association:', error);
     }

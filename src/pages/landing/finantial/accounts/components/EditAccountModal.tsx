@@ -14,7 +14,6 @@ import {
 
 import { FormField } from '../../../../../components/FormField';
 import { accountSchema } from '../../../../../utils/finantial-validations-helper';
-
 import { Account } from '../../../../../types/finantial-models';
 import useFetchAccountTypes from '../../../../../hooks/financial/fetchAccountTypeHook';
 
@@ -42,7 +41,6 @@ export const EditAccountModal = ({
 
   useEffect(() => {
     if (account) {
-      // Set initial form values when info prop changes
       Object.keys(account).forEach((key) => {
         setValue(key as keyof Account, account[key as keyof Account]);
       });
@@ -53,7 +51,7 @@ export const EditAccountModal = ({
     onSubmit({ account: data });
     onClose();
   };
-  const { accountTypesData, accountTypesLoading, accountTypesError }= useFetchAccountTypes();
+  const { accountTypesData } = useFetchAccountTypes();
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>

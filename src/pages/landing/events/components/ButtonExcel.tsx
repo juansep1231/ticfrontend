@@ -16,7 +16,7 @@ export const ButtonExcel = ({ data }: ButtonExcelProps) => {
   const handleDownload = () => {
     setLoading(true);
 
-    let finalData = [EVENTS_TABLE_HEADERS];
+    const finalData = [EVENTS_TABLE_HEADERS];
 
     data.forEach((event) => {
       finalData.push([

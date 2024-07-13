@@ -14,7 +14,6 @@ import {
 
 import { FormField } from '../../../../../components/FormField';
 import { transactionSchema } from '../../../../../utils/finantial-validations-helper';
-
 import { Transaction } from '../../../../../types/finantial-models';
 
 interface EditTransactionModalProps {

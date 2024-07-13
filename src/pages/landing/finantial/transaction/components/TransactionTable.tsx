@@ -12,15 +12,15 @@ import {
   Spinner,
   Center,
 } from '@chakra-ui/react';
+import { FaEdit, FaTrash } from 'react-icons/fa';
 
 import { ConfirmationModal } from '../../../../../components/ConfirmationModal';
 import { TRANSACTION_TABLE_HEADERS } from '../../../../../utils/constants';
 import { Transaction } from '../../../../../types/finantial-models';
-
-import { TableOptions } from './TableOptions';
-import { FaEdit, FaTrash } from 'react-icons/fa';
 import { transactionFilterByType } from '../../../../../utils/filter-helper';
 import { useErrorToast } from '../../../../../hooks/general/useErrorToast';
+
+import { TableOptions } from './TableOptions';
 
 interface TransactionTableProps {
   transactions: Transaction[];
@@ -30,6 +30,7 @@ interface TransactionTableProps {
   onDelete: (id: number | undefined) => void;
   searchTransaction: string;
   onSearchTransactionChange: (name: string) => void;
+  onAddTransaction: (transaction: Transaction) => void;
 }
 
 export const TransactionTable = ({
@@ -40,6 +41,7 @@ export const TransactionTable = ({
   onDelete,
   searchTransaction,
   onSearchTransactionChange,
+  onAddTransaction,
 }: TransactionTableProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTransactionId, setSelectedTransactionId] = useState<
@@ -88,6 +90,7 @@ export const TransactionTable = ({
         transactions={transactions}
         searchTransaction={searchTransaction}
         onSearchTransactionChange={onSearchTransactionChange}
+        onAddTransaction={onAddTransaction}
       />
       <TableContainer>
         <Table

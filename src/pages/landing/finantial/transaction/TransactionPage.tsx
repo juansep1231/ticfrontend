@@ -1,11 +1,15 @@
 import { Heading, Flex, Text, Link } from '@chakra-ui/react';
 import { useState } from 'react';
+import { formatISO } from 'date-fns';
 
 import { Transaction } from '../../../../types/finantial-models';
+import { useFetchTransactions } from '../../../../hooks/financial/fetchTransactionHook';
+import usePostTransaction, {
+  CreateUpdateTransactionDTO,
+} from '../../../../hooks/financial/createTransactionHook';
 
 import { TransactionTable } from './components/TransactionTable';
 import { EditTransactionModal } from './components/EditTransactionModal';
-import { useFetchTransactions } from '../../../../hooks/financial/fetchTransactionHook';
 
 export const initialTransactions: Transaction[] = [
   {
@@ -53,6 +57,8 @@ export const TransactionPage = () => {
     useState<Transaction | null>(null);
   const [searchTransaction, setSearchTransaction] = useState('');
 
+  const { postTransaction } = usePostTransaction();
+
   const handleEditTransaction = (data: { transaction: Transaction }) => {
     console.log('Transacción actualizado:', data.transaction);
   };
@@ -66,15 +72,31 @@ export const TransactionPage = () => {
     setEditTransactionModalOpen(true);
   };
 
-  const {
-    transactions,
-    isLoadingTransactions,
-    transactionErrors,
-    updateTransactionState,
-  } = useFetchTransactions();
+  const { transactions, isLoadingTransactions, transactionErrors, addTransactionState} =
+    useFetchTransactions();
 
   const handleSearchTransactionChange = (name: string) => {
     setSearchTransaction(name);
+  };
+
+  const handleAddTransaction = async (newTransaction: Transaction) => {
+    try {
+      const formattedDate = formatISO(new Date(newTransaction.date));
+      const updatedInfo: CreateUpdateTransactionDTO = {
+        date: formattedDate,
+        originAccount: newTransaction.originAccount,
+        destinationAccount: newTransaction.destinationAccount,
+        value: newTransaction.value,
+        transactionType: newTransaction.transactionType,
+        description: newTransaction.description,
+      };
+     
+      const newAdminMember = await postTransaction(updatedInfo);
+
+      addTransactionState(newAdminMember);
+    } catch (error) {
+      console.error('Failed to update Event:', error);
+    }
   };
 
   return (
@@ -98,10 +120,11 @@ export const TransactionPage = () => {
         transactions={transactions}
         onEdit={openEditTransactionModal}
         onDelete={handleDeleteTransaction}
-        error={null}
-        isLoading={false}
+        error={transactionErrors}
+        isLoading={isLoadingTransactions}
         searchTransaction={searchTransaction}
         onSearchTransactionChange={handleSearchTransactionChange}
+        onAddTransaction={handleAddTransaction}
       />
 
       <EditTransactionModal

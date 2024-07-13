@@ -12,15 +12,15 @@ import {
   Spinner,
   Center,
 } from '@chakra-ui/react';
+import { FaEdit, FaTrash } from 'react-icons/fa';
 
 import { ConfirmationModal } from '../../../../../components/ConfirmationModal';
 import { PRODUCTS_TABLE_HEADERS } from '../../../../../utils/constants';
-
-import { TableOptions } from './TableOptions';
 import { Product } from '../../../../../types/inventory-models';
-import { FaEdit, FaTrash } from 'react-icons/fa';
 import { productsFilterByName } from '../../../../../utils/filter-helper';
 import { useErrorToast } from '../../../../../hooks/general/useErrorToast';
+
+import { TableOptions } from './TableOptions';
 
 interface ProductsTableProps {
   products: Product[];
@@ -30,6 +30,7 @@ interface ProductsTableProps {
   onDelete: (id: number | undefined) => void;
   searchProduct: string;
   onSearchProductChange: (name: string) => void;
+  onAddProduct: (product: Product) => void;
 }
 
 export const ProductsTable = ({
@@ -40,6 +41,7 @@ export const ProductsTable = ({
   onDelete,
   searchProduct,
   onSearchProductChange,
+  onAddProduct,
 }: ProductsTableProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState<
@@ -83,6 +85,7 @@ export const ProductsTable = ({
         products={filteredProducts}
         searchProduct={searchProduct}
         onSearchProductChange={onSearchProductChange}
+        onAddProduct={onAddProduct}
       />
       <TableContainer>
         <Table

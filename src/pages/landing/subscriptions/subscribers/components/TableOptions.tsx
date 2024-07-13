@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { AddIcon, DownloadIcon, SearchIcon } from '@chakra-ui/icons';
+import { AddIcon, SearchIcon } from '@chakra-ui/icons';
 import {
   Button,
   Flex,
@@ -9,6 +9,7 @@ import {
 } from '@chakra-ui/react';
 
 import { Subscriber } from '../../../../../types/subscription-models';
+
 import { AddSubscriberModal } from './AddSubscriberModal';
 import { ButtonExcel } from './ButtonExcel';
 
@@ -16,19 +17,17 @@ interface TableOptionsProps {
   subscribers: Subscriber[];
   searchSubscriber: string;
   onSearchSubscriberChange: (name: string) => void;
+  onAddSubscriber: (subscriber: Subscriber) => void;
 }
 
 export const TableOptions = ({
   subscribers,
   searchSubscriber,
   onSearchSubscriberChange,
+  onAddSubscriber,
 }: TableOptionsProps) => {
   const [isAddSubscriberModalOpen, setIsAddSubscriberModalOpen] =
     useState(false);
-
-  const handleAddSubscriber = (newSubscriber: Subscriber) => {
-    console.log('Aportante agregado:', newSubscriber);
-  };
 
   return (
     <Flex
@@ -61,7 +60,7 @@ export const TableOptions = ({
       <AddSubscriberModal
         isOpen={isAddSubscriberModalOpen}
         onClose={() => setIsAddSubscriberModalOpen(false)}
-        onAddSubscriber={handleAddSubscriber}
+        onAddSubscriber={onAddSubscriber}
       />
     </Flex>
   );

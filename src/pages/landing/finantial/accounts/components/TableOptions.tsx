@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { AddIcon, DownloadIcon, SearchIcon } from '@chakra-ui/icons';
+import { AddIcon, SearchIcon } from '@chakra-ui/icons';
 import {
   Button,
   Flex,
@@ -17,18 +17,16 @@ interface TableOptionsProps {
   accounts: Account[];
   searchAccount: string;
   onSearchAccountChange: (name: string) => void;
+  onAddAccount: (account: Account) => void;
 }
 
 export const TableOptions = ({
   accounts,
   searchAccount,
   onSearchAccountChange,
+  onAddAccount,
 }: TableOptionsProps) => {
   const [isAddAccountModalOpen, setIsAddAccountModalOpen] = useState(false);
-
-  const handleAddAccount = (newAccount: Account) => {
-    console.log('Cuenta agregada:', newAccount);
-  };
 
   return (
     <Flex
@@ -61,7 +59,7 @@ export const TableOptions = ({
       <AddAccountModal
         isOpen={isAddAccountModalOpen}
         onClose={() => setIsAddAccountModalOpen(false)}
-        onAddAccount={handleAddAccount}
+        onAddAccount={onAddAccount}
       />
     </Flex>
   );

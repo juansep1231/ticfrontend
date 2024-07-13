@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
@@ -14,7 +14,6 @@ import {
 
 import { FormField } from '../../../../components/FormField';
 import { eventsSchema } from '../../../../utils/event-validations-helper';
-
 import { EventView } from '../../../../types/event-models';
 import useFetchFinancialStates from '../../../../hooks/Events/fetchFinancialRequestStateHook';
 import useFetchEventStates from '../../../../hooks/Events/fetchEventStatusHook';
@@ -40,10 +39,8 @@ export const EditEventModal = ({
   } = useForm<EventView>({
     resolver: yupResolver(eventsSchema),
   });
-  const { financialStatesData, financialStatesLoading, financialStatesError } =
-    useFetchFinancialStates();
-  const { eventStatesData, eventStatesLoading, eventStatesError } =
-    useFetchEventStates();
+  const { financialStatesData } = useFetchFinancialStates();
+  const { eventStatesData } = useFetchEventStates();
 
   useEffect(() => {
     if (event) {

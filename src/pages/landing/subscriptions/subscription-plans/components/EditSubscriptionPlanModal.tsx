@@ -10,12 +10,11 @@ import {
   ModalCloseButton,
   Button,
 } from '@chakra-ui/react';
+import { useEffect } from 'react';
 
 import { FormField } from '../../../../../components/FormField';
 import { subscriptionPlanSchema } from '../../../../../utils/subscription-validations-helper';
-
 import { SubscriptionPlan } from '../../../../../types/subscription-models';
-import { useEffect } from 'react';
 import useFetchAcademicPeriods from '../../../../../hooks/general/fetchAcademicPeriodHook';
 
 interface EditSubscriptionPlanModalProps {
@@ -52,7 +51,7 @@ export const EditSubscriptionPlanrModal = ({
     }
   }, [plan, setValue]);
 
-  const { academicPeriodsData, academicPeriodsLoading, academicPeriodsError } = useFetchAcademicPeriods();
+  const { academicPeriodsData } = useFetchAcademicPeriods();
   const handleFormSubmit = (data: SubscriptionPlan) => {
     onSubmit({ plan: data });
     onClose();

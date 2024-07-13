@@ -1,14 +1,17 @@
 import { Heading, Flex, Link, Text } from '@chakra-ui/react';
-import { SubscriptionPlansTable } from './components/SubscribtionPlansTable';
 import { useState } from 'react';
+
 import { SubscriptionPlan } from '../../../../types/subscription-models';
-import { EditSubscriptionPlanrModal } from './components/EditSubscriptionPlanModal';
-import  useFetchContributionPlans  from '../../../../hooks/organizational/fetchContributionPlan';
+import useFetchContributionPlans from '../../../../hooks/organizational/fetchContributionPlan';
 import {
   CreateUpdateContributionPlanDTO,
   useUpdateContributionPlan,
 } from '../../../../hooks/organizational/updateContributorPlan';
 import usePatchContributionPlanState from '../../../../hooks/organizational/patchContributionPlanHook';
+import usePostContributionPlan from '../../../../hooks/organizational/createContributionPlan';
+
+import { EditSubscriptionPlanrModal } from './components/EditSubscriptionPlanModal';
+import { SubscriptionPlansTable } from './components/SubscribtionPlansTable';
 
 export const initialSubscriptionPlans: SubscriptionPlan[] = [
   {
@@ -66,16 +69,16 @@ export const SubscriptionPlansPage = () => {
   );
 
   const [searchPlan, setSearchPlan] = useState('');
-
+  const { postContributionPlan } = usePostContributionPlan();
   const {
     contributionPlans,
     isLoadingContributionPlans,
     contributionPlanErrors,
     updateContributionPlanState,
+    addContributionPlanState,
   } = useFetchContributionPlans();
-  const { updateContributionPlan, updateError } = useUpdateContributionPlan();
-  const { patchContributionPlanState, patchError } =
-    usePatchContributionPlanState();
+  const { updateContributionPlan } = useUpdateContributionPlan();
+  const { patchContributionPlanState } = usePatchContributionPlanState();
   const handleEditTransaction = async (data: { plan: SubscriptionPlan }) => {
     try {
       const updatedInfo: CreateUpdateContributionPlanDTO = {
@@ -121,6 +124,22 @@ export const SubscriptionPlansPage = () => {
     setSearchPlan(name);
   };
 
+  const handleAddPlan = async (newPlan: SubscriptionPlan) => {
+    try {
+      const newContributionPlan: CreateUpdateContributionPlanDTO = {
+        planName: newPlan.planName,
+        price: newPlan.price,
+        benefits: newPlan.benefits,
+        academic_Period_Name: newPlan.academicPeriod,
+      };
+      const newAdminMember = await postContributionPlan(newContributionPlan);
+
+      addContributionPlanState(newAdminMember);
+    } catch (error) {
+      console.error('Failed to update subscriber plan:', error);
+    }
+  };
+
   return (
     <Flex
       flex="1"
@@ -140,10 +159,11 @@ export const SubscriptionPlansPage = () => {
         plans={contributionPlans}
         onEdit={openEditTransactionModal}
         onDelete={handleDeleteTransaction}
-        error={null}
-        isLoading={false}
+        error={contributionPlanErrors}
+        isLoading={isLoadingContributionPlans}
         searchPlan={searchPlan}
         onSearchPlanChange={handleSearchEventChange}
+        onAddSubscriptionPlan={handleAddPlan}
       />
 
       <EditSubscriptionPlanrModal

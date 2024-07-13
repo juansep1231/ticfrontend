@@ -5,93 +5,13 @@ import { moduleCardData } from '../../utils/modules-card-data';
 import { Member } from '../../types/organizational-models';
 import { modulesFeatIcons } from '../../utils/modules-card-data';
 import { SubscriptionPlan } from '../../types/subscription-models';
+import useFetchContributionPlans from '../../hooks/organizational/fetchContributionPlan';
+import useFetchAdministrativeMembers from '../../hooks/admin/fetchAdminTableHook';
 
 import { LinkCard } from './components/LinkCard';
 import { MemberCard } from './components/MemberCard';
 import { SubscriptionPlanCard } from './components/SubscriptionPlanCard';
 import { MisionVisionCard } from './components/MisonVisionCard';
-import useFetchAssociations from '../../hooks/admin/fetchInformationTableHook';
-import useFetchContributionPlans from '../../hooks/organizational/fetchContributionPlan';
-import useFetchAdministrativeMembers from '../../hooks/admin/fetchAdminTableHook';
-
-
-const plans: SubscriptionPlan[] = [
-  {
-    id: 1,
-    planName: 'Prueba',
-    price: 10,
-    benefits:
-      'Acceso a cursos gratuitos, Colada morada en el dia de los difuntos, Funda de caramelos en navidad',
-    academicPeriod: '2024-B',
-  },
-  {
-    id: 2,
-    planName: 'Basic',
-    price: 15,
-    benefits:
-      'Acceso a cursos gratuitos, Colada morada en el dia de los difuntos, Funda de caramelos en navidad',
-    academicPeriod: '2024-B',
-  },
-  {
-    id: 1,
-    planName: 'Premium',
-    price: 10,
-    benefits:
-      'Acceso a cursos gratuitos, Colada morada en el dia de los difuntos, Funda de caramelos en navidad',
-    academicPeriod: '2024-B',
-  },
-];
-
-const members: Member[] = [
-  {
-    id: 1,
-    firstName: 'Valery',
-    lastName: 'Vallejo',
-    birthDate: '1995-01-01',
-    cellphone: '0983885744',
-    faculty: 'Facultad de Ingeniería Eléctrica y Electrónica',
-    career: 'Ingeniería Eléctrica',
-    semester: 'Noveno',
-    email: 'valery.vallejo@epn.edu.ec',
-    position: 'Presidente',
-  },
-  {
-    id: 2,
-    firstName: 'Javier',
-    lastName: 'Revelo',
-    birthDate: '1995-01-01',
-    cellphone: '0983885744',
-    faculty: 'Facultad de Ingeniería Eléctrica y Electrónica',
-    career: 'Ingeniería Eléctrica',
-    semester: 'Noveno',
-    email: 'valery.vallejo@epn.edu.ec',
-    position: 'Vicepresidente Financiero',
-  },
-  {
-    id: 3,
-    firstName: 'Juan',
-    lastName: 'Posso',
-    birthDate: '1995-01-01',
-    cellphone: '0983885744',
-    faculty: 'Facultad de Ingeniería Eléctrica y Electrónica',
-    career: 'Ingeniería Eléctrica',
-    semester: 'Noveno',
-    email: 'valery.vallejo@epn.edu.ec',
-    position: 'Vicepresidente Académico',
-  },
-  {
-    id: 4,
-    firstName: 'Cristian',
-    lastName: 'Verduga',
-    birthDate: '1995-01-01',
-    cellphone: '0983885744',
-    faculty: 'Facultad de Ingeniería Eléctrica y Electrónica',
-    career: 'Ingeniería Eléctrica',
-    semester: 'Noveno',
-    email: 'valery.vallejo@epn.edu.ec',
-    position: 'Vicepresidente Académico',
-  },
-];
 
 export const Home = () => {
   const moduleCardList = moduleCardData.map((m, i) => {
@@ -109,13 +29,9 @@ export const Home = () => {
     );
   });
 
+  const { administrativeMembers } = useFetchAdministrativeMembers();
+  const { contributionPlans } = useFetchContributionPlans();
 
-  
-  const {associations} = useFetchAssociations();
-  const {administrativeMembers} = useFetchAdministrativeMembers();
-  const {contributionPlans} = useFetchContributionPlans();
-
-  
   const planList = contributionPlans.map((plan: SubscriptionPlan) => {
     {
       return <SubscriptionPlanCard key={plan.id} plan={plan} />;
@@ -125,7 +41,6 @@ export const Home = () => {
   const memberList = administrativeMembers.map((member: Member) => {
     return <MemberCard key={member.id} member={member} />;
   });
-
 
   return (
     <Flex

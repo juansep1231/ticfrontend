@@ -16,7 +16,7 @@ export const ButtonExcel = ({ data }: ButtonExcelProps) => {
   const handleDownload = () => {
     setLoading(true);
 
-    let finalData = [SUBSCRIPTION_PLAN_TABLE_HEADERS];
+    const finalData = [SUBSCRIPTION_PLAN_TABLE_HEADERS];
 
     data.forEach((plan) => {
       finalData.push([

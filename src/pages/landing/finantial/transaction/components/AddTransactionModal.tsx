@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
@@ -14,7 +13,6 @@ import {
 
 import { FormField } from '../../../../../components/FormField';
 import { transactionSchema } from '../../../../../utils/finantial-validations-helper';
-
 import { Transaction } from '../../../../../types/finantial-models';
 import useFetchAccountingAccountNames from '../../../../../hooks/financial/fetchAccountNamesHook';
 import useFetchTransactionStates from '../../../../../hooks/financial/fetchTransactionTypeHook';
@@ -38,8 +36,8 @@ export const AddTransactionModal = ({
     resolver: yupResolver(transactionSchema),
   });
 
-  const { accountNames, isLoading, error }= useFetchAccountingAccountNames();
-  const { transactionStates }= useFetchTransactionStates();
+  const { accountNames } = useFetchAccountingAccountNames();
+  const { transactionStates } = useFetchTransactionStates();
 
   const onSubmit = (data: Transaction) => {
     console.log('Transacción agregada:', data);

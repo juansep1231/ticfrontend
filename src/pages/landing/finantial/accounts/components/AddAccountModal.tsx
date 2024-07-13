@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
@@ -14,7 +13,6 @@ import {
 
 import { FormField } from '../../../../../components/FormField';
 import { accountSchema } from '../../../../../utils/finantial-validations-helper';
-
 import { Account } from '../../../../../types/finantial-models';
 import useFetchAccountTypes from '../../../../../hooks/financial/fetchAccountTypeHook';
 
@@ -43,7 +41,7 @@ export const AddAccountModal = ({
     onClose();
   };
 
-  const { accountTypesData, accountTypesLoading, accountTypesError }= useFetchAccountTypes();
+  const { accountTypesData } = useFetchAccountTypes();
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>

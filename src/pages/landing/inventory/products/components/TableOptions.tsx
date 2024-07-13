@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { AddIcon, DownloadIcon, SearchIcon } from '@chakra-ui/icons';
+import { AddIcon, SearchIcon } from '@chakra-ui/icons';
 import {
   Button,
   Flex,
@@ -17,18 +17,16 @@ interface TableOptionsProps {
   products: Product[];
   searchProduct: string;
   onSearchProductChange: (name: string) => void;
+  onAddProduct: (product: Product) => void;
 }
 
 export const TableOptions = ({
   products,
   searchProduct,
   onSearchProductChange,
+  onAddProduct,
 }: TableOptionsProps) => {
   const [isAddProductModalOpen, setIsAddProductModalOpen] = useState(false);
-
-  const handleAddProduct = (newProduct: Product) => {
-    console.log('Producto agregado:', newProduct);
-  };
 
   return (
     <Flex
@@ -61,7 +59,7 @@ export const TableOptions = ({
       <AddProductModal
         isOpen={isAddProductModalOpen}
         onClose={() => setIsAddProductModalOpen(false)}
-        onAddProduct={handleAddProduct}
+        onAddProduct={onAddProduct}
       />
     </Flex>
   );

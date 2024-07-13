@@ -12,11 +12,10 @@ import {
   Spinner,
   Center,
 } from '@chakra-ui/react';
-
 import { FaTrash, FaEdit } from 'react-icons/fa';
+
 import { ConfirmationModal } from '../../../components/ConfirmationModal';
 import { useErrorToast } from '../../../hooks/general/useErrorToast';
-import { useFetchData } from '../../../hooks/general/exampleHook';
 import { OrganizationalInfo } from '../../../types/organizational-models';
 import { INFO_TABLE_HEADERS } from '../../../utils/constants';
 

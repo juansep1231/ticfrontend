@@ -2,14 +2,15 @@ import { useState } from 'react';
 import { Heading, Flex, Link, Text } from '@chakra-ui/react';
 
 import { Supplier } from '../../../types/supplier-models';
-
-import { SuppliersTable } from './components/SuppliersTable';
-import { EditSupplierModal } from './components/EditSupplierModal';
 import { useFetchProviders } from '../../../hooks/inventory/fetchProviderHook';
 import useUpdateProvider, {
   CreateUpdateProviderDTO,
 } from '../../../hooks/inventory/updateProviderHook';
 import usePatchProviderState from '../../../hooks/inventory/patchProvider';
+
+import { EditSupplierModal } from './components/EditSupplierModal';
+import { SuppliersTable } from './components/SuppliersTable';
+import usePostProvider from '../../../hooks/inventory/createProviderHook';
 
 export const initialSuppliers: Supplier[] = [
   {
@@ -56,10 +57,11 @@ export const SuppliersPage = () => {
     null
   );
   const [searchSupplier, setSearchSupplier] = useState('');
-  const { providers, isLoadingProviders, providerErrors, updateProviderState } =
+  const { providers, isLoadingProviders, providerErrors, updateProviderState, addProviderState } =
     useFetchProviders();
-  const { updateProvider, updateError } = useUpdateProvider();
-  const { patchProviderState, patchError } = usePatchProviderState();
+  const { updateProvider } = useUpdateProvider();
+  const { patchProviderState } = usePatchProviderState();
+  const { postProvider } = usePostProvider();
 
   const handleEditMovement = async (data: { supplier: Supplier }) => {
     try {
@@ -101,6 +103,20 @@ export const SuppliersPage = () => {
     setSearchSupplier(name);
   };
 
+  const handleAddSupplier = async (newSupplier: Supplier) => {
+    try {
+      const newProvider: CreateUpdateProviderDTO = {
+        name: newSupplier.name,
+        phone: newSupplier.phone,
+        email: newSupplier.email,
+      };
+      const createdProvider = await postProvider(newProvider);
+
+      addProviderState(createdProvider);
+    } catch (error) {
+      console.error('Failed to create Subscriber:', error);
+    }
+  };
   return (
     <Flex
       flex="1"
@@ -125,6 +141,7 @@ export const SuppliersPage = () => {
         isLoading={isLoadingProviders}
         searchSupplier={searchSupplier}
         onSearchSupplierChange={handleSearchSupplierChange}
+        onAddSupplier={handleAddSupplier}
       />
 
       <EditSupplierModal

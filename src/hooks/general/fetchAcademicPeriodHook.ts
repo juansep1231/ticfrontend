@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 export interface AcademicPeriodDTO {
     academicPeriod: string;
   }
-  
+
 
 const useFetchAcademicPeriods = () => {
   const [academicPeriodsData, setAcademicPeriodsData] = useState<string[]>([]);

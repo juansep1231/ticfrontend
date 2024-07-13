@@ -1,9 +1,10 @@
 import { useState } from 'react';
 
 export interface CreateUpdateAccountingAccountDTO {
+  accountType: string;
   accountName: string;
   currentValue: number;
-  initialBalanceDate: string;
+  date: string;
   initialBalance: number;
   //accountingAccountStatus: string;
 }

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+
 import { OrganizationalInfo } from '../../types/organizational-models';
 import { DEFAULT_STATE } from '../../utils/constants';
 
@@ -21,7 +22,7 @@ import { DEFAULT_STATE } from '../../utils/constants';
         }
 
         const data: OrganizationalInfo[] = await response.json();
-        
+
         setData(data);
         console.log('Fetched data:', data);
       } catch (error: any) {
@@ -60,7 +61,7 @@ import { DEFAULT_STATE } from '../../utils/constants';
       return newData;
     });
   };
-  
+
   const filteredAssociations = associations.filter(
     (item) => item.state_id == DEFAULT_STATE
   );

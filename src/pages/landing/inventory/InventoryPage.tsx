@@ -1,15 +1,17 @@
 import { Heading, Flex, Text, Link } from '@chakra-ui/react';
-import { InventoryTable } from './components/InventoryTable';
 import { useState } from 'react';
-import { Inventory } from '../../../types/inventory-models';
-import { EditInventoryModal } from './components/EditInventoryModal';
-import { useFetchInventoryMovements } from '../../../hooks/inventory/fetchInventoryHook';
 import { format, formatISO, parseISO } from 'date-fns';
+
+import { Inventory } from '../../../types/inventory-models';
+import { useFetchInventoryMovements } from '../../../hooks/inventory/fetchInventoryHook';
 import useUpdateInventoryMovement, {
   CreateUpdateInventoryMovementDTO,
 } from '../../../hooks/inventory/updateInventoryHook';
 import usePatchInventoryMovementState from '../../../hooks/inventory/patchInventoryHook';
-import { or } from 'firebase/firestore';
+
+import { EditInventoryModal } from './components/EditInventoryModal';
+import { InventoryTable } from './components/InventoryTable';
+import usePostInventoryMovement from '../../../hooks/inventory/createInventoryHook';
 
 export const initialInventory: Inventory[] = [
   {
@@ -62,15 +64,17 @@ export const InventoryPage = () => {
     null
   );
   const [searchInventory, setSearchInventory] = useState('');
-  const { updateInventoryMovement, updateError } = useUpdateInventoryMovement();
+  const { updateInventoryMovement } = useUpdateInventoryMovement();
   const {
     inventoryMovements,
     isLoadingInventoryMovements,
     inventoryMovementErrors,
     updateInventoryMovementState,
+    addInventiryMovementtate
   } = useFetchInventoryMovements();
 
-  const { patchInventoryMovementState, patchError } = usePatchInventoryMovementState();
+  const { patchInventoryMovementState } = usePatchInventoryMovementState();
+  const {  postInventoryMovement } = usePostInventoryMovement();
   const handleEditMovement = async (data: { movements: Inventory }) => {
     try {
       const formattedDate = formatISO(new Date(data.movements.date));
@@ -81,7 +85,10 @@ export const InventoryPage = () => {
         quantity: data.movements.quantity,
       };
 
-      const originalFormattedDate = format(parseISO(data.movements.date), 'dd/MM/yyyy');
+      const originalFormattedDate = format(
+        parseISO(data.movements.date),
+        'dd/MM/yyyy'
+      );
 
       await updateInventoryMovement(data.movements.id!, updatedInfo);
 
@@ -116,6 +123,22 @@ export const InventoryPage = () => {
     setSearchInventory(name);
   };
 
+  const handleAddInventory = async (newInventory: Inventory) => {
+    try {
+      const newContributionPlan: CreateUpdateInventoryMovementDTO = {
+        date: formatISO(new Date(newInventory.date)),
+        product_Name: newInventory.product,
+        inventory_Movement_Type_Name: newInventory.movementType,
+        quantity: newInventory.quantity
+      };
+      const newAdminMember = await postInventoryMovement(newContributionPlan);
+
+      addInventiryMovementtate(newAdminMember);
+    } catch (error) {
+      console.error('Failed to update association:', error);
+    }
+  };
+
   return (
     <Flex
       flex="1"
@@ -145,6 +168,7 @@ export const InventoryPage = () => {
         isLoading={isLoadingInventoryMovements}
         searchInventory={searchInventory}
         onSearchInventoryChange={handleSearchInventoryChange}
+        onAddInventory={handleAddInventory}
       />
 
       <EditInventoryModal

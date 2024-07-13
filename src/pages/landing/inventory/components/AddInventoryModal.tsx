@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
@@ -14,8 +13,9 @@ import {
 
 import { FormField } from '../../../../components/FormField';
 import { inventorySchema } from '../../../../utils/inventory-validations-helper';
-
 import { Inventory } from '../../../../types/inventory-models';
+import { useFetchProducts } from '../../../../hooks/inventory/fetchProductHook';
+import useFetchInventoryMovementTypes from '../../../../hooks/inventory/fetchMovementType';
 
 interface AddInventoryModalProps {
   isOpen: boolean;
@@ -42,6 +42,13 @@ export const AddInventoryModal = ({
     onClose();
   };
 
+
+  const {products} = useFetchProducts();
+  const {  inventoryMovementTypes } = useFetchInventoryMovementTypes();
+
+  const contributionPlanNames = products.map((product) => product.name);
+  const inventoryMovementTypesName = inventoryMovementTypes.map((inventoryMovementType) => inventoryMovementType.movement_Type_Name);
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
@@ -57,7 +64,7 @@ export const AddInventoryModal = ({
             placeholder="Seleccione el producto"
             register={register}
             errors={errors.product}
-            options={['Producto1', 'Producto2', 'Producto3']}
+            options={contributionPlanNames}
           />
           <FormField
             id="movementType"
@@ -65,7 +72,7 @@ export const AddInventoryModal = ({
             placeholder="Seleccione el tipo de movimiento"
             register={register}
             errors={errors.product}
-            options={['Compra', 'Venta', 'Donación']}
+            options={inventoryMovementTypesName}
           />
           <FormField
             id="quantity"

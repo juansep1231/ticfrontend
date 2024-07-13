@@ -30,6 +30,7 @@ interface AccountTableProps {
   onDelete: (id: number | undefined) => void;
   searchAccount: string;
   onSearchAccountChange: (name: string) => void;
+  onAddAccount: (account: Account) => void;
 }
 
 export const AccountTable = ({
@@ -40,6 +41,7 @@ export const AccountTable = ({
   onDelete,
   searchAccount,
   onSearchAccountChange,
+  onAddAccount,
 }: AccountTableProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedAccountId, setSelectedAccountId] = useState<
@@ -83,6 +85,7 @@ export const AccountTable = ({
         accounts={accounts}
         searchAccount={searchAccount}
         onSearchAccountChange={onSearchAccountChange}
+        onAddAccount={onAddAccount}
       />
       <TableContainer>
         <Table

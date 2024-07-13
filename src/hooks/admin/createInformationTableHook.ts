@@ -1,4 +1,5 @@
 import { useState } from 'react';
+
 import { OrganizationalInfo } from '../../types/organizational-models';
 
 export interface CreateUpdateAssociationDTO {
@@ -32,11 +33,11 @@ const usePostAssociation = () => {
         throw new Error(errorData.message);
       }
 
-      
+
         const createdAssociation: OrganizationalInfo = await response.json();
         console.log("dentro del estado",createdAssociation);
         return createdAssociation;
-    
+
     } catch (error: any) {
       console.error('Failed to create association:', error);
       setPostError(error.message);

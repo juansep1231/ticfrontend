@@ -1,13 +1,16 @@
 import { Heading, Flex, Link, Text } from '@chakra-ui/react';
 import { useState } from 'react';
-import { EventsTable } from './components/EventsTable';
-import { EditEventModal } from './components/EditEventModal';
+import { format, formatISO, parseISO } from 'date-fns';
+
 import { EventView } from '../../../types/event-models';
 import useFetchEvents from '../../../hooks/Events/fetchEventHook';
-import { formatISO } from 'date-fns';
 import useUpdateEvent, {
   CreateUpdateEventDTO,
 } from '../../../hooks/Events/updateEventhook';
+import usePostEventWithFinancialRequest from '../../../hooks/Events/createEventHook';
+
+import { EditEventModal } from './components/EditEventModal';
+import { EventsTable } from './components/EventsTable';
 /*
 export const initialEvents: EventView[] = [
   {
@@ -65,8 +68,10 @@ export const EventsPage = () => {
   const [selectedEvent, setSelectedEvent] = useState<EventView | null>(null);
   //const [events, setEvents] = useState<EventView[]>(initialEvents);
   const [searchEvent, setSearchEvent] = useState('');
+  const { postEvent } = usePostEventWithFinancialRequest();
+  const { addEventState } = useFetchEvents();
 
-  const { updateEvent, updateError } = useUpdateEvent();
+  const { updateEvent } = useUpdateEvent();
   const handleEditEvent = async (data: { event: EventView }) => {
     try {
       const formattedDate = formatISO(new Date(data.event.startDate));
@@ -82,10 +87,17 @@ export const EventsPage = () => {
         location: data.event.location,
         income: data.event.income,
       };
-
+      const originalFormattedEndDate = format(
+        parseISO(data.event.endDate),
+        'dd/MM/yyyy'
+      );
+      const originalFormattedStartDate = format(
+        parseISO(data.event.startDate),
+        'dd/MM/yyyy'
+      );
       await updateEvent(data.event.id!, updatedInfo);
 
-      updateEventState(data.event.id!, { ...data.event, ...updatedInfo });
+      updateEventState(data.event.id!, { ...data.event, ...updatedInfo, startDate: originalFormattedStartDate, endDate: originalFormattedEndDate });
 
       console.log('Updated event information:', data.event);
     } catch (error) {
@@ -93,7 +105,8 @@ export const EventsPage = () => {
     }
   };
 
-  const { events, isLoadingEvents, eventErrors, updateEventState } =useFetchEvents();
+  const { events, isLoadingEvents, eventErrors, updateEventState } =
+    useFetchEvents();
 
   const handleDeleteEvent = (id: number | undefined) => {
     events.filter((event) => event.id !== id);
@@ -107,6 +120,30 @@ export const EventsPage = () => {
 
   const handleSearchEventChange = (name: string) => {
     setSearchEvent(name);
+  };
+
+  const handleAddEvent = async (newEvent: EventView) => {
+    try {
+      const formattedDate = formatISO(new Date(newEvent.startDate));
+      const formattedDate2 = formatISO(new Date(newEvent.endDate));
+      const updatedInfo: CreateUpdateEventDTO = {
+        title: newEvent.title,
+        status: newEvent.status,
+        description: newEvent.description,
+        startDate: formattedDate,
+        endDate: formattedDate2,
+        budget: newEvent.budget,
+        budgetStatus: newEvent.budgetStatus,
+        location: newEvent.location,
+        income: newEvent.income,
+      };
+     
+      const newAdminMember = await postEvent(updatedInfo);
+
+      addEventState(newAdminMember);
+    } catch (error) {
+      console.error('Failed to update Event:', error);
+    }
   };
 
   return (
@@ -123,7 +160,7 @@ export const EventsPage = () => {
         >
           solicitar tu presupuesto.
         </Link>
-      </Text> 
+      </Text>
       <EventsTable
         events={events}
         onEdit={openEditEventModal}
@@ -132,6 +169,7 @@ export const EventsPage = () => {
         isLoading={isLoadingEvents}
         searchEvent={searchEvent}
         onSearchEventChange={handleSearchEventChange}
+        onAddEvent={handleAddEvent}
       />
 
       <EditEventModal

@@ -16,7 +16,7 @@ export const ButtonExcel = ({ data }: ButtonExcelProps) => {
   const handleDownload = () => {
     setLoading(true);
 
-    let finalData = [SUPPLIERS_TABLE_HEADERS];
+    const finalData = [SUPPLIERS_TABLE_HEADERS];
 
     data.forEach((supplier) => {
       finalData.push([supplier.name, supplier.phone, supplier.email]);

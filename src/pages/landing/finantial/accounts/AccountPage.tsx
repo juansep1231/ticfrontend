@@ -1,15 +1,16 @@
 import { Heading, Flex, Text, Link } from '@chakra-ui/react';
 import { useState } from 'react';
+import { formatISO } from 'date-fns';
 
 import { Account } from '../../../../types/finantial-models';
-
-import { AccountTable } from './components/AccountTable';
-import { EditAccountModal } from './components/EditAccountModal';
 import useFetchAccountingAccounts from '../../../../hooks/financial/fetchAccountingAccountHook';
-import { formatISO } from 'date-fns';
 import useUpdateAccountingAccount, {
   CreateUpdateAccountingAccountDTO,
 } from '../../../../hooks/financial/updateAccountingAccountHook';
+
+import { AccountTable } from './components/AccountTable';
+import { EditAccountModal } from './components/EditAccountModal';
+import usePostAccountingAccount from '../../../../hooks/financial/createAccountingAccounts';
 /*
 export const initialAccounts: Account[] = [
   {
@@ -65,19 +66,21 @@ export const AccountPage = () => {
     isLoadingAccounts,
     accountErrors,
     updateAccountState,
+    addAccountState
   } = useFetchAccountingAccounts();
+  const { postAccountingAccount } = usePostAccountingAccount();
   const [accounts, setAccount] = useState<Account[]>(accountingAccounts);
-  const { updateAccountingAccount, updateError } = useUpdateAccountingAccount();
+  const { updateAccountingAccount } = useUpdateAccountingAccount();
   const handleEditAccount = async (data: { account: Account }) => {
     //console.log('Cuenta actualizada:', data.account);
     try {
       const formattedDate = formatISO(new Date(data.account.date));
       const updatedInfo: CreateUpdateAccountingAccountDTO = {
         accountName: data.account.accountName,
-        //accountingAccountStatus:data.account.accountingAccountStatus,
+        accountType: data.account.accountType,
         currentValue: data.account.currentValue,
         initialBalance: data.account.initialBalance!,
-        initialBalanceDate: formattedDate,
+        date: formattedDate,
       };
 
       await updateAccountingAccount(data.account.id!, updatedInfo);
@@ -95,7 +98,6 @@ export const AccountPage = () => {
     console.log('Cuenta eliminada:', id);
   };
 
-
   const openEditAccountModal = (account: Account) => {
     setSelectedAccount(account);
     setEditAccountModalOpen(true);
@@ -104,7 +106,25 @@ export const AccountPage = () => {
   const handleSearchAccountChange = (name: string) => {
     setSearchAccount(name);
   };
-  
+
+  const handleAddAccount = async (newAccount: Account) => {
+    try {
+      const newAccountCreatedDTO: CreateUpdateAccountingAccountDTO = {
+        accountName: newAccount.accountName,
+       accountType: newAccount.accountType,
+        currentValue: newAccount.currentValue,
+        initialBalance: newAccount.currentValue,
+        date: formatISO(new Date(newAccount.date)),
+      };
+      console.log("bueeeeeee", newAccountCreatedDTO);
+      const newAccountcreated = await postAccountingAccount(newAccountCreatedDTO);
+
+      addAccountState(newAccountcreated);
+    } catch (error) {
+      console.error('Failed to create account', error);
+    }
+  };
+
   return (
     <Flex
       flex="1"
@@ -128,6 +148,7 @@ export const AccountPage = () => {
         isLoading={isLoadingAccounts}
         searchAccount={searchAccount}
         onSearchAccountChange={handleSearchAccountChange}
+        onAddAccount={handleAddAccount}
       />
 
       <EditAccountModal

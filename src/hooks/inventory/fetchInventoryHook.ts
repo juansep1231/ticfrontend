@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
-import { Inventory, Product } from '../../types/inventory-models';
-import { DEFAULT_STATE } from '../../utils/constants';
-import { CreateUpdateInventoryMovementDTO } from './updateInventoryHook';
 
+import { Inventory } from '../../types/inventory-models';
+import { DEFAULT_STATE } from '../../utils/constants';
 
 export const useFetchInventoryMovements = () => {
   const [inventoryMovements, setInventoryMovements] = useState<Inventory[]>([]);
-  const [isLoadingInventoryMovements, setIsLoadingInventoryMovements] = useState(true);
-  const [inventoryMovementErrors, setInventoryMovementErrors] = useState<Error | null>(null);
+  const [isLoadingInventoryMovements, setIsLoadingInventoryMovements] =
+    useState(true);
+  const [inventoryMovementErrors, setInventoryMovementErrors] =
+    useState<Error | null>(null);
   const endpoint = `${import.meta.env.VITE_API_BASE_URL}${import.meta.env.VITE_API_INVENTORY_MOVEMENTS_ENDPOINT}`;
 
   useEffect(() => {
@@ -52,29 +53,24 @@ export const useFetchInventoryMovements = () => {
     });
   };
 
-
   const filteredInventoryMovements = inventoryMovements.filter(
     (item) => item.stateid === DEFAULT_STATE // Adjust the filter condition as needed
   );
 
-  
   const addInventiryMovementtate = (newContributionPlan: Inventory) => {
-
     setInventoryMovements((prevData) => {
       const newData = [...prevData, newContributionPlan];
-      console.log('Added new associationd:', newData,"dsdsdsd");
+      console.log('Added new associationd:', newData, 'dsdsdsd');
       return newData;
     });
   };
 
-
-
   return {
-    inventoryMovements:filteredInventoryMovements,
+    inventoryMovements: filteredInventoryMovements,
     isLoadingInventoryMovements,
     inventoryMovementErrors,
     updateInventoryMovementState,
-    addInventiryMovementtate
+    addInventiryMovementtate,
   };
 };
 

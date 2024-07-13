@@ -6,7 +6,7 @@ export interface FinantialRequestDTO {
   reason: string;
   value: number;
   }
-  
+
 
 export const useFetchFinantialRequests = () => {
   const [finantialRequests, setFinantialRequests] = useState<FinantialRequestDTO[]>([]);

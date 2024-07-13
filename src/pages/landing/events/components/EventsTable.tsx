@@ -12,14 +12,15 @@ import {
   IconButton,
   Center,
 } from '@chakra-ui/react';
+import { FaEdit, FaTrash } from 'react-icons/fa';
 
 import { EVENTS_TABLE_HEADERS } from '../../../../utils/constants';
 import { ConfirmationModal } from '../../../../components/ConfirmationModal';
-import { FaEdit, FaTrash } from 'react-icons/fa';
 import { EventView } from '../../../../types/event-models';
 import { eventsFilterByName } from '../../../../utils/filter-helper';
-import { TableOptions } from './TableOptions';
 import { useErrorToast } from '../../../../hooks/general/useErrorToast';
+
+import { TableOptions } from './TableOptions';
 //import { initialEvents } from '../EventPage';
 
 interface EventTableProps {
@@ -30,6 +31,7 @@ interface EventTableProps {
   onDelete: (id: number | undefined) => void;
   searchEvent: string;
   onSearchEventChange: (name: string) => void;
+  onAddEvent: (event: EventView) => void;
 }
 
 export const EventsTable = ({
@@ -40,6 +42,7 @@ export const EventsTable = ({
   onDelete,
   searchEvent,
   onSearchEventChange,
+  onAddEvent,
 }: EventTableProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedEventId, setSelectedEventId] = useState<number | undefined>();
@@ -81,6 +84,7 @@ export const EventsTable = ({
         events={events}
         searchEvent={searchEvent}
         onSearchEventChange={onSearchEventChange}
+        onAddEvent={onAddEvent}
       />
       <TableContainer>
         <Table

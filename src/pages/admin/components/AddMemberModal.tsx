@@ -15,12 +15,12 @@ import {
 import { Member } from '../../../types/organizational-models';
 import { FormField } from '../../../components/FormField';
 import { memberSchema } from '../../../utils/admin-validations-helper';
-
-import { RegisterModal } from './RegisterModal';
 import useFetchRoles from '../../../hooks/general/fetchRolesHook';
 import useFetchSemesters from '../../../hooks/general/fetchSemestersHook';
-import  useFetchCareers  from '../../../hooks/general/FetchCareerHook';
-import  useFetchFaculties  from '../../../hooks/general/fetchFacultyHook';
+import useFetchCareers from '../../../hooks/general/FetchCareerHook';
+import useFetchFaculties from '../../../hooks/general/fetchFacultyHook';
+
+import { RegisterModal } from './RegisterModal';
 
 interface AddMemberModalProps {
   isOpen: boolean;
@@ -50,12 +50,11 @@ export const AddMemberModal = ({
     setIsRegisterModalOpen(true);
   };
 
-  const { roles, isLoadingRoles, roleErrors } = useFetchRoles();
-  const { semesters, isLoadingSemesters, semesterErrors } = useFetchSemesters();
+  const { roles } = useFetchRoles();
+  const { semesters } = useFetchSemesters();
 
-  const { careersData, careersLoading, careersError } = useFetchCareers();
-  const { facultiesData, facultiesLoading, facultiesError } =
-    useFetchFaculties();
+  const { careersData } = useFetchCareers();
+  const { facultiesData } = useFetchFaculties();
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose}>

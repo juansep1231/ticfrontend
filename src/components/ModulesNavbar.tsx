@@ -15,6 +15,7 @@ import {
 import { HamburgerIcon, CloseIcon, ChevronDownIcon } from '@chakra-ui/icons';
 import { NavLink as RouterLink } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+
 import { DROPDOWN_MENUS } from '../utils/constants';
 
 const MotionVStack = motion(VStack);
@@ -121,8 +122,7 @@ export const ModulesNavbar = () => {
         />
       </Flex>
       <AnimatePresence>
-        {isOpen && (
-          <MotionVStack
+        {isOpen ? <MotionVStack
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
@@ -155,8 +155,7 @@ export const ModulesNavbar = () => {
                   <ChevronDownIcon /> {menu.name}
                 </ChakraLink>
                 <AnimatePresence>
-                  {openMenu === menu.name && (
-                    <MotionVStack
+                  {openMenu === menu.name ? <MotionVStack
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: 'auto', opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
@@ -188,13 +187,11 @@ export const ModulesNavbar = () => {
                           {item.name}
                         </ChakraLink>
                       ))}
-                    </MotionVStack>
-                  )}
+                    </MotionVStack> : null}
                 </AnimatePresence>
               </Box>
             ))}
-          </MotionVStack>
-        )}
+          </MotionVStack> : null}
       </AnimatePresence>
     </Box>
   );

@@ -13,7 +13,6 @@ import {
 
 import { FormField } from '../../../../../components/FormField';
 import { subscriptionPlanSchema } from '../../../../../utils/subscription-validations-helper';
-
 import { SubscriptionPlan } from '../../../../../types/subscription-models';
 import useFetchAcademicPeriods from '../../../../../hooks/general/fetchAcademicPeriodHook';
 

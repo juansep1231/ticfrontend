@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { AddIcon, DownloadIcon, SearchIcon } from '@chakra-ui/icons';
+import { AddIcon, SearchIcon } from '@chakra-ui/icons';
 import {
   Button,
   Flex,
@@ -17,19 +17,16 @@ interface TableOptionsProps {
   inventories: Inventory[];
   searchMovement: string;
   onSearchMovementChange: (name: string) => void;
+  onAddInventory: (inventory: Inventory) => void;
 }
 
 export const TableOptions = ({
   inventories,
   searchMovement,
   onSearchMovementChange,
+  onAddInventory,
 }: TableOptionsProps) => {
   const [isAddInventoryModalOpen, setIsAddInventoryModalOpen] = useState(false);
-
-  const handleAddInventory = (newInventory: Inventory) => {
-    console.log('Movimiento agregado:', newInventory);
-  };
-
   return (
     <Flex
       sx={{
@@ -61,7 +58,7 @@ export const TableOptions = ({
       <AddInventoryModal
         isOpen={isAddInventoryModalOpen}
         onClose={() => setIsAddInventoryModalOpen(false)}
-        onAddInventory={handleAddInventory}
+        onAddInventory={onAddInventory}
       />
     </Flex>
   );

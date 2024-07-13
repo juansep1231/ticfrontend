@@ -11,9 +11,9 @@ import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import { NavLink as RouterLink } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiLogIn, FiLogOut } from 'react-icons/fi';
+import { getAuth, signOut } from 'firebase/auth';
 
 import { NAV_LINKS } from '../utils/constants';
-import { getAuth, signOut } from 'firebase/auth';
 import { firebaseApp } from '../firebase/firebase-config';
 import { useAuth } from '../contexts/auth-context';
 

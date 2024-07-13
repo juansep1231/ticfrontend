@@ -1,9 +1,7 @@
 import { useState } from 'react';
-import { format, parseISO, isValid } from 'date-fns';
-import { formatDate } from '../../utils/format-date-helper';
 
 export interface CreateUpdateContributionPlanDTO {
- academic_Period_Name: string;
+  academic_Period_Name: string;
   price: number;
   benefits: string;
   planName: string;
@@ -12,13 +10,12 @@ export interface CreateUpdateContributionPlanDTO {
 export const useUpdateContributionPlan = () => {
   const [updateError, setUpdateError] = useState<string | null>(null);
 
-
   const updateContributionPlan = async (
     id: number,
     updatedContributionPlan: CreateUpdateContributionPlanDTO
   ) => {
     setUpdateError(null);
-    console.log(updatedContributionPlan)
+    console.log(updatedContributionPlan);
     try {
       const response = await fetch(
         `${import.meta.env.VITE_API_BASE_URL}${import.meta.env.VITE_API_CONTRIBUTION_PLANS_ENDPOINT}/${id}`,
@@ -27,7 +24,7 @@ export const useUpdateContributionPlan = () => {
           headers: {
             'Content-Type': 'application/json',
           },
-          body:  JSON.stringify(updatedContributionPlan),
+          body: JSON.stringify(updatedContributionPlan),
         }
       );
 

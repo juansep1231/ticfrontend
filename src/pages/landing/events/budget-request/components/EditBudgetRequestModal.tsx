@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
@@ -16,7 +16,6 @@ import { FormField } from '../../../../../components/FormField';
 import { budgetRequestSchema } from '../../../../../utils/event-validations-helper';
 import { BudgetRequest } from '../../../../../types/event-models';
 import useFetchFinancialStates from '../../../../../hooks/Events/fetchFinancialRequestStateHook';
-import useFetchEvents from '../../../../../hooks/Events/fetchEventHook';
 import useFetchEventNames from '../../../../../hooks/Events/fetchEventNamesHook';
 
 interface AddBugdetRequestModalProps {
@@ -41,10 +40,8 @@ export const EditBudgetRequestModal = ({
     resolver: yupResolver(budgetRequestSchema),
   });
 
-
   useEffect(() => {
     if (budget) {
-      // Set initial form values when info prop changes
       Object.keys(budget).forEach((key) => {
         setValue(
           key as keyof BudgetRequest,
@@ -59,9 +56,8 @@ export const EditBudgetRequestModal = ({
     onClose();
   };
 
-  const { financialStatesData, financialStatesLoading, financialStatesError } =
-    useFetchFinancialStates();
-  const { eventNames, isLoading, error } = useFetchEventNames();
+  const { financialStatesData } = useFetchFinancialStates();
+  const { eventNames } = useFetchEventNames();
 
   useEffect(() => {
     setValue('requestStatusName', 'EN REVISION');

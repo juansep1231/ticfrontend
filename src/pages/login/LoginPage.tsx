@@ -1,10 +1,10 @@
 import { Flex, Heading, Image, Text } from '@chakra-ui/react';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
 import { User } from '../../types/organizational-models';
+import { firebaseApp } from '../../firebase/firebase-config';
 
 import { LoginForm } from './components/LoginForm';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { firebaseApp } from '../../firebase/firebase-config';
 
 const auth = getAuth(firebaseApp);
 

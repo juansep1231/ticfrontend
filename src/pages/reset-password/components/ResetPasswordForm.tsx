@@ -9,10 +9,10 @@ import {
 } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
+import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
 
 import { resetPassworSchema } from '../../../utils/admin-validations-helper';
 import { FormField } from '../../../components/FormField';
-import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
 
 interface ResetPassworFormProps {
   onClick: () => void;

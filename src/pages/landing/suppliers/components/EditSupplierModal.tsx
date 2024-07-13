@@ -10,12 +10,11 @@ import {
   ModalCloseButton,
   Button,
 } from '@chakra-ui/react';
+import { useEffect } from 'react';
 
 import { FormField } from '../../../../components/FormField';
 import { suppliersSchema } from '../../../../utils/supplier-validations-helper';
-
 import { Supplier } from '../../../../types/supplier-models';
-import { useEffect } from 'react';
 
 interface EditSupplierModalProps {
   isOpen: boolean;

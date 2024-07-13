@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+
 import { SubscriptionPlan } from '../../types/subscription-models';
 import { DEFAULT_STATE } from '../../utils/constants';
 
@@ -60,7 +61,7 @@ const useFetchContributionPlans = () => {
     });
   };
 
-  
+
   const filteredContributionPlans = contributionPlans.filter(
     (item) => item.state_id === DEFAULT_STATE // Adjust the filter condition as needed
   );

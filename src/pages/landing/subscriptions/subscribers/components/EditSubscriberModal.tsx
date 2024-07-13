@@ -10,17 +10,14 @@ import {
   ModalCloseButton,
   Button,
 } from '@chakra-ui/react';
+import { useEffect } from 'react';
 
 import { FormField } from '../../../../../components/FormField';
 import { subscriberSchema } from '../../../../../utils/subscription-validations-helper';
-
 import { Subscriber } from '../../../../../types/subscription-models';
-import { careers, faculties } from '../../../../../types/organizational-models';
-import { useEffect } from 'react';
-import  useFetchFaculties  from '../../../../../hooks/general/fetchFacultyHook';
-import  useFetchCareers  from '../../../../../hooks/general/FetchCareerHook';
+import useFetchFaculties from '../../../../../hooks/general/fetchFacultyHook';
+import useFetchCareers from '../../../../../hooks/general/FetchCareerHook';
 import useFetchContributionPlans from '../../../../../hooks/organizational/fetchContributionPlan';
-
 
 interface EditSubscriberModalProps {
   isOpen: boolean;
@@ -46,7 +43,6 @@ export const EditSubscriberModal = ({
 
   useEffect(() => {
     if (subscriber) {
-      // Set initial form values when info prop changes
       Object.keys(subscriber).forEach((key) => {
         setValue(key as keyof Subscriber, subscriber[key as keyof Subscriber]);
       });
@@ -57,12 +53,10 @@ export const EditSubscriberModal = ({
     onSubmit({ subscriber: data });
     onClose();
   };
-  const { facultiesData, facultiesLoading, facultiesError } =  useFetchFaculties();
-  const { careersData, careersLoading, careersError } = useFetchCareers();
-  const {
-    contributionPlans,
-  } = useFetchContributionPlans();
-  const planNames = contributionPlans.map(plan => plan.planName);
+  const { facultiesData } = useFetchFaculties();
+  const { careersData } = useFetchCareers();
+  const { contributionPlans } = useFetchContributionPlans();
+  const planNames = contributionPlans.map((plan) => plan.planName);
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />

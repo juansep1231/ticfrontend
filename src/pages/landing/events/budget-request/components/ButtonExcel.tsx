@@ -16,7 +16,7 @@ export const ButtonExcel = ({ data }: ButtonExcelProps) => {
   const handleDownload = () => {
     setLoading(true);
 
-    let finalData = [BUDGET_REQUEST_TABLE_HEADERS];
+    const finalData = [BUDGET_REQUEST_TABLE_HEADERS];
 
     data.forEach((request) => {
       finalData.push([

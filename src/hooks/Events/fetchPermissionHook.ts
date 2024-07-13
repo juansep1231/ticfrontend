@@ -4,7 +4,7 @@ export interface PermissionDTO {
     Request: string;
     Request_Status: string;
   }
-  
+
 
 export const useFetchPermissions = () => {
   const [permissions, setPermissions] = useState<PermissionDTO[]>([]);

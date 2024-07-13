@@ -12,15 +12,15 @@ import {
   Spinner,
   Center,
 } from '@chakra-ui/react';
+import { FaEdit, FaTrash } from 'react-icons/fa';
 
 import { ConfirmationModal } from '../../../../components/ConfirmationModal';
 import { SUPPLIERS_TABLE_HEADERS } from '../../../../utils/constants';
 import { Supplier } from '../../../../types/supplier-models';
-
-import { TableOptions } from './TableOptions';
-import { FaEdit, FaTrash } from 'react-icons/fa';
 import { useErrorToast } from '../../../../hooks/general/useErrorToast';
 import { suppliersFilterByName } from '../../../../utils/filter-helper';
+
+import { TableOptions } from './TableOptions';
 
 interface SuppliersTableProps {
   suppliers: Supplier[];
@@ -30,6 +30,7 @@ interface SuppliersTableProps {
   onDelete: (id: number | undefined) => void;
   searchSupplier: string;
   onSearchSupplierChange: (name: string) => void;
+  onAddSupplier: (supplier: Supplier) => void;
 }
 
 export const SuppliersTable = ({
@@ -40,6 +41,7 @@ export const SuppliersTable = ({
   onDelete,
   searchSupplier,
   onSearchSupplierChange,
+  onAddSupplier,
 }: SuppliersTableProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedSupplierId, setSelectedSupplierId] = useState<
@@ -83,6 +85,7 @@ export const SuppliersTable = ({
         suppliers={suppliers}
         searchSupplier={searchSupplier}
         onSearchSupplierChange={onSearchSupplierChange}
+        onAddSupplier={onAddSupplier}
       />
       <TableContainer>
         <Table

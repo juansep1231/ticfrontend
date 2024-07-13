@@ -11,17 +11,16 @@ import {
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-
-import { positions, User } from '../../../types/organizational-models';
-import { userSchema } from '../../../utils/admin-validations-helper';
-import { FormField } from '../../../components/FormField';
-
 import {
   getAuth,
   createUserWithEmailAndPassword,
   signOut,
 } from 'firebase/auth';
 import { getFirestore, doc, setDoc } from 'firebase/firestore';
+
+import { positions, User } from '../../../types/organizational-models';
+import { userSchema } from '../../../utils/admin-validations-helper';
+import { FormField } from '../../../components/FormField';
 import {
   firebaseApp,
   functions,
@@ -89,7 +88,7 @@ export const RegisterModal = ({ isOpen, onClose }: RegisterModalProps) => {
 
   const onSubmit = async (data: User) => {
     try {
-      let userData = await registerUser(
+      const userData = await registerUser(
         data.email,
         data.password,
         data.position

@@ -1,10 +1,14 @@
 import { Heading, Flex, Link, Text } from '@chakra-ui/react';
 import { useState } from 'react';
-import { BudgetRequestTable } from './components/BudgetRequestTable';
-import { EditBudgetRequestModal } from './components/EditBudgetRequestModal';
+
 import { BudgetRequest } from '../../../../types/event-models';
 import useFetchFinantialRequests from '../../../../hooks/Events/fetchFinantialRequestHook';
-import useUpdateFinantialRequest, { CreateUpdateFinantialRequestDTO } from '../../../../hooks/Events/updateFinancialRequestHook';
+import useUpdateFinantialRequest, {
+  CreateUpdateFinantialRequestDTO,
+} from '../../../../hooks/Events/updateFinancialRequestHook';
+
+import { EditBudgetRequestModal } from './components/EditBudgetRequestModal';
+import { BudgetRequestTable } from './components/BudgetRequestTable';
 /*
 export const fakeBudgetRequests: BudgetRequest[] = [
   {
@@ -82,25 +86,28 @@ export const BudgetRequestPage = () => {
   const { events, isLoadingEvents, eventErrors, updateEventState } =
   useFetchEvents();*/
 
- const   {
+  const {
     finantialRequests,
     isLoadingFinantialRequests,
     finantialRequestErrors,
     updateFinantialRequestState,
   } = useFetchFinantialRequests();
-  const { updateFinantialRequest, updateError }=useUpdateFinantialRequest();
+  const { updateFinantialRequest } = useUpdateFinantialRequest();
   const handleEditBudgetRequest = async (data: { request: BudgetRequest }) => {
     try {
       const updatedInfo: CreateUpdateFinantialRequestDTO = {
         eventName: data.request.eventName,
         reason: data.request.reason,
         requestStatusName: data.request.requestStatusName,
-        value: data.request.value
+        value: data.request.value,
       };
 
       await updateFinantialRequest(data.request.id!, updatedInfo);
 
-      updateFinantialRequestState(data.request.id!, { ...data.request, ...updatedInfo });
+      updateFinantialRequestState(data.request.id!, {
+        ...data.request,
+        ...updatedInfo,
+      });
 
       console.log('Updated event information:', data.request);
     } catch (error) {
@@ -120,6 +127,10 @@ export const BudgetRequestPage = () => {
 
   const handleSearchBudgetRequestChange = (name: string) => {
     setSearchBudgetRequest(name);
+  };
+
+  const handleAddBudgetRequest = async (newRequest: BudgetRequest) => {
+    return console.log('Añadir solicitud: ', newRequest);
   };
 
   return (
@@ -143,10 +154,11 @@ export const BudgetRequestPage = () => {
         budgetRequests={finantialRequests}
         onEdit={openEditBudgetRequestModal}
         onDelete={handleDeleteBudgetRequest}
-        error={null}
-        isLoading={true}
+        error={finantialRequestErrors}
+        isLoading={isLoadingFinantialRequests}
         searchRequest={searchBudgetRequest}
         onSearchRequestChange={handleSearchBudgetRequestChange}
+        onAddBudgetRequest={handleAddBudgetRequest}
       />
 
       <EditBudgetRequestModal

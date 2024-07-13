@@ -13,7 +13,6 @@ import {
 
 import { FormField } from '../../../../components/FormField';
 import { suppliersSchema } from '../../../../utils/supplier-validations-helper';
-
 import { Supplier } from '../../../../types/supplier-models';
 
 interface AddSupplierModalProps {

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+
 import { Product } from '../../types/inventory-models';
 import { DEFAULT_STATE } from '../../utils/constants';
 
@@ -51,7 +52,7 @@ export const useFetchProducts = () => {
     });
   };
 
-  
+
   const addProductState = (newContributionPlan: Product) => {
 
     setProducts((prevData) => {

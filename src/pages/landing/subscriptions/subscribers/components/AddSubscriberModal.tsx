@@ -13,9 +13,11 @@ import {
 
 import { FormField } from '../../../../../components/FormField';
 import { subscriberSchema } from '../../../../../utils/subscription-validations-helper';
-
 import { Subscriber } from '../../../../../types/subscription-models';
 import { careers, faculties } from '../../../../../types/organizational-models';
+import useFetchCareers from '../../../../../hooks/general/FetchCareerHook';
+import useFetchFaculties from '../../../../../hooks/general/fetchFacultyHook';
+import useFetchContributionPlans from '../../../../../hooks/organizational/fetchContributionPlan';
 
 interface AddSubscriberModalProps {
   isOpen: boolean;
@@ -41,6 +43,12 @@ export const AddSubscriberModal = ({
     onAddSubscriber(data);
     onClose();
   };
+
+  const { careersData } = useFetchCareers();
+  const { facultiesData } = useFetchFaculties();
+  const {contributionPlans} = useFetchContributionPlans();
+
+  const contributionPlanNames = contributionPlans.map((contributionPlan) => contributionPlan.planName);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -72,7 +80,7 @@ export const AddSubscriberModal = ({
             placeholder="Seleccione la facultad"
             register={register}
             errors={errors.faculty}
-            options={faculties}
+            options={facultiesData}
           />
           <FormField
             id="career"
@@ -80,7 +88,7 @@ export const AddSubscriberModal = ({
             placeholder="Seleccione la carrera"
             register={register}
             errors={errors.career}
-            options={careers}
+            options={careersData}
           />
           <FormField
             id="email"
@@ -95,7 +103,7 @@ export const AddSubscriberModal = ({
             placeholder="Seleccione el plan de aportación"
             register={register}
             errors={errors.plan}
-            options={['Basico, Ejecutivo, Premium']}
+            options={contributionPlanNames}
           />
           <FormField
             id="price"

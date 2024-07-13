@@ -1,13 +1,16 @@
 import { Heading, Flex, Text, Link } from '@chakra-ui/react';
-import { ProductsTable } from './components/ProductsTable';
 import { useState } from 'react';
+
 import { Product } from '../../../../types/inventory-models';
-import { EditProductModal } from './components/EditProducModal';
 import { useFetchProducts } from '../../../../hooks/inventory/fetchProductHook';
 import useUpdateProduct, {
   CreateUpdateProductDTO,
 } from '../../../../hooks/inventory/updateProductHook';
 import usePatchProductState from '../../../../hooks/inventory/patchProductHook';
+
+import { EditProductModal } from './components/EditProducModal';
+import { ProductsTable } from './components/ProductsTable';
+import usePostProduct from '../../../../hooks/inventory/createProductHook';
 
 export const initialProducts: Product[] = [
   {
@@ -58,10 +61,11 @@ export const ProductsPage = () => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [searchEvent, setSearchEvent] = useState('');
 
-  const { products, isLoadingProducts, productErrors, updateProductState } =
+  const { products, isLoadingProducts, productErrors, updateProductState, addProductState} =
     useFetchProducts();
-  const { patchProductState, patchError } = usePatchProductState();
-  const { updateProduct, updateError } = useUpdateProduct();
+  const { patchProductState } = usePatchProductState();
+  const { updateProduct } = useUpdateProduct();
+  const { postProduct } = usePostProduct();
   const handleEditProduct = async (data: { product: Product }) => {
     try {
       const updatedInfo: CreateUpdateProductDTO = {
@@ -103,6 +107,25 @@ export const ProductsPage = () => {
     setSearchEvent(name);
   };
 
+  const handleAddProduct = async (newProduct: Product) => {
+    try {
+      const newProductCreated: CreateUpdateProductDTO = {
+        name: newProduct.name,
+        description: newProduct.description,
+        price: newProduct.price,
+        quantity: newProduct.quantity,
+        label: newProduct.label,
+        category: newProduct.category,
+        provider: newProduct.provider,
+      };
+      const createdProduct = await postProduct(newProductCreated);
+
+      addProductState(createdProduct);
+    } catch (error) {
+      console.error('Failed to create product:', error);
+    }
+  };
+
   return (
     <Flex
       flex="1"
@@ -127,6 +150,7 @@ export const ProductsPage = () => {
         isLoading={isLoadingProducts}
         searchProduct={searchEvent}
         onSearchProductChange={handleSearchEventChange}
+        onAddProduct={handleAddProduct}
       />
 
       <EditProductModal

@@ -3,10 +3,10 @@ import { Box, Flex, Heading, VStack, Text } from '@chakra-ui/react';
 
 import { questionsBank, glosaryBank } from '../../utils/help-data';
 import { TypeFi } from '../../components/MyIcon';
+import { useAuth } from '../../contexts/auth-context';
 
 import { GlosaryCard } from './components/GlossaryCard';
 import { Questions } from './components/Questions';
-import { useAuth } from '../../contexts/auth-context';
 
 export const HelpPage: React.FC = () => {
   const questionList = questionsBank.map((q, i) => {

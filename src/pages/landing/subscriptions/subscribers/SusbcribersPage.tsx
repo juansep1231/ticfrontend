@@ -1,16 +1,17 @@
 import { useState } from 'react';
 import { Heading, Flex, Link, Text } from '@chakra-ui/react';
+import { format, formatISO, parseISO } from 'date-fns';
 
 import { Subscriber } from '../../../../types/subscription-models';
-
-import { SubscribersTable } from './components/SubscribersTable';
-import { EditSubscriberModal } from './components/EditSubscriberModal';
 import { useFetchContributors } from '../../../../hooks/organizational/fetchContributorHook';
 import useUpdateContributor, {
   CreateUpdateContributorDTO,
 } from '../../../../hooks/organizational/updateContributor';
-import { format, formatISO, parseISO } from 'date-fns';
 import usePatchContributorState from '../../../../hooks/organizational/patchContributorHook';
+
+import { EditSubscriberModal } from './components/EditSubscriberModal';
+import { SubscribersTable } from './components/SubscribersTable';
+import usePostContributor from '../../../../hooks/organizational/createContributorHook';
 
 export const initialSubscribers: Subscriber[] = [
   {
@@ -70,7 +71,7 @@ export const SubscribersPage = () => {
     useState(false);
   const [selectedSubscriber, setSelectedSubscriber] =
     useState<Subscriber | null>(null);
-  const { updateContributor, updateError } = useUpdateContributor();
+  const { updateContributor } = useUpdateContributor();
   const [searchSubscriber, setSearchSubscriber] = useState('');
 
   const {
@@ -78,9 +79,11 @@ export const SubscribersPage = () => {
     isLoadingContributors,
     contributorErrors,
     updateContributorState,
+    addContributionPlanState
   } = useFetchContributors();
 
-  const { patchContributorState, patchError } = usePatchContributorState();
+  const { patchContributorState } = usePatchContributorState();
+  const { postContributor } = usePostContributor();
   const handleEditMovement = async (data: { subscriber: Subscriber }) => {
     try {
       const formattedDate = formatISO(new Date(data.subscriber.date));
@@ -96,8 +99,10 @@ export const SubscribersPage = () => {
 
       await updateContributor(data.subscriber.id!, updatedInfo);
 
-
-      const originalFormattedDate = format(parseISO(data.subscriber.date), 'dd/MM/yyyy');
+      const originalFormattedDate = format(
+        parseISO(data.subscriber.date),
+        'dd/MM/yyyy'
+      );
 
       updateContributorState(data.subscriber.id!, {
         ...data.subscriber,
@@ -130,6 +135,25 @@ export const SubscribersPage = () => {
     setSearchSubscriber(name);
   };
 
+  const handleAddSubscriber = async (newSubscriber: Subscriber) => {
+    try {
+      const newadminContributor: CreateUpdateContributorDTO = {
+        date: formatISO(new Date(newSubscriber.date)),
+        name: newSubscriber.name,
+        faculty: newSubscriber.faculty,
+        career: newSubscriber.career,
+        email: newSubscriber.email,
+        plan: newSubscriber.plan,
+        price: newSubscriber.price,
+      };
+      const newContributor = await postContributor(newadminContributor);
+
+      addContributionPlanState(newContributor);
+    } catch (error) {
+      console.error('Failed to create subscriber:', error);
+    }
+  }
+
   return (
     <Flex
       flex="1"
@@ -154,6 +178,7 @@ export const SubscribersPage = () => {
         isLoading={isLoadingContributors}
         searchSubscriber={searchSubscriber}
         onSearchSubscriberChange={handleSearchSubscriberChange}
+        onAddSubscriber={handleAddSubscriber}
       />
 
       <EditSubscriberModal

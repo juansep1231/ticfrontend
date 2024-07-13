@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
+
 import { CreateUpdateEventDTO } from './updateEventhook';
-  
+
   export interface EventView {
     id?: number;
     title: string;
@@ -13,7 +14,7 @@ import { CreateUpdateEventDTO } from './updateEventhook';
     location: string;
     income?: number;
   }
-  
+
 
 export const useFetchEvents = () => {
   const [events, setEvents] = useState<EventView[]>([]);
@@ -62,7 +63,7 @@ export const useFetchEvents = () => {
       return newData;
     });
   };
-  
+
   const addEventState = (newEvent:CreateUpdateEventDTO ) => {
 
     setEvents((prevData) => {

@@ -12,13 +12,7 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 
-import {
-  faculties,
-  careers,
-  positions,
-  semesters,
-  Member,
-} from '../../../types/organizational-models';
+import { Member } from '../../../types/organizational-models';
 import { FormField } from '../../../components/FormField';
 import { memberSchema } from '../../../utils/admin-validations-helper';
 import useFetchRoles from '../../../hooks/general/fetchRolesHook';
@@ -61,12 +55,12 @@ export const EditMemberModal: React.FC<EditMemberModalProps> = ({
     onClose();
   };
 
-  const { roles, isLoadingRoles, roleErrors } = useFetchRoles();
-  const { semesters, isLoadingSemesters, semesterErrors } = useFetchSemesters();
+  const { roles } = useFetchRoles();
+  const { semesters } = useFetchSemesters();
 
-  const { careersData, careersLoading, careersError } = useFetchCareers();
-  const { facultiesData, facultiesLoading, facultiesError } =
-    useFetchFaculties();
+  const { careersData } = useFetchCareers();
+  const { facultiesData } = useFetchFaculties();
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />

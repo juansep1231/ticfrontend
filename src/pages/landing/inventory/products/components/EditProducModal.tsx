@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
@@ -14,7 +14,6 @@ import {
 
 import { FormField } from '../../../../../components/FormField';
 import { productsSchema } from '../../../../../utils/inventory-validations-helper';
-
 import { Product } from '../../../../../types/inventory-models';
 import { useFetchProviders } from '../../../../../hooks/inventory/fetchProviderHook';
 import { useFetchCategories } from '../../../../../hooks/inventory/fetchCategoryHook';

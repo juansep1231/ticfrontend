@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { AddIcon, DownloadIcon, SearchIcon } from '@chakra-ui/icons';
+import { AddIcon, SearchIcon } from '@chakra-ui/icons';
 import {
   Button,
   Flex,
@@ -9,6 +9,7 @@ import {
 } from '@chakra-ui/react';
 
 import { Supplier } from '../../../../types/supplier-models';
+
 import { AddSupplierModal } from './AddSupplierModal';
 import { ButtonExcel } from './ButtonExcel';
 
@@ -16,18 +17,16 @@ interface TableOptionsProps {
   suppliers: Supplier[];
   searchSupplier: string;
   onSearchSupplierChange: (name: string) => void;
+  onAddSupplier: (supplier: Supplier) => void;
 }
 
 export const TableOptions = ({
   suppliers,
   searchSupplier,
   onSearchSupplierChange,
+  onAddSupplier,
 }: TableOptionsProps) => {
   const [isAddSupplierModalOpen, setIsAddSupplierModalOpen] = useState(false);
-
-  const handleAddSupplier = (newEvent: Supplier) => {
-    console.log('Proveedor agregado:', newEvent);
-  };
 
   return (
     <Flex
@@ -60,7 +59,7 @@ export const TableOptions = ({
       <AddSupplierModal
         isOpen={isAddSupplierModalOpen}
         onClose={() => setIsAddSupplierModalOpen(false)}
-        onAddSupplier={handleAddSupplier}
+        onAddSupplier={onAddSupplier}
       />
     </Flex>
   );

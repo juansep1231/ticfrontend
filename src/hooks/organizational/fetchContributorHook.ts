@@ -1,16 +1,15 @@
 import { useEffect, useState } from 'react';
+
 import { DEFAULT_STATE } from '../../utils/constants';
 import { Subscriber } from '../../types/subscription-models';
-import { format, isValid, parseISO } from 'date-fns';
 import { formatDate } from '../../utils/format-date-helper';
-import { Subscription } from 'react-hook-form/dist/utils/createSubject';
-
-
 
 export const useFetchContributors = () => {
   const [contributors, setContributors] = useState<Subscriber[]>([]);
   const [isLoadingContributors, setIsLoadingContributors] = useState(true);
-  const [contributorErrors, setContributorErrors] = useState<Error | null>(null);
+  const [contributorErrors, setContributorErrors] = useState<Error | null>(
+    null
+  );
   const endpoint = `${import.meta.env.VITE_API_BASE_URL}${import.meta.env.VITE_API_CONTRIBUTORS_ENDPOINT}`;
 
   useEffect(() => {
@@ -49,7 +48,13 @@ export const useFetchContributors = () => {
   ) => {
     setContributors((prevData) => {
       const newData = prevData.map((item) =>
-        item.id === id ? { ...item, ...updatedData, date: formatDate(updatedData.date || item.date) } : item
+        item.id === id
+          ? {
+              ...item,
+              ...updatedData,
+              date: formatDate(updatedData.date || item.date),
+            }
+          : item
       );
       console.log('Updated contributors:', newData);
       return newData;
@@ -57,10 +62,9 @@ export const useFetchContributors = () => {
   };
 
   const addContributionPlanState = (newContributionPlan: Subscriber) => {
-
     setContributors((prevData) => {
       const newData = [...prevData, newContributionPlan];
-      console.log('Added new associationd:', newData,"dsdsdsd");
+      console.log('Added new associationd:', newData, 'dsdsdsd');
       return newData;
     });
   };
@@ -74,7 +78,7 @@ export const useFetchContributors = () => {
     isLoadingContributors,
     contributorErrors,
     updateContributorState,
-    addContributionPlanState
+    addContributionPlanState,
   };
 };
 

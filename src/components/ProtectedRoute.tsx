@@ -1,5 +1,5 @@
 import { Navigate } from 'react-router';
-import { UserData } from '../types/organizational-models';
+
 import { useAuth } from '../contexts/auth-context';
 
 interface ProtectedRouteProps {

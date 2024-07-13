@@ -10,15 +10,17 @@ import {
   Spinner,
   Td,
   IconButton,
+  Center,
 } from '@chakra-ui/react';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 
 import { ConfirmationModal } from '../../../../../components/ConfirmationModal';
-import { TableOptions } from './TableOptions';
 import { BudgetRequest } from '../../../../../types/event-models';
 import { useErrorToast } from '../../../../../hooks/general/useErrorToast';
 import { budgetRequestFilterByEventName } from '../../../../../utils/filter-helper';
 import { BUDGET_REQUEST_TABLE_HEADERS } from '../../../../../utils/constants';
+
+import { TableOptions } from './TableOptions';
 //import { initialEvents } from '../EventPage';
 
 interface BudgetRequestTableProps {
@@ -29,6 +31,7 @@ interface BudgetRequestTableProps {
   onDelete: (id: number | undefined) => void;
   searchRequest: string;
   onSearchRequestChange: (name: string) => void;
+  onAddBudgetRequest: (request: BudgetRequest) => void;
 }
 
 export const BudgetRequestTable = ({
@@ -39,6 +42,7 @@ export const BudgetRequestTable = ({
   onDelete,
   searchRequest,
   onSearchRequestChange,
+  onAddBudgetRequest,
 }: BudgetRequestTableProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedBudgetRequestId, setSelectedBudgetRequestId] = useState<
@@ -70,9 +74,13 @@ export const BudgetRequestTable = ({
     );
   }, [budgetRequests, searchRequest]);
 
-  /*if (isLoading) {
-    return <Spinner size="xl" />;
-  }*/
+  if (isLoading) {
+    return (
+      <Center sx={{ width: '100vw' }}>
+        <Spinner size="xl" sx={{ color: 'brand.blue' }} />
+      </Center>
+    );
+  }
 
   return (
     <Flex sx={{ flexDirection: 'column', gap: 'md' }}>
@@ -80,6 +88,7 @@ export const BudgetRequestTable = ({
         requests={budgetRequests}
         searchBudgetRequest={searchRequest}
         onSearchBudgetRequestChange={onSearchRequestChange}
+        onAddBudgetRequest={onAddBudgetRequest}
       />
       <TableContainer>
         <Table

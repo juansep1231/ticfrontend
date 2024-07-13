@@ -12,15 +12,15 @@ import {
   Center,
   Spinner,
 } from '@chakra-ui/react';
+import { FaEdit, FaTrash } from 'react-icons/fa';
 
 import { ConfirmationModal } from '../../../../../components/ConfirmationModal';
 import { SUBSCRIPTION_PLAN_TABLE_HEADERS } from '../../../../../utils/constants';
 import { SubscriptionPlan } from '../../../../../types/subscription-models';
-
-import { TableOptions } from './TableOptions';
-import { FaEdit, FaTrash } from 'react-icons/fa';
 import { subscriptionPlanFilterByName } from '../../../../../utils/filter-helper';
 import { useErrorToast } from '../../../../../hooks/general/useErrorToast';
+
+import { TableOptions } from './TableOptions';
 
 interface SubscriptionPlanTableProps {
   plans: SubscriptionPlan[];
@@ -30,6 +30,7 @@ interface SubscriptionPlanTableProps {
   onDelete: (id: number | undefined) => void;
   searchPlan: string;
   onSearchPlanChange: (name: string) => void;
+  onAddSubscriptionPlan: (plan: SubscriptionPlan) => void;
 }
 
 export const SubscriptionPlansTable = ({
@@ -40,6 +41,7 @@ export const SubscriptionPlansTable = ({
   onDelete,
   searchPlan,
   onSearchPlanChange,
+  onAddSubscriptionPlan,
 }: SubscriptionPlanTableProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPlanId, setSelectedPlanId] = useState<number | undefined>();
@@ -81,6 +83,7 @@ export const SubscriptionPlansTable = ({
         plans={plans}
         searchPlan={searchPlan}
         onSearchPlanChange={onSearchPlanChange}
+        onAddSubscriptionPlan={onAddSubscriptionPlan}
       />
       <TableContainer>
         <Table
