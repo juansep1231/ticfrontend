@@ -10,6 +10,7 @@ import {
   Td,
   IconButton,
   Spinner,
+  Center,
 } from '@chakra-ui/react';
 
 import { ConfirmationModal } from '../../../../../components/ConfirmationModal';
@@ -74,16 +75,19 @@ export const TransactionTable = ({
   };
 
   if (isLoading) {
-    return <Spinner size="xl" />;
+    return (
+      <Center sx={{ width: '100vw' }}>
+        <Spinner size="xl" sx={{ color: 'brand.blue' }} />
+      </Center>
+    );
   }
 
   return (
     <Flex sx={{ flexDirection: 'column', gap: 'md' }}>
       <TableOptions
-        searchTransaction={''}
-        onSearchTransactionChange={function (name: string): void {
-          throw new Error('Function not implemented.');
-        }}
+        transactions={transactions}
+        searchTransaction={searchTransaction}
+        onSearchTransactionChange={onSearchTransactionChange}
       />
       <TableContainer>
         <Table

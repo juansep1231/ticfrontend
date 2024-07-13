@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Transaction } from '../../types/finantial-models';
+import { CreateUpdateTransactionDTO } from './createTransactionHook';
 
 
 export const useFetchTransactions = () => {
@@ -49,6 +50,14 @@ export const useFetchTransactions = () => {
       return newData;
     });
   };
+  const addTransactionState = (newEvent:CreateUpdateTransactionDTO ) => {
+
+    setTransactions((prevData) => {
+      const newData = [...prevData, newEvent];
+      console.log('Added new member:', newData,"dsdsdsd");
+      return newData;
+    });
+  };
 
 
   return {
@@ -56,6 +65,7 @@ export const useFetchTransactions = () => {
     isLoadingTransactions,
     transactionErrors,
     updateTransactionState,
+    addTransactionState
   };
 };
 

@@ -93,8 +93,7 @@ export const EventsPage = () => {
     }
   };
 
-  const { events, isLoadingEvents, eventErrors, updateEventState } =
-    useFetchEvents();
+  const { events, isLoadingEvents, eventErrors, updateEventState } =useFetchEvents();
 
   const handleDeleteEvent = (id: number | undefined) => {
     events.filter((event) => event.id !== id);
@@ -124,7 +123,7 @@ export const EventsPage = () => {
         >
           solicitar tu presupuesto.
         </Link>
-      </Text>
+      </Text> 
       <EventsTable
         events={events}
         onEdit={openEditEventModal}

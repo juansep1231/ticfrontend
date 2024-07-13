@@ -9,17 +9,14 @@ export const accountSchema = yup.object().shape({
     .required('El valor actual es obligatorio')
     .min(0, 'El valor actual no puede ser negativo'),
   date: yup.string().required('La fecha es obligatoria'),
+  initialBalance: yup.number().optional(),
 });
 
 export const transactionSchema = yup.object().shape({
   date: yup.string().required('La fecha es obligatoria'),
-  originAccount: yup
-    .string()
-    .matches(/^\d+$/, 'La cuenta de origen solo puede contener números')
-    .required('La cuenta de origen es obligatoria'),
+  originAccount: yup.string().required('La cuenta de origen es obligatoria'),
   destinationAccount: yup
     .string()
-    .matches(/^\d+$/, 'La cuenta de destino solo puede contener números')
     .required('La cuenta de destino es obligatoria'),
   value: yup
     .number()

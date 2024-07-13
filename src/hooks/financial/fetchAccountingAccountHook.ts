@@ -6,8 +6,8 @@ interface AccountingAccountDTO {
     accountName: string;
     currentValue: number;
     date: string;
-    initialBalance: number;
-    accountingAccountStatus: string;
+    initialBalance?: number;
+    //accountingAccountStatus: string;
 }
 
 export const useFetchAccountingAccounts = () => {

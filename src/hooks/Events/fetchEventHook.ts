@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { CreateUpdateEventDTO } from './updateEventhook';
   
   export interface EventView {
     id?: number;
@@ -61,12 +62,23 @@ export const useFetchEvents = () => {
       return newData;
     });
   };
+  
+  const addEventState = (newEvent:CreateUpdateEventDTO ) => {
+
+    setEvents((prevData) => {
+      const newData = [...prevData, newEvent];
+      console.log('Added new member:', newData,"dsdsdsd");
+      return newData;
+    });
+  };
+
 
   return {
     events,
     isLoadingEvents,
     eventErrors,
     updateEventState,
+    addEventState
   };
 };
 

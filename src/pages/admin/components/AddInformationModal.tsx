@@ -21,11 +21,13 @@ import useFetchAssociations from '../../../hooks/admin/fetchInformationTableHook
 interface AddInformationModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onAddMember: (member: OrganizationalInfo) => void;
 }
 
 export const AddInformationModal = ({
   isOpen,
   onClose,
+  onAddMember
 }: AddInformationModalProps) => {
   const {
     register,
@@ -34,21 +36,9 @@ export const AddInformationModal = ({
   } = useForm<OrganizationalInfo>({
     resolver: yupResolver(infoSchema),
   });
-  const { postAssociation, postError } = usePostAssociation();
-  const {addAssociationState} = useFetchAssociations();
+ 
   const onSubmit = async (data: OrganizationalInfo) => {
-    try {
-      const newInfo = {
-        mission: data.mission,
-        vision: data.vision,
-      };
-      await postAssociation(newInfo);
-
-      addAssociationState(newInfo);
-   
-    } catch (error) {
-      console.error('Failed to update association:', error);
-    }
+    onAddMember(data);
     onClose();
   };
 

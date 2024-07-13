@@ -15,6 +15,8 @@ import { FormField } from '../../../../../components/FormField';
 import { subscriptionPlanSchema } from '../../../../../utils/subscription-validations-helper';
 
 import { SubscriptionPlan } from '../../../../../types/subscription-models';
+import useFetchAcademicPeriods from '../../../../../hooks/general/fetchAcademicPeriodHook';
+
 
 interface AddSubscriptionPlanModalProps {
   isOpen: boolean;
@@ -41,6 +43,7 @@ export const AddSubscriptionPlanrModal = ({
     onClose();
   };
 
+  const {academicPeriodsData} = useFetchAcademicPeriods();
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
@@ -77,7 +80,7 @@ export const AddSubscriptionPlanrModal = ({
             placeholder="Seleccione el periodo académico"
             register={register}
             errors={errors.academicPeriod}
-            options={['2024-A', '2024-B', '2025-A', '2025-B']}
+            options={academicPeriodsData}
           />
           <ModalFooter>
             <Button type="submit" onClick={handleSubmit(onSubmit)}>

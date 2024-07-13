@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Inventory } from '../../types/inventory-models';
+import { Inventory, Product } from '../../types/inventory-models';
 import { DEFAULT_STATE } from '../../utils/constants';
+import { CreateUpdateInventoryMovementDTO } from './updateInventoryHook';
 
 
 export const useFetchInventoryMovements = () => {
@@ -51,15 +52,29 @@ export const useFetchInventoryMovements = () => {
     });
   };
 
+
   const filteredInventoryMovements = inventoryMovements.filter(
     (item) => item.stateid === DEFAULT_STATE // Adjust the filter condition as needed
   );
+
+  
+  const addInventiryMovementtate = (newContributionPlan: Inventory) => {
+
+    setInventoryMovements((prevData) => {
+      const newData = [...prevData, newContributionPlan];
+      console.log('Added new associationd:', newData,"dsdsdsd");
+      return newData;
+    });
+  };
+
+
 
   return {
     inventoryMovements:filteredInventoryMovements,
     isLoadingInventoryMovements,
     inventoryMovementErrors,
     updateInventoryMovementState,
+    addInventiryMovementtate
   };
 };
 

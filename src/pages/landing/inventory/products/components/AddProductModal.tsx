@@ -33,7 +33,6 @@ export const AddProductModal = ({
   const {
     handleSubmit,
     register,
-    watch,
     formState: { errors },
   } = useForm<Product>({
     resolver: yupResolver(productsSchema),
@@ -45,14 +44,10 @@ export const AddProductModal = ({
     onClose();
   };
 
+  const { providers } = useFetchProviders();
 
-  const { providers } =  useFetchProviders();
-
-  const {
-    categoriesData
-  } = useFetchCategories();
-  const providerNames = providers.map(plan => plan.name);
-
+  const { categoriesData } = useFetchCategories();
+  const providerNames = providers.map((plan) => plan.name);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -71,13 +66,6 @@ export const AddProductModal = ({
             errors={errors.name}
           />
           <FormField
-            id="description"
-            label="Descripción"
-            placeholder="Ingrese la descripción del evento"
-            register={register}
-            errors={errors.description}
-          />
-          <FormField
             id="category"
             label="Categoría del producto"
             placeholder="Seleccione la categoría"
@@ -88,7 +76,7 @@ export const AddProductModal = ({
           <FormField
             id="description"
             label="Descripción"
-            placeholder="Ingrese la descripción del producto"
+            placeholder="Ingrese la descripción del evento"
             register={register}
             errors={errors.description}
           />
@@ -119,7 +107,7 @@ export const AddProductModal = ({
             placeholder="Seleccione el proveedor"
             register={register}
             errors={errors.provider}
-            options={providerNames} // Opciones de ejemplo
+            options={providerNames}
           />
           <ModalFooter>
             <Button type="submit" onClick={handleSubmit(onSubmit)}>

@@ -9,7 +9,7 @@ import { useFetchContributors } from '../../../../hooks/organizational/fetchCont
 import useUpdateContributor, {
   CreateUpdateContributorDTO,
 } from '../../../../hooks/organizational/updateContributor';
-import { formatISO } from 'date-fns';
+import { format, formatISO, parseISO } from 'date-fns';
 import usePatchContributorState from '../../../../hooks/organizational/patchContributorHook';
 
 export const initialSubscribers: Subscriber[] = [
@@ -96,9 +96,13 @@ export const SubscribersPage = () => {
 
       await updateContributor(data.subscriber.id!, updatedInfo);
 
+
+      const originalFormattedDate = format(parseISO(data.subscriber.date), 'dd/MM/yyyy');
+
       updateContributorState(data.subscriber.id!, {
         ...data.subscriber,
         ...updatedInfo,
+        date: originalFormattedDate,
       });
 
       console.log('Updated organizational information:', data.subscriber);

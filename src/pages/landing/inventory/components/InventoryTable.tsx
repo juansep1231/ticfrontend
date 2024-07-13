@@ -9,6 +9,8 @@ import {
   Flex,
   Td,
   IconButton,
+  Center,
+  Spinner,
 } from '@chakra-ui/react';
 
 import { ConfirmationModal } from '../../../../components/ConfirmationModal';
@@ -18,6 +20,7 @@ import { INVENTORY_TABLE_HEADERS } from '../../../../utils/constants';
 import { TableOptions } from './TableOptions';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import { inventoriesFilterByProduct } from '../../../../utils/filter-helper';
+import { useErrorToast } from '../../../../hooks/general/useErrorToast';
 
 interface InventoryTableProps {
   movements: Inventory[];
@@ -53,7 +56,7 @@ export const InventoryTable = ({
     );
   }, [movements, searchInventory]);
 
-  //useErrorToast(error);
+  useErrorToast(error);
 
   const handleDeleteClick = (id: number | undefined) => {
     setSelectedMovementId(id);
@@ -71,13 +74,18 @@ export const InventoryTable = ({
     setIsModalOpen(false);
   };
 
-  /*if (isLoading) {
-    return <Spinner size="xl" />;
-  }*/
+  if (isLoading) {
+    return (
+      <Center sx={{ width: '100vw' }}>
+        <Spinner size="xl" sx={{ color: 'brand.blue' }} />
+      </Center>
+    );
+  }
 
   return (
     <Flex sx={{ flexDirection: 'column', gap: 'md' }}>
       <TableOptions
+        inventories={movements}
         searchMovement={searchInventory}
         onSearchMovementChange={onSearchInventoryChange}
       />

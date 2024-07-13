@@ -7,7 +7,9 @@ import { AccountTable } from './components/AccountTable';
 import { EditAccountModal } from './components/EditAccountModal';
 import useFetchAccountingAccounts from '../../../../hooks/financial/fetchAccountingAccountHook';
 import { formatISO } from 'date-fns';
-import useUpdateAccountingAccount, { CreateUpdateAccountingAccountDTO } from '../../../../hooks/financial/updateAccountingAccountHook';
+import useUpdateAccountingAccount, {
+  CreateUpdateAccountingAccountDTO,
+} from '../../../../hooks/financial/updateAccountingAccountHook';
 /*
 export const initialAccounts: Account[] = [
   {
@@ -56,25 +58,29 @@ export const initialAccounts: Account[] = [
 export const AccountPage = () => {
   const [isEditAccountModalOpen, setEditAccountModalOpen] = useState(false);
   const [selectedAccount, setSelectedAccount] = useState<Account | null>(null);
-  const {accountingAccounts,
+  const [searchAccount, setSearchAccount] = useState('');
+
+  const {
+    accountingAccounts,
     isLoadingAccounts,
     accountErrors,
-    updateAccountState,}=useFetchAccountingAccounts();
+    updateAccountState,
+  } = useFetchAccountingAccounts();
   const [accounts, setAccount] = useState<Account[]>(accountingAccounts);
- const { updateAccountingAccount, updateError }=useUpdateAccountingAccount();
+  const { updateAccountingAccount, updateError } = useUpdateAccountingAccount();
   const handleEditAccount = async (data: { account: Account }) => {
     //console.log('Cuenta actualizada:', data.account);
     try {
       const formattedDate = formatISO(new Date(data.account.date));
       const updatedInfo: CreateUpdateAccountingAccountDTO = {
-       accountName:data.account.accountName,
-       accountingAccountStatus:data.account.accountingAccountStatus,
-       currentValue: data.account.currentValue,
-       initialBalance:data.account.initialBalance,
-       initialBalanceDate:formattedDate
+        accountName: data.account.accountName,
+        //accountingAccountStatus:data.account.accountingAccountStatus,
+        currentValue: data.account.currentValue,
+        initialBalance: data.account.initialBalance!,
+        initialBalanceDate: formattedDate,
       };
 
-      await updateAccountingAccount(data.account.id!,updatedInfo);
+      await updateAccountingAccount(data.account.id!, updatedInfo);
 
       updateAccountState(data.account.id!, { ...data.account, ...updatedInfo });
 
@@ -95,6 +101,10 @@ export const AccountPage = () => {
     setEditAccountModalOpen(true);
   };
 
+  const handleSearchAccountChange = (name: string) => {
+    setSearchAccount(name);
+  };
+  
   return (
     <Flex
       flex="1"
@@ -114,8 +124,10 @@ export const AccountPage = () => {
         accounts={accountingAccounts}
         onEdit={openEditAccountModal}
         onDelete={handleDeleteAccount}
-        error={null}
-        isLoading={false}
+        error={accountErrors}
+        isLoading={isLoadingAccounts}
+        searchAccount={searchAccount}
+        onSearchAccountChange={handleSearchAccountChange}
       />
 
       <EditAccountModal

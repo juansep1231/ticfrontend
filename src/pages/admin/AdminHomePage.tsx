@@ -15,8 +15,14 @@ import useUpdateAssociation from '../../hooks/admin/updateInformationTableHook';
 import usePatchAssociationState from '../../hooks/admin/patchInformationTableHook';
 import useUpdateAdministrativeMember, { CreateUpdateAdministrativeMemberDTO } from '../../hooks/admin/updateAdminTableHook';
 import usePatchAdministrativeMemberState from '../../hooks/admin/patchAdminTableHook';
-import useFetchAssociations from '../../hooks/AdminHooks/fetchInformationTableHook';
-import { useFetchAdministrativeMembers } from '../../hooks/admin/fetchAdminTableHook';
+
+import useFetchAdministrativeMembers from '../../hooks/admin/fetchAdminTableHook';
+import useFetchAssociations from '../../hooks/admin/fetchInformationTableHook';
+import usePostAssociation from '../../hooks/admin/createInformationTableHook';
+import { DEFAULT_STATE } from '../../utils/constants';
+import usePostAdministrativeMember from '../../hooks/admin/createMemberTableHook';
+import { format, formatISO, parseISO } from 'date-fns';
+
 
 
 export const AdminHome = () => {
@@ -33,7 +39,8 @@ export const AdminHome = () => {
     administrativeMembers,
     isLoadingAdministrativeMembers,
     administrativeMemberErrors,
-    updateAdministrativeMemberState
+    updateAdministrativeMemberState,
+    addAdminMemberState
   } = useFetchAdministrativeMembers();
 
 
@@ -42,23 +49,66 @@ export const AdminHome = () => {
     isLoadingAssociations,
     associationErrors,
     updateAssociationState,
+    addAssociationState
   } = useFetchAssociations();
 
-  
-  const { updateAssociation, updateError } = useUpdateAssociation();
+  const { postAssociation, postError} = usePostAssociation();
+  const {  postAdministrativeMember, postAdminError} = usePostAdministrativeMember();
+  const { updateAssociation, updateError, } = useUpdateAssociation();
   const { patchAssociationState, patchError } = usePatchAssociationState();
   const { patchAdministrativeMemberState, patchAdminError } = usePatchAdministrativeMemberState();
   const { updateAdministrativeMember, updateAdministrativeMemberError  } = useUpdateAdministrativeMember();
-  const handleAddMember = (newMember: Member) => {
-    console.log('Miembro agregado:', newMember);
-  };
 
+  const handleAddMember = async (createdMember: Member) => {
+
+    try {
+      const formattedDate = formatISO(new Date(createdMember.birthDate));
+      const newAdmin: CreateUpdateAdministrativeMemberDTO = {
+        firstName: createdMember.firstName,
+        lastName: createdMember.lastName,
+        birthDate: formattedDate,
+        cellphone: createdMember.cellphone,
+        faculty: createdMember.faculty,
+        career: createdMember.career,
+        semester: createdMember.semester,
+        email: createdMember.email,
+        position: createdMember.position
+
+      };
+      const newAdminMember = await postAdministrativeMember(newAdmin);
+
+      addAdminMemberState(newAdminMember);
+   
+    } catch (error) {
+      console.error('Failed to update association:', error);
+    }
+  };
+  
+  const handleAddInfo = async (newInformation: OrganizationalInfo) => {
+    try {
+      const newInfo = {
+        mission: newInformation.mission,
+        vision: newInformation.vision,
+      };
+      const newInformatiom = await postAssociation(newInfo);
+
+      addAssociationState(newInformatiom);
+   
+    } catch (error) {
+      console.error('Failed to update association:', error);
+    }
+  }
+
+  useEffect(() => {
+    console.log('AssociationsComponent re-rendered', associations);
+  });
   const handleEditMember = async (data: { member: Member }) => {
+    const formattedDate = formatISO(new Date(data.member.birthDate));
     try {
       const updatedInfo: CreateUpdateAdministrativeMemberDTO  = {
         firstName: data.member.firstName,
         lastName: data.member.lastName,
-        birthDate: data.member.birthDate,
+        birthDate: formattedDate,
         cellphone: data.member.cellphone,
         faculty: data.member.faculty,
         career: data.member.career,
@@ -69,7 +119,9 @@ export const AdminHome = () => {
       };
       await updateAdministrativeMember(data.member.id!, updatedInfo);
 
-      updateAdministrativeMemberState(data.member.id!, { ...data.member, ...updatedInfo });
+      const originalFormattedDate = format(parseISO(data.member.birthDate), 'dd/MM/yyyy');
+
+      updateAdministrativeMemberState(data.member.id!, { ...data.member, ...updatedInfo, birthDate: originalFormattedDate  });
 
       console.log('Updated organizational information:', data.member);
 
@@ -246,6 +298,7 @@ export const AdminHome = () => {
       <AddInformationModal
         isOpen={isAddInfoModalOpen}
         onClose={() => setAddInfoModalOpen(false)}
+        onAddMember={handleAddInfo}
       />
       <EditInformationModal
         isOpen={isEditInfoModalOpen}

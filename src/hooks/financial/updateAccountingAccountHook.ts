@@ -5,7 +5,7 @@ export interface CreateUpdateAccountingAccountDTO {
   currentValue: number;
   initialBalanceDate: string;
   initialBalance: number;
-  accountingAccountStatus: string;
+  //accountingAccountStatus: string;
 }
 
 const useUpdateAccountingAccount = () => {

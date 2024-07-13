@@ -36,14 +36,14 @@ export const EditEventModal = ({
     handleSubmit,
     register,
     setValue,
-    watch,
     formState: { errors },
   } = useForm<EventView>({
     resolver: yupResolver(eventsSchema),
   });
-  const {financialStatesData, financialStatesLoading, financialStatesError,} = useFetchFinancialStates();
-  const {eventStatesData, eventStatesLoading, eventStatesError} = useFetchEventStates();
-  const watchStatus = watch('status');
+  const { financialStatesData, financialStatesLoading, financialStatesError } =
+    useFetchFinancialStates();
+  const { eventStatesData, eventStatesLoading, eventStatesError } =
+    useFetchEventStates();
 
   useEffect(() => {
     if (event) {
@@ -129,15 +129,13 @@ export const EditEventModal = ({
             register={register}
             errors={errors.location}
           />
-          {watchStatus === 'FINALIZADO' && (
-            <FormField
-              id="income"
-              label="Ingresos"
-              placeholder="Ingrese el valor de los ingresos"
-              register={register}
-              errors={errors.income}
-            />
-          )}
+          <FormField
+            id="income"
+            label="Ingresos"
+            placeholder="Ingrese el valor de los ingresos"
+            register={register}
+            errors={errors.income}
+          />
           <ModalFooter>
             <Button type="submit" onClick={handleSubmit(handleFormSubmit)}>
               Guardar

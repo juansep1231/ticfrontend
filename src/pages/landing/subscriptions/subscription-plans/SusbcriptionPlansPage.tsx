@@ -3,7 +3,7 @@ import { SubscriptionPlansTable } from './components/SubscribtionPlansTable';
 import { useState } from 'react';
 import { SubscriptionPlan } from '../../../../types/subscription-models';
 import { EditSubscriptionPlanrModal } from './components/EditSubscriptionPlanModal';
-import { useFetchContributionPlans } from '../../../../hooks/organizational/fetchContributionPlan';
+import  useFetchContributionPlans  from '../../../../hooks/organizational/fetchContributionPlan';
 import {
   CreateUpdateContributionPlanDTO,
   useUpdateContributionPlan,

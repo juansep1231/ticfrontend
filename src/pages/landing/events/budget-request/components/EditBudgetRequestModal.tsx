@@ -36,13 +36,11 @@ export const EditBudgetRequestModal = ({
     handleSubmit,
     register,
     setValue,
-    watch,
     formState: { errors },
   } = useForm<BudgetRequest>({
     resolver: yupResolver(budgetRequestSchema),
   });
 
-  const requestStatusName = watch('requestStatusName');
 
   useEffect(() => {
     if (budget) {
@@ -61,10 +59,9 @@ export const EditBudgetRequestModal = ({
     onClose();
   };
 
-  const {financialStatesData, financialStatesLoading, financialStatesError,} = useFetchFinancialStates();
-  const {
-    eventNames, isLoading, error
-  }=useFetchEventNames();
+  const { financialStatesData, financialStatesLoading, financialStatesError } =
+    useFetchFinancialStates();
+  const { eventNames, isLoading, error } = useFetchEventNames();
 
   useEffect(() => {
     setValue('requestStatusName', 'EN REVISION');
@@ -86,7 +83,6 @@ export const EditBudgetRequestModal = ({
             register={register}
             errors={errors.eventName}
             options={eventNames}
-            disabled={requestStatusName === 'APROBADO'}
           />
           <FormField
             id="requestStatusName"
@@ -96,7 +92,6 @@ export const EditBudgetRequestModal = ({
             errors={errors.requestStatusName}
             options={financialStatesData}
             defaultValue="EN REVISION"
-            disabled={requestStatusName === 'APROBADO'}
           />
           <FormField
             id="reason"
@@ -104,7 +99,6 @@ export const EditBudgetRequestModal = ({
             placeholder="Ingrese el motivo de la solicitud"
             register={register}
             errors={errors.reason}
-            disabled={requestStatusName === 'APROBADO'}
           />
           <FormField
             id="value"
@@ -112,7 +106,6 @@ export const EditBudgetRequestModal = ({
             placeholder="Ingrese el valor por el que realiza la solicitud"
             register={register}
             errors={errors.value}
-            disabled={requestStatusName === 'APROBADO'}
           />
           <ModalFooter>
             <Button type="submit" onClick={handleSubmit(handleFormSubmit)}>

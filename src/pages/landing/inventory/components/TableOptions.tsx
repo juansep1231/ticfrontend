@@ -11,15 +11,18 @@ import {
 import { Inventory } from '../../../../types/inventory-models';
 
 import { AddInventoryModal } from './AddInventoryModal';
+import { ButtonExcel } from './ButtonExcel';
 
 interface TableOptionsProps {
+  inventories: Inventory[];
   searchMovement: string;
   onSearchMovementChange: (name: string) => void;
 }
 
 export const TableOptions = ({
-  searchMovement: searchMovement,
-  onSearchMovementChange: onSearchMovementChange,
+  inventories,
+  searchMovement,
+  onSearchMovementChange,
 }: TableOptionsProps) => {
   const [isAddInventoryModalOpen, setIsAddInventoryModalOpen] = useState(false);
 
@@ -52,12 +55,7 @@ export const TableOptions = ({
         >
           Movimiento
         </Button>
-        <Button
-          leftIcon={<DownloadIcon />}
-          onClick={() => console.log('Descargar')}
-        >
-          Excel
-        </Button>
+        <ButtonExcel data={inventories} />
       </Flex>
 
       <AddInventoryModal

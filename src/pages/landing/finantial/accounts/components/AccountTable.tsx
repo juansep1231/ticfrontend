@@ -10,16 +10,17 @@ import {
   Td,
   IconButton,
   Spinner,
+  Center,
 } from '@chakra-ui/react';
+import { FaEdit, FaTrash } from 'react-icons/fa';
 
 import { ConfirmationModal } from '../../../../../components/ConfirmationModal';
 import { ACCOUNT_TABLE_HEADERS } from '../../../../../utils/constants';
 import { Account } from '../../../../../types/finantial-models';
-
-import { TableOptions } from './TableOptions';
-import { FaEdit, FaTrash } from 'react-icons/fa';
 import { accountFilterByName } from '../../../../../utils/filter-helper';
 import { useErrorToast } from '../../../../../hooks/general/useErrorToast';
+
+import { TableOptions } from './TableOptions';
 
 interface AccountTableProps {
   accounts: Account[];
@@ -40,7 +41,6 @@ export const AccountTable = ({
   searchAccount,
   onSearchAccountChange,
 }: AccountTableProps) => {
-  //const { data: members, isLoading, error } = useFetchData(url);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedAccountId, setSelectedAccountId] = useState<
     number | undefined
@@ -70,12 +70,17 @@ export const AccountTable = ({
   };
 
   if (isLoading) {
-    return <Spinner size="xl" />;
+    return (
+      <Center sx={{ width: '100vw' }}>
+        <Spinner size="xl" sx={{ color: 'brand.blue' }} />
+      </Center>
+    );
   }
 
   return (
     <Flex sx={{ flexDirection: 'column', gap: 'md' }}>
       <TableOptions
+        accounts={accounts}
         searchAccount={searchAccount}
         onSearchAccountChange={onSearchAccountChange}
       />

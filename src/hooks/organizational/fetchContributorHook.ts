@@ -3,6 +3,7 @@ import { DEFAULT_STATE } from '../../utils/constants';
 import { Subscriber } from '../../types/subscription-models';
 import { format, isValid, parseISO } from 'date-fns';
 import { formatDate } from '../../utils/format-date-helper';
+import { Subscription } from 'react-hook-form/dist/utils/createSubject';
 
 
 
@@ -55,6 +56,15 @@ export const useFetchContributors = () => {
     });
   };
 
+  const addContributionPlanState = (newContributionPlan: Subscriber) => {
+
+    setContributors((prevData) => {
+      const newData = [...prevData, newContributionPlan];
+      console.log('Added new associationd:', newData,"dsdsdsd");
+      return newData;
+    });
+  };
+
   const filteredContributors = contributors.filter(
     (item) => item.state_id === DEFAULT_STATE // Adjust the filter condition as needed
   );
@@ -64,6 +74,7 @@ export const useFetchContributors = () => {
     isLoadingContributors,
     contributorErrors,
     updateContributorState,
+    addContributionPlanState
   };
 };
 

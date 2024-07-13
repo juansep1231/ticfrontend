@@ -3,7 +3,7 @@ export interface FacultyDTO {
   faculty_Name: string;
 }
 
-export const useFetchFaculties = () => {
+const useFetchFaculties = () => {
   const [facultiesData, setFacultiesData] = useState<string[]>([]);
   const [facultiesLoading, setFacultiesLoading] = useState(true);
   const [facultiesError, setFacultiesError] = useState<Error | null>(null);

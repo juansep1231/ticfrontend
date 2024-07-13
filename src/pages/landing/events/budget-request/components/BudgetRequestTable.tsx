@@ -77,6 +77,7 @@ export const BudgetRequestTable = ({
   return (
     <Flex sx={{ flexDirection: 'column', gap: 'md' }}>
       <TableOptions
+        requests={budgetRequests}
         searchBudgetRequest={searchRequest}
         onSearchBudgetRequestChange={onSearchRequestChange}
       />

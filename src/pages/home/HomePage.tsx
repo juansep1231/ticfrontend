@@ -10,6 +10,10 @@ import { LinkCard } from './components/LinkCard';
 import { MemberCard } from './components/MemberCard';
 import { SubscriptionPlanCard } from './components/SubscriptionPlanCard';
 import { MisionVisionCard } from './components/MisonVisionCard';
+import useFetchAssociations from '../../hooks/admin/fetchInformationTableHook';
+import useFetchContributionPlans from '../../hooks/organizational/fetchContributionPlan';
+import useFetchAdministrativeMembers from '../../hooks/admin/fetchAdminTableHook';
+
 
 const plans: SubscriptionPlan[] = [
   {
@@ -105,15 +109,23 @@ export const Home = () => {
     );
   });
 
-  const planList = plans.map((plan) => {
+
+  
+  const {associations} = useFetchAssociations();
+  const {administrativeMembers} = useFetchAdministrativeMembers();
+  const {contributionPlans} = useFetchContributionPlans();
+
+  
+  const planList = contributionPlans.map((plan: SubscriptionPlan) => {
     {
       return <SubscriptionPlanCard key={plan.id} plan={plan} />;
     }
   });
 
-  const memberList = members.map((member, i) => {
-    return <MemberCard key={i} member={member} />;
+  const memberList = administrativeMembers.map((member: Member) => {
+    return <MemberCard key={member.id} member={member} />;
   });
+
 
   return (
     <Flex

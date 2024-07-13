@@ -11,13 +11,16 @@ import {
 import { Product } from '../../../../../types/inventory-models';
 
 import { AddProductModal } from './AddProductModal';
+import { ButtonExcel } from './ButtonExcel';
 
 interface TableOptionsProps {
+  products: Product[];
   searchProduct: string;
   onSearchProductChange: (name: string) => void;
 }
 
 export const TableOptions = ({
+  products,
   searchProduct,
   onSearchProductChange,
 }: TableOptionsProps) => {
@@ -52,12 +55,7 @@ export const TableOptions = ({
         >
           Producto
         </Button>
-        <Button
-          leftIcon={<DownloadIcon />}
-          onClick={() => console.log('Descargar')}
-        >
-          Excel
-        </Button>
+        <ButtonExcel data={products} />
       </Flex>
 
       <AddProductModal

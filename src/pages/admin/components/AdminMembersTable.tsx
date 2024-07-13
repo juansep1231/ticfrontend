@@ -10,6 +10,7 @@ import {
   IconButton,
   Flex,
   Spinner,
+  Center,
 } from '@chakra-ui/react';
 import { FaTrash, FaEdit } from 'react-icons/fa';
 
@@ -17,6 +18,7 @@ import { ConfirmationModal } from '../../../components/ConfirmationModal'; // Im
 import { useErrorToast } from '../../../hooks/general/useErrorToast'; // Importa el hook de error
 import { Member } from '../../../types/organizational-models';
 import { ADMIN_MEMBERS_TABLE_HEADERS } from '../../../utils/constants';
+import { color } from 'framer-motion';
 
 interface AdminMembersTableProps {
   members: Member[];
@@ -56,7 +58,11 @@ export const AdminMembersTable = ({
   };
 
   if (isLoading) {
-    return <Spinner size="xl" />;
+    return (
+      <Center sx={{ width: '100vw' }}>
+        <Spinner size="xl" sx={{ color: 'brand.blue' }} />
+      </Center>
+    );
   }
 
   return (

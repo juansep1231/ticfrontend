@@ -51,6 +51,16 @@ export const useFetchProducts = () => {
     });
   };
 
+  
+  const addProductState = (newContributionPlan: Product) => {
+
+    setProducts((prevData) => {
+      const newData = [...prevData, newContributionPlan];
+      console.log('Added new associationd:', newData,"dsdsdsd");
+      return newData;
+    });
+  };
+
   const filteredProducts = products.filter(
     (item) => item.stateid === DEFAULT_STATE // Adjust the filter condition as needed
   );
@@ -60,6 +70,7 @@ export const useFetchProducts = () => {
     isLoadingProducts,
     productErrors,
     updateProductState,
+    addProductState
   };
 };
 

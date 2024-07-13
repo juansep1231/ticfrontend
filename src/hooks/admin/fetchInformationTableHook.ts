@@ -21,6 +21,7 @@ import { DEFAULT_STATE } from '../../utils/constants';
         }
 
         const data: OrganizationalInfo[] = await response.json();
+        
         setData(data);
         console.log('Fetched data:', data);
       } catch (error: any) {
@@ -52,20 +53,20 @@ import { DEFAULT_STATE } from '../../utils/constants';
 
 
   const addAssociationState = (newAssociation: OrganizationalInfo) => {
-    console.log("siiuauuasuuausuqusuas");
+
     setData((prevData) => {
       const newData = [...prevData, newAssociation];
-      console.log('Added new association:', newData);
+      console.log('Added new associationd:', newData,"dsdsdsd");
       return newData;
     });
   };
   
   const filteredAssociations = associations.filter(
-    (item) => item.state_id === DEFAULT_STATE
+    (item) => item.state_id == DEFAULT_STATE
   );
 
   return {
-    associations: filteredAssociations,
+    associations:filteredAssociations,
     isLoadingAssociations,
     associationErrors,
     updateAssociationState,

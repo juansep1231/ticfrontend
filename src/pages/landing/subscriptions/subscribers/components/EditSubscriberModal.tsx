@@ -17,9 +17,10 @@ import { subscriberSchema } from '../../../../../utils/subscription-validations-
 import { Subscriber } from '../../../../../types/subscription-models';
 import { careers, faculties } from '../../../../../types/organizational-models';
 import { useEffect } from 'react';
-import { useFetchFaculties } from '../../../../../hooks/general/fetchFacultyHook';
-import { useFetchCareers } from '../../../../../hooks/general/FetchCareerHook';
-import { useFetchContributionPlans } from '../../../../../hooks/organizational/fetchContributionPlan';
+import  useFetchFaculties  from '../../../../../hooks/general/fetchFacultyHook';
+import  useFetchCareers  from '../../../../../hooks/general/FetchCareerHook';
+import useFetchContributionPlans from '../../../../../hooks/organizational/fetchContributionPlan';
+
 
 interface EditSubscriberModalProps {
   isOpen: boolean;

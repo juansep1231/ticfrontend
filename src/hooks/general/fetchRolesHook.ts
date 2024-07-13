@@ -4,7 +4,7 @@ import { useAuth } from '../../contexts/auth-context';
 interface RoleDTO {
   role_Name: string;
 }
-export const useFetchRoles = () => {
+const useFetchRoles = () => {
   const [roles, setData] = useState<any[]>([]);
   const [isLoadingRoles, setIsLoading] = useState(true);
   const [roleErrors, setError] = useState<Error | null>(null);

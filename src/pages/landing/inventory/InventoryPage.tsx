@@ -4,11 +4,12 @@ import { useState } from 'react';
 import { Inventory } from '../../../types/inventory-models';
 import { EditInventoryModal } from './components/EditInventoryModal';
 import { useFetchInventoryMovements } from '../../../hooks/inventory/fetchInventoryHook';
-import { formatISO } from 'date-fns';
+import { format, formatISO, parseISO } from 'date-fns';
 import useUpdateInventoryMovement, {
   CreateUpdateInventoryMovementDTO,
 } from '../../../hooks/inventory/updateInventoryHook';
 import usePatchInventoryMovementState from '../../../hooks/inventory/patchInventoryHook';
+import { or } from 'firebase/firestore';
 
 export const initialInventory: Inventory[] = [
   {
@@ -80,11 +81,14 @@ export const InventoryPage = () => {
         quantity: data.movements.quantity,
       };
 
+      const originalFormattedDate = format(parseISO(data.movements.date), 'dd/MM/yyyy');
+
       await updateInventoryMovement(data.movements.id!, updatedInfo);
 
       updateInventoryMovementState(data.movements.id!, {
         ...data.movements,
         ...updatedInfo,
+        date: originalFormattedDate,
       });
 
       console.log('Updated organizational information:', data.movements);

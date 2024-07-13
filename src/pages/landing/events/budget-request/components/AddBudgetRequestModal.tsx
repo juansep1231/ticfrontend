@@ -30,7 +30,6 @@ export const AddBudgetRequestModal = ({
   const {
     handleSubmit,
     register,
-    watch,
     setValue,
     formState: { errors },
   } = useForm<BudgetRequest>({
@@ -39,8 +38,6 @@ export const AddBudgetRequestModal = ({
       requestStatusName: 'EN REVISION',
     },
   });
-
-  const requestStatusName = watch('requestStatusName');
 
   const onSubmit = (data: BudgetRequest) => {
     console.log('Nueva solicitud agregada:', data);
@@ -68,7 +65,6 @@ export const AddBudgetRequestModal = ({
             register={register}
             errors={errors.eventName}
             options={['Evento 1', 'Evento 2', 'Evento 3']}
-            disabled={requestStatusName === 'APROBADO'}
           />
           <FormField
             id="requestStatusName"
@@ -78,7 +74,6 @@ export const AddBudgetRequestModal = ({
             errors={errors.requestStatusName}
             options={['EN REVISION', 'APROBADO', 'RECHAZADO']}
             defaultValue="EN REVISION"
-            disabled={requestStatusName === 'APROBADO'}
           />
           <FormField
             id="reason"
@@ -86,7 +81,6 @@ export const AddBudgetRequestModal = ({
             placeholder="Ingrese el motivo de la solicitud"
             register={register}
             errors={errors.reason}
-            disabled={requestStatusName === 'APROBADO'}
           />
           <FormField
             id="value"
@@ -94,14 +88,9 @@ export const AddBudgetRequestModal = ({
             placeholder="Ingrese el valor por el que realiza la solicitud"
             register={register}
             errors={errors.value}
-            disabled={requestStatusName === 'APROBADO'}
           />
           <ModalFooter>
-            <Button
-              type="submit"
-              onClick={handleSubmit(onSubmit)}
-              isDisabled={requestStatusName === 'APROBADO'}
-            >
+            <Button type="submit" onClick={handleSubmit(onSubmit)}>
               Guardar
             </Button>
           </ModalFooter>

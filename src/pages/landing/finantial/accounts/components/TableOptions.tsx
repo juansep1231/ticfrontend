@@ -9,14 +9,18 @@ import {
 } from '@chakra-ui/react';
 
 import { Account } from '../../../../../types/finantial-models';
+
 import { AddAccountModal } from './AddAccountModal';
+import { ButtonExcel } from './ButtonExcel';
 
 interface TableOptionsProps {
+  accounts: Account[];
   searchAccount: string;
   onSearchAccountChange: (name: string) => void;
 }
 
 export const TableOptions = ({
+  accounts,
   searchAccount,
   onSearchAccountChange,
 }: TableOptionsProps) => {
@@ -51,12 +55,7 @@ export const TableOptions = ({
         >
           Cuenta
         </Button>
-        <Button
-          leftIcon={<DownloadIcon />}
-          onClick={() => console.log('Descargar')}
-        >
-          Excel
-        </Button>
+        <ButtonExcel data={accounts} />
       </Flex>
 
       <AddAccountModal

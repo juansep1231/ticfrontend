@@ -4,7 +4,7 @@ interface SemesterDTO {
   semester_Name: string;
 }
 
-export const useFetchSemesters = () => {
+const useFetchSemesters = () => {
   const [semesters, setData] = useState<string[]>([]);
   const [isLoadingSemesters, setIsLoading] = useState(true);
   const [semesterErrors, setError] = useState<string | null>(null);

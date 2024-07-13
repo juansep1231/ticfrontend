@@ -10,13 +10,16 @@ import {
 
 import { Subscriber } from '../../../../../types/subscription-models';
 import { AddSubscriberModal } from './AddSubscriberModal';
+import { ButtonExcel } from './ButtonExcel';
 
 interface TableOptionsProps {
+  subscribers: Subscriber[];
   searchSubscriber: string;
   onSearchSubscriberChange: (name: string) => void;
 }
 
 export const TableOptions = ({
+  subscribers,
   searchSubscriber,
   onSearchSubscriberChange,
 }: TableOptionsProps) => {
@@ -52,12 +55,7 @@ export const TableOptions = ({
         >
           Aportante
         </Button>
-        <Button
-          leftIcon={<DownloadIcon />}
-          onClick={() => console.log('Descargar')}
-        >
-          Excel
-        </Button>
+        <ButtonExcel data={subscribers} />
       </Flex>
 
       <AddSubscriberModal

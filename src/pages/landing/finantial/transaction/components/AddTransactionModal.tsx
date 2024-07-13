@@ -16,6 +16,8 @@ import { FormField } from '../../../../../components/FormField';
 import { transactionSchema } from '../../../../../utils/finantial-validations-helper';
 
 import { Transaction } from '../../../../../types/finantial-models';
+import useFetchAccountingAccountNames from '../../../../../hooks/financial/fetchAccountNamesHook';
+import useFetchTransactionStates from '../../../../../hooks/financial/fetchTransactionTypeHook';
 
 interface AddTransactionModalProps {
   isOpen: boolean;
@@ -35,6 +37,9 @@ export const AddTransactionModal = ({
   } = useForm<Transaction>({
     resolver: yupResolver(transactionSchema),
   });
+
+  const { accountNames, isLoading, error }= useFetchAccountingAccountNames();
+  const { transactionStates }= useFetchTransactionStates();
 
   const onSubmit = (data: Transaction) => {
     console.log('Transacción agregada:', data);
@@ -65,7 +70,7 @@ export const AddTransactionModal = ({
             placeholder="Seleccione la cuenta de origen"
             register={register}
             errors={errors.originAccount}
-            options={['Cuenta 1', 'Cuenta 2', 'Cuenta 3']}
+            options={accountNames}
           />
           <FormField
             id="destinationAccount"
@@ -73,7 +78,7 @@ export const AddTransactionModal = ({
             placeholder="Seleccione la cuenta de destino"
             register={register}
             errors={errors.destinationAccount}
-            options={['Cuenta 1', 'Cuenta 2', 'Cuenta 3']}
+            options={accountNames}
           />
           <FormField
             id="value"
@@ -88,7 +93,7 @@ export const AddTransactionModal = ({
             placeholder="Seleccione el tipo de transacción"
             register={register}
             errors={errors.transactionType}
-            options={['INGRESO', 'EGRESO']}
+            options={transactionStates}
           />
           <FormField
             id="description"

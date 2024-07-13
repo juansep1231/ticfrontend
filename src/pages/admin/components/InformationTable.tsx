@@ -10,6 +10,7 @@ import {
   IconButton,
   Flex,
   Spinner,
+  Center,
 } from '@chakra-ui/react';
 
 import { FaTrash, FaEdit } from 'react-icons/fa';
@@ -55,7 +56,11 @@ export const InformationTable = ({
   };
 
   if (isLoading) {
-    return <Spinner size="xl" />;
+    return (
+      <Center sx={{ width: '100vw' }}>
+        <Spinner size="xl" sx={{ color: 'brand.blue' }} />
+      </Center>
+    );
   }
 
   return (

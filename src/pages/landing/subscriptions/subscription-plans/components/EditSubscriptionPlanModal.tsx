@@ -16,7 +16,7 @@ import { subscriptionPlanSchema } from '../../../../../utils/subscription-valida
 
 import { SubscriptionPlan } from '../../../../../types/subscription-models';
 import { useEffect } from 'react';
-import { useFetchAcademicPeriods } from '../../../../../hooks/general/fetchAcademicPeriodHook';
+import useFetchAcademicPeriods from '../../../../../hooks/general/fetchAcademicPeriodHook';
 
 interface EditSubscriptionPlanModalProps {
   isOpen: boolean;

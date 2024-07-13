@@ -4,7 +4,7 @@ interface CareerDTO {
   career_Name: string;
 }
 
-export const useFetchCareers = () => {
+const useFetchCareers = () => {
   const [careersData, setCareersData] = useState<string[]>([]);
   const [careersLoading, setCareersLoading] = useState(true);
   const [careersError, setCareersError] = useState<Error | null>(null);

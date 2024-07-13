@@ -19,6 +19,6 @@ export interface Account {
   accountName: string;
   currentValue: number;
   date: string;
-  initialBalance: number;
-  accountingAccountStatus: string;
+  initialBalance?: number;
+  //accountingAccountStatus: string;
 }

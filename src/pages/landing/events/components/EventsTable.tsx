@@ -10,6 +10,7 @@ import {
   Spinner,
   Td,
   IconButton,
+  Center,
 } from '@chakra-ui/react';
 
 import { EVENTS_TABLE_HEADERS } from '../../../../utils/constants';
@@ -18,6 +19,7 @@ import { FaEdit, FaTrash } from 'react-icons/fa';
 import { EventView } from '../../../../types/event-models';
 import { eventsFilterByName } from '../../../../utils/filter-helper';
 import { TableOptions } from './TableOptions';
+import { useErrorToast } from '../../../../hooks/general/useErrorToast';
 //import { initialEvents } from '../EventPage';
 
 interface EventTableProps {
@@ -41,10 +43,9 @@ export const EventsTable = ({
 }: EventTableProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedEventId, setSelectedEventId] = useState<number | undefined>();
-  const [filteredEvents, setFilteredEvents] =
-    useState<EventView[]>([]);
+  const [filteredEvents, setFilteredEvents] = useState<EventView[]>([]);
 
-  //useErrorToast(error);
+  useErrorToast(error);
 
   const handleDeleteClick = (id: number | undefined) => {
     setSelectedEventId(id);
@@ -62,18 +63,22 @@ export const EventsTable = ({
     setIsModalOpen(false);
   };
 
-
   useEffect(() => {
     setFilteredEvents(eventsFilterByName(events, searchEvent));
   }, [events, searchEvent]);
 
-  /*if (isLoading) {
-    return <Spinner size="xl" />;
-  }*/
+  if (isLoading) {
+    return (
+      <Center sx={{ width: '100vw' }}>
+        <Spinner size="xl" sx={{ color: 'brand.blue' }} />
+      </Center>
+    );
+  }
 
   return (
     <Flex sx={{ flexDirection: 'column', gap: 'md' }}>
       <TableOptions
+        events={events}
         searchEvent={searchEvent}
         onSearchEventChange={onSearchEventChange}
       />

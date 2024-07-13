@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Supplier } from '../../types/supplier-models';
 import { DEFAULT_STATE } from '../../utils/constants';
+import { add } from 'date-fns';
 
 
 export const useFetchProviders = () => {
@@ -51,6 +52,14 @@ export const useFetchProviders = () => {
     });
   };
 
+  const addProviderState = (newContributionPlan: Supplier) => {
+
+    setProviders((prevData) => {
+      const newData = [...prevData, newContributionPlan];
+      console.log('Added new associationd:', newData,"dsdsdsd");
+      return newData;
+    });
+  };
   const filteredProducts = providers.filter(
     (item) => item.stateid === DEFAULT_STATE // Adjust the filter condition as needed
   );
@@ -59,6 +68,7 @@ export const useFetchProviders = () => {
     isLoadingProviders,
     providerErrors,
     updateProviderState,
+    addProviderState
   };
 };
 

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Member } from '../../types/organizational-models';
 import { DEFAULT_STATE } from '../../utils/constants';
 
-export const useFetchAdministrativeMembers = () => {
+const useFetchAdministrativeMembers = () => {
   const [administrativeMembers, setData] = useState<Member[]>([]);
   const [isLoadingAdministrativeMembers, setIsLoading] = useState(true);
   const [administrativeMemberErrors, setError] = useState<Error | null>(null);
@@ -51,12 +51,22 @@ export const useFetchAdministrativeMembers = () => {
     });
   };
 
+  const addAdminMemberState = (newAdminMmeber: Member) => {
+
+    setData((prevData) => {
+      const newData = [...prevData, newAdminMmeber];
+      console.log('Added new member:', newData,"dsdsdsd");
+      return newData;
+    });
+  };
+
   const filteredAdministrativeMembers = administrativeMembers.filter(
     (item) => item.state_id === DEFAULT_STATE
   );
 
   return {
     administrativeMembers: filteredAdministrativeMembers,
+    addAdminMemberState,
     isLoadingAdministrativeMembers,
     administrativeMemberErrors,
     updateAdministrativeMemberState
@@ -64,3 +74,4 @@ export const useFetchAdministrativeMembers = () => {
 };
 
 
+export default useFetchAdministrativeMembers

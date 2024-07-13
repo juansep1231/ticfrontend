@@ -10,21 +10,55 @@ import {
 
 import { Transaction } from '../../../../../types/finantial-models';
 import { AddTransactionModal } from './AddTransactionModal';
+import { ButtonExcel } from './ButtonExcel';
+
+import { formatISO } from 'date-fns';
+import useFetchTransactions from '../../../../../hooks/financial/fetchTransactionHook';
+import usePostTransaction, { CreateUpdateTransactionDTO } from '../../../../../hooks/financial/createTransactionHook';
+
 
 interface TableOptionsProps {
+  transactions: Transaction[];
   searchTransaction: string;
   onSearchTransactionChange: (name: string) => void;
 }
 
+
 export const TableOptions = ({
-  searchTransaction: searchTransaction,
-  onSearchTransactionChange: onSearchTransactionChange,
+  transactions,
+  searchTransaction,
+  onSearchTransactionChange,
 }: TableOptionsProps) => {
+
   const [isAddTransactionModalOpen, setIsAddTransactionModalOpen] =
     useState(false);
 
-  const handleAddTransaction = (newTransaction: Transaction) => {
-    console.log('Transacción agregada:', newTransaction);
+
+    const {
+      addTransactionState
+    }=  useFetchTransactions();
+
+
+    const {postTransaction}=usePostTransaction();
+  const handleAddTransaction = async (newTransaction: Transaction) => {
+   try {
+      const formattedDate = formatISO(new Date(newTransaction.date));
+      const updatedInfo: CreateUpdateTransactionDTO = {
+        date: formattedDate,
+        originAccount: newTransaction.originAccount,
+        destinationAccount: newTransaction.destinationAccount,
+        value: newTransaction.value,
+        transactionType: newTransaction.transactionType,
+        description: newTransaction.description,
+
+      };
+      const newAdminMember = await postTransaction(updatedInfo);
+
+      addTransactionState(newAdminMember);
+   
+    } catch (error) {
+      console.error('Failed to update Event:', error);
+    }
   };
 
   return (
@@ -52,12 +86,7 @@ export const TableOptions = ({
         >
           Transacción
         </Button>
-        <Button
-          leftIcon={<DownloadIcon />}
-          onClick={() => console.log('Descargar')}
-        >
-          Excel
-        </Button>
+        <ButtonExcel data={transactions} />
       </Flex>
 
       <AddTransactionModal

@@ -21,6 +21,10 @@ import {
 } from '../../../types/organizational-models';
 import { FormField } from '../../../components/FormField';
 import { memberSchema } from '../../../utils/admin-validations-helper';
+import useFetchRoles from '../../../hooks/general/fetchRolesHook';
+import useFetchSemesters from '../../../hooks/general/fetchSemestersHook';
+import useFetchCareers from '../../../hooks/general/FetchCareerHook';
+import useFetchFaculties from '../../../hooks/general/fetchFacultyHook';
 
 interface EditMemberModalProps {
   isOpen: boolean;
@@ -57,6 +61,12 @@ export const EditMemberModal: React.FC<EditMemberModalProps> = ({
     onClose();
   };
 
+  const { roles, isLoadingRoles, roleErrors } = useFetchRoles();
+  const { semesters, isLoadingSemesters, semesterErrors } = useFetchSemesters();
+
+  const { careersData, careersLoading, careersError } = useFetchCareers();
+  const { facultiesData, facultiesLoading, facultiesError } =
+    useFetchFaculties();
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
@@ -101,7 +111,7 @@ export const EditMemberModal: React.FC<EditMemberModalProps> = ({
             placeholder="Seleccione la facultad"
             register={register}
             errors={errors.faculty}
-            options={faculties}
+            options={facultiesData}
           />
           <FormField
             id="career"
@@ -109,7 +119,7 @@ export const EditMemberModal: React.FC<EditMemberModalProps> = ({
             placeholder="Seleccione la carrera"
             register={register}
             errors={errors.career}
-            options={careers}
+            options={careersData}
           />
           <FormField
             id="semester"
@@ -133,7 +143,7 @@ export const EditMemberModal: React.FC<EditMemberModalProps> = ({
             placeholder="Seleccione el rol"
             register={register}
             errors={errors.position}
-            options={positions}
+            options={roles}
           />
           <ModalFooter>
             <Button type="submit" onClick={handleSubmit(onSubmitForm)}>

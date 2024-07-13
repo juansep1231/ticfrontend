@@ -10,6 +10,7 @@ import {
   Td,
   IconButton,
   Spinner,
+  Center,
 } from '@chakra-ui/react';
 
 import { ConfirmationModal } from '../../../../components/ConfirmationModal';
@@ -69,12 +70,17 @@ export const SuppliersTable = ({
   };
 
   if (isLoading) {
-    return <Spinner size="xl" />;
+    return (
+      <Center sx={{ width: '100vw' }}>
+        <Spinner size="xl" sx={{ color: 'brand.blue' }} />
+      </Center>
+    );
   }
 
   return (
     <Flex sx={{ flexDirection: 'column', gap: 'md' }}>
       <TableOptions
+        suppliers={suppliers}
         searchSupplier={searchSupplier}
         onSearchSupplierChange={onSearchSupplierChange}
       />

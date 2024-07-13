@@ -16,6 +16,7 @@ import { FormField } from '../../../../../components/FormField';
 import { accountSchema } from '../../../../../utils/finantial-validations-helper';
 
 import { Account } from '../../../../../types/finantial-models';
+import useFetchAccountTypes from '../../../../../hooks/financial/fetchAccountTypeHook';
 
 interface EditAccountModalProps {
   isOpen: boolean;
@@ -52,6 +53,7 @@ export const EditAccountModal = ({
     onSubmit({ account: data });
     onClose();
   };
+  const { accountTypesData, accountTypesLoading, accountTypesError }= useFetchAccountTypes();
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -68,7 +70,7 @@ export const EditAccountModal = ({
             placeholder="Seleccione el tipo de cuenta contable"
             register={register}
             errors={errors.accountType}
-            options={['Cuenta 1', 'Cuenta 2', 'Cuenta 3']}
+            options={accountTypesData}
           />
           <FormField
             id="accountName"

@@ -19,7 +19,6 @@ import { EventView } from '../../../../types/event-models';
 import useFetchFinancialStates from '../../../../hooks/Events/fetchFinancialRequestStateHook';
 import useFetchEventStates from '../../../../hooks/Events/fetchEventStatusHook';
 
-
 interface AddEventModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -34,14 +33,14 @@ export const AddEventModal = ({
   const {
     handleSubmit,
     register,
-    watch,
     formState: { errors },
   } = useForm<EventView>({
     resolver: yupResolver(eventsSchema),
   });
-  const {financialStatesData, financialStatesLoading, financialStatesError,} = useFetchFinancialStates();
-  const {eventStatesData, eventStatesLoading, eventStatesError} = useFetchEventStates();
-  const watchStatus = watch('status');
+  const { financialStatesData, financialStatesLoading, financialStatesError } =
+    useFetchFinancialStates();
+  const { eventStatesData, eventStatesLoading, eventStatesError } =
+    useFetchEventStates();
 
   const onSubmit = (data: EventView) => {
     console.log('Nuevo evento agregado:', data);
@@ -118,15 +117,13 @@ export const AddEventModal = ({
             register={register}
             errors={errors.location}
           />
-          {watchStatus === 'FINALIZADO' && (
-            <FormField
-              id="income"
-              label="Ingresos"
-              placeholder="Ingrese el valor de los ingresos"
-              register={register}
-              errors={errors.income}
-            />
-          )}
+          <FormField
+            id="income"
+            label="Ingresos"
+            placeholder="Ingrese el valor de los ingresos"
+            register={register}
+            errors={errors.income}
+          />
           <ModalFooter>
             <Button type="submit" onClick={handleSubmit(onSubmit)}>
               Guardar

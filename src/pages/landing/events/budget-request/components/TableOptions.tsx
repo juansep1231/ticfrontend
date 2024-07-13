@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { AddIcon, DownloadIcon, SearchIcon } from '@chakra-ui/icons';
 import {
   Button,
@@ -6,16 +7,20 @@ import {
   InputGroup,
   InputLeftElement,
 } from '@chakra-ui/react';
-import { AddBudgetRequestModal } from './AddBudgetRequestModal';
-import { useState } from 'react';
+
 import { BudgetRequest } from '../../../../../types/event-models';
 
+import { AddBudgetRequestModal } from './AddBudgetRequestModal';
+import { ButtonExcel } from './ButtonExcel';
+
 interface TableOptionsProps {
+  requests: BudgetRequest[];
   searchBudgetRequest: string;
   onSearchBudgetRequestChange: (name: string) => void;
 }
 
 export const TableOptions = ({
+  requests,
   searchBudgetRequest,
   onSearchBudgetRequestChange,
 }: TableOptionsProps) => {
@@ -49,14 +54,9 @@ export const TableOptions = ({
           leftIcon={<AddIcon />}
           onClick={() => setIsAddBudgetRequestModalOpen(true)}
         >
-          Evento
+          Solicitud
         </Button>
-        <Button
-          leftIcon={<DownloadIcon />}
-          onClick={() => console.log('Descargar')}
-        >
-          Excel
-        </Button>
+        <ButtonExcel data={requests} />
       </Flex>
 
       <AddBudgetRequestModal

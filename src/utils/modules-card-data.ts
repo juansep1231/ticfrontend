@@ -5,9 +5,9 @@ export const modulesFeatIcons: TypeFi[] = [
   'FiTrendingUp',
   'FiFileText',
   'FiAward',
-  'FiCalendar',
   'FiBox',
   'FiBriefcase',
+  'FiCalendar',
   'FiDollarSign',
   'FiCreditCard',
 ];

@@ -3,7 +3,7 @@ import { SubscriptionPlan } from '../../types/subscription-models';
 import { DEFAULT_STATE } from '../../utils/constants';
 
 
-export const useFetchContributionPlans = () => {
+const useFetchContributionPlans = () => {
   const [contributionPlans, setContributionPlans] = useState<SubscriptionPlan[]>([]);
   const [isLoadingContributionPlans, setIsLoadingContributionPlans] = useState(true);
   const [contributionPlanErrors, setContributionPlanErrors] = useState<Error | null>(null);
@@ -51,6 +51,16 @@ export const useFetchContributionPlans = () => {
     });
   };
 
+  const addContributionPlanState = (newContributionPlan: SubscriptionPlan) => {
+
+    setContributionPlans((prevData) => {
+      const newData = [...prevData, newContributionPlan];
+      console.log('Added new associationd:', newData,"dsdsdsd");
+      return newData;
+    });
+  };
+
+  
   const filteredContributionPlans = contributionPlans.filter(
     (item) => item.state_id === DEFAULT_STATE // Adjust the filter condition as needed
   );
@@ -60,6 +70,7 @@ export const useFetchContributionPlans = () => {
     isLoadingContributionPlans,
     contributionPlanErrors,
     updateContributionPlanState,
+    addContributionPlanState
   };
 };
 

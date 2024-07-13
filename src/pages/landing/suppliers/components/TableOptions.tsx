@@ -10,13 +10,16 @@ import {
 
 import { Supplier } from '../../../../types/supplier-models';
 import { AddSupplierModal } from './AddSupplierModal';
+import { ButtonExcel } from './ButtonExcel';
 
 interface TableOptionsProps {
+  suppliers: Supplier[];
   searchSupplier: string;
   onSearchSupplierChange: (name: string) => void;
 }
 
 export const TableOptions = ({
+  suppliers,
   searchSupplier,
   onSearchSupplierChange,
 }: TableOptionsProps) => {
@@ -51,12 +54,7 @@ export const TableOptions = ({
         >
           Proveedor
         </Button>
-        <Button
-          leftIcon={<DownloadIcon />}
-          onClick={() => console.log('Descargar')}
-        >
-          Excel
-        </Button>
+        <ButtonExcel data={suppliers} />
       </Flex>
 
       <AddSupplierModal

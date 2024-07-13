@@ -9,6 +9,8 @@ import {
   Flex,
   Td,
   IconButton,
+  Center,
+  Spinner,
 } from '@chakra-ui/react';
 
 import { ConfirmationModal } from '../../../../../components/ConfirmationModal';
@@ -18,6 +20,7 @@ import { SubscriptionPlan } from '../../../../../types/subscription-models';
 import { TableOptions } from './TableOptions';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import { subscriptionPlanFilterByName } from '../../../../../utils/filter-helper';
+import { useErrorToast } from '../../../../../hooks/general/useErrorToast';
 
 interface SubscriptionPlanTableProps {
   plans: SubscriptionPlan[];
@@ -38,7 +41,6 @@ export const SubscriptionPlansTable = ({
   searchPlan,
   onSearchPlanChange,
 }: SubscriptionPlanTableProps) => {
-  //const { data: members, isLoading, error } = useFetchData(url);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPlanId, setSelectedPlanId] = useState<number | undefined>();
   const [filteredPlans, setFilteredPlans] = useState<SubscriptionPlan[]>([]);
@@ -47,7 +49,7 @@ export const SubscriptionPlansTable = ({
     setFilteredPlans(subscriptionPlanFilterByName(plans, searchPlan));
   }, [plans, searchPlan]);
 
-  //useErrorToast(error);
+  useErrorToast(error);
 
   const handleDeleteClick = (id: number | undefined) => {
     setSelectedPlanId(id);
@@ -65,9 +67,18 @@ export const SubscriptionPlansTable = ({
     setIsModalOpen(false);
   };
 
+  if (isLoading) {
+    return (
+      <Center sx={{ width: '100vw' }}>
+        <Spinner size="xl" sx={{ color: 'brand.blue' }} />
+      </Center>
+    );
+  }
+
   return (
     <Flex sx={{ flexDirection: 'column', gap: 'md' }}>
       <TableOptions
+        plans={plans}
         searchPlan={searchPlan}
         onSearchPlanChange={onSearchPlanChange}
       />

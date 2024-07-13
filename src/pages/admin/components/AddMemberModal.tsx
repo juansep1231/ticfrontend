@@ -19,8 +19,8 @@ import { memberSchema } from '../../../utils/admin-validations-helper';
 import { RegisterModal } from './RegisterModal';
 import useFetchRoles from '../../../hooks/general/fetchRolesHook';
 import useFetchSemesters from '../../../hooks/general/fetchSemestersHook';
-import { useFetchCareers } from '../../../hooks/general/FetchCareerHook';
-import { useFetchFaculties } from '../../../hooks/general/fetchFacultyHook';
+import  useFetchCareers  from '../../../hooks/general/FetchCareerHook';
+import  useFetchFaculties  from '../../../hooks/general/fetchFacultyHook';
 
 interface AddMemberModalProps {
   isOpen: boolean;

@@ -5,7 +5,7 @@ export interface AcademicPeriodDTO {
   }
   
 
-export const useFetchAcademicPeriods = () => {
+const useFetchAcademicPeriods = () => {
   const [academicPeriodsData, setAcademicPeriodsData] = useState<string[]>([]);
   const [academicPeriodsLoading, setAcademicPeriodsLoading] = useState(true);
   const [academicPeriodsError, setAcademicPeriodsError] = useState<Error | null>(null);

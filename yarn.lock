@@ -4229,6 +4229,7 @@ __metadata:
     typescript: "npm:^5.4.5"
     typescript-eslint-parser: "npm:^22.0.0"
     vite: "npm:^5.2.13"
+    xlsx: "https://cdn.sheetjs.com/xlsx-0.20.2/xlsx-0.20.2.tgz"
     yup: "npm:^1.4.0"
   languageName: unknown
   linkType: soft
@@ -6848,6 +6849,15 @@ __metadata:
   version: 1.0.2
   resolution: "wrappy@npm:1.0.2"
   checksum: 10c0/56fece1a4018c6a6c8e28fbc88c87e0fbf4ea8fd64fc6c63b18f4acc4bd13e0ad2515189786dd2c30d3eec9663d70f4ecf699330002f8ccb547e4a18231fc9f0
+  languageName: node
+  linkType: hard
+
+"xlsx@https://cdn.sheetjs.com/xlsx-0.20.2/xlsx-0.20.2.tgz":
+  version: 0.20.2
+  resolution: "xlsx@https://cdn.sheetjs.com/xlsx-0.20.2/xlsx-0.20.2.tgz"
+  bin:
+    xlsx: ./bin/xlsx.njs
+  checksum: 10c0/664dff22e5ecd83d595f34e00ac90ee852d16e45b72385ada54291551b808c6848b166fb395f5e35249ca976a5b5d514e793ccbcc0a611b87a600ae4024d605a
   languageName: node
   linkType: hard
 
