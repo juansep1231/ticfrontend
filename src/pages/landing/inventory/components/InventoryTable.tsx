@@ -19,6 +19,8 @@ import { Inventory } from '../../../../types/inventory-models';
 import { INVENTORY_TABLE_HEADERS } from '../../../../utils/constants';
 import { inventoriesFilterByProduct } from '../../../../utils/filter-helper';
 import { useErrorToast } from '../../../../hooks/general/useErrorToast';
+import { isInventory } from '../../../../utils/check-role-helper';
+import { useAuth } from '../../../../contexts/auth-context';
 
 import { TableOptions } from './TableOptions';
 
@@ -52,6 +54,7 @@ export const InventoryTable = ({
     []
   );
 
+  const { user } = useAuth();
   useEffect(() => {
     setFilteredInventories(
       inventoriesFilterByProduct(movements, searchInventory)
@@ -78,7 +81,7 @@ export const InventoryTable = ({
 
   if (isLoading) {
     return (
-      <Center sx={{ width: '100vw' }}>
+      <Center sx={{ width: 'auto' }}>
         <Spinner size="xl" sx={{ color: 'brand.blue' }} />
       </Center>
     );
@@ -120,12 +123,14 @@ export const InventoryTable = ({
         >
           <Thead>
             <Tr sx={{ textColor: 'surface.default' }}>
-              <Th
-                sx={{
-                  borderRight: '1px',
-                  width: '20',
-                }}
-              ></Th>
+              {isInventory(user) ? (
+                <Th
+                  sx={{
+                    borderRight: '1px',
+                    width: '20',
+                  }}
+                ></Th>
+              ) : null}
               {INVENTORY_TABLE_HEADERS.map((header, index) => (
                 <Th
                   key={index}
@@ -148,43 +153,45 @@ export const InventoryTable = ({
             ) : (
               filteredInventories.map((movment) => (
                 <Tr key={movment.id}>
-                  <Td>
-                    <Flex
-                      sx={{
-                        gap: 'sm',
-                        flexDirection: { sm: 'column', lg: 'row' },
-                      }}
-                    >
-                      <IconButton
-                        aria-label="Edit Movement"
-                        icon={<FaEdit size={16} />}
-                        onClick={() => onEdit(movment)}
-                        size="sm"
+                  {isInventory(user) ? (
+                    <Td>
+                      <Flex
                         sx={{
-                          bg: 'none',
-                          color: 'brand.blue',
-                          _hover: {
-                            bg: 'secondary.100',
-                            color: 'primary.default',
-                          },
+                          gap: 'sm',
+                          flexDirection: { sm: 'column', lg: 'row' },
                         }}
-                      />
-                      <IconButton
-                        aria-label="Delete Movement"
-                        icon={<FaTrash size={16} />}
-                        onClick={() => handleDeleteClick(movment.id)}
-                        size="sm"
-                        sx={{
-                          bg: 'none',
-                          color: 'brand.blue',
-                          _hover: {
-                            bg: 'secondary.100',
-                            color: 'primary.default',
-                          },
-                        }}
-                      />
-                    </Flex>
-                  </Td>
+                      >
+                        <IconButton
+                          aria-label="Edit Movement"
+                          icon={<FaEdit size={16} />}
+                          onClick={() => onEdit(movment)}
+                          size="sm"
+                          sx={{
+                            bg: 'none',
+                            color: 'brand.blue',
+                            _hover: {
+                              bg: 'secondary.100',
+                              color: 'primary.default',
+                            },
+                          }}
+                        />
+                        <IconButton
+                          aria-label="Delete Movement"
+                          icon={<FaTrash size={16} />}
+                          onClick={() => handleDeleteClick(movment.id)}
+                          size="sm"
+                          sx={{
+                            bg: 'none',
+                            color: 'brand.blue',
+                            _hover: {
+                              bg: 'secondary.100',
+                              color: 'primary.default',
+                            },
+                          }}
+                        />
+                      </Flex>
+                    </Td>
+                  ) : null}
                   <Td>{movment.product}</Td>
                   <Td>{movment.movementType}</Td>
                   <Td>{movment.quantity}</Td>

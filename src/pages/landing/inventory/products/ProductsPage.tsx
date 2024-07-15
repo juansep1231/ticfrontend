@@ -7,10 +7,10 @@ import useUpdateProduct, {
   CreateUpdateProductDTO,
 } from '../../../../hooks/inventory/updateProductHook';
 import usePatchProductState from '../../../../hooks/inventory/patchProductHook';
+import usePostProduct from '../../../../hooks/inventory/createProductHook';
 
 import { EditProductModal } from './components/EditProducModal';
 import { ProductsTable } from './components/ProductsTable';
-import usePostProduct from '../../../../hooks/inventory/createProductHook';
 
 export const initialProducts: Product[] = [
   {
@@ -61,8 +61,13 @@ export const ProductsPage = () => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [searchEvent, setSearchEvent] = useState('');
 
-  const { products, isLoadingProducts, productErrors, updateProductState, addProductState} =
-    useFetchProducts();
+  const {
+    products,
+    isLoadingProducts,
+    productErrors,
+    updateProductState,
+    addProductState,
+  } = useFetchProducts();
   const { patchProductState } = usePatchProductState();
   const { updateProduct } = useUpdateProduct();
   const { postProduct } = usePostProduct();
@@ -138,7 +143,10 @@ export const ProductsPage = () => {
           registrar tus proveedores
         </Link>
         previo a
-        <Link href="/inventario" sx={{ color: 'brand.blue', ml: '3xs' }}>
+        <Link
+          href="/inventario/movimientos"
+          sx={{ color: 'brand.blue', ml: '3xs' }}
+        >
           añadir tus movimientos de inventario.
         </Link>
       </Text>

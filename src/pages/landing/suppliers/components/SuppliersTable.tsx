@@ -19,6 +19,8 @@ import { SUPPLIERS_TABLE_HEADERS } from '../../../../utils/constants';
 import { Supplier } from '../../../../types/supplier-models';
 import { useErrorToast } from '../../../../hooks/general/useErrorToast';
 import { suppliersFilterByName } from '../../../../utils/filter-helper';
+import { isInventory } from '../../../../utils/check-role-helper';
+import { useAuth } from '../../../../contexts/auth-context';
 
 import { TableOptions } from './TableOptions';
 
@@ -43,6 +45,7 @@ export const SuppliersTable = ({
   onSearchSupplierChange,
   onAddSupplier,
 }: SuppliersTableProps) => {
+  const { user } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedSupplierId, setSelectedSupplierId] = useState<
     number | undefined
@@ -73,7 +76,7 @@ export const SuppliersTable = ({
 
   if (isLoading) {
     return (
-      <Center sx={{ width: '100vw' }}>
+      <Center sx={{ width: 'auto' }}>
         <Spinner size="xl" sx={{ color: 'brand.blue' }} />
       </Center>
     );
@@ -115,12 +118,14 @@ export const SuppliersTable = ({
         >
           <Thead>
             <Tr sx={{ textColor: 'surface.default' }}>
-              <Th
-                sx={{
-                  borderRight: '1px',
-                  width: '20',
-                }}
-              ></Th>
+              {isInventory(user) ? (
+                <Th
+                  sx={{
+                    borderRight: '1px',
+                    width: '20',
+                  }}
+                ></Th>
+              ) : null}
               {SUPPLIERS_TABLE_HEADERS.map((header, index) => (
                 <Th
                   key={index}
@@ -144,43 +149,45 @@ export const SuppliersTable = ({
             ) : (
               filteredSuppliers.map((supplier) => (
                 <Tr key={supplier.id}>
-                  <Td>
-                    <Flex
-                      sx={{
-                        gap: 'sm',
-                        flexDirection: { sm: 'column', lg: 'row' },
-                      }}
-                    >
-                      <IconButton
-                        aria-label="Edit Event"
-                        icon={<FaEdit size={16} />}
-                        onClick={() => onEdit(supplier)}
-                        size="sm"
+                  {isInventory(user) ? (
+                    <Td>
+                      <Flex
                         sx={{
-                          bg: 'none',
-                          color: 'brand.blue',
-                          _hover: {
-                            bg: 'secondary.100',
-                            color: 'primary.default',
-                          },
+                          gap: 'sm',
+                          flexDirection: { sm: 'column', lg: 'row' },
                         }}
-                      />
-                      <IconButton
-                        aria-label="Delete Event"
-                        icon={<FaTrash size={16} />}
-                        onClick={() => handleDeleteClick(supplier.id)}
-                        size="sm"
-                        sx={{
-                          bg: 'none',
-                          color: 'brand.blue',
-                          _hover: {
-                            bg: 'secondary.100',
-                            color: 'primary.default',
-                          },
-                        }}
-                      />
-                    </Flex>
-                  </Td>
+                      >
+                        <IconButton
+                          aria-label="Edit Event"
+                          icon={<FaEdit size={16} />}
+                          onClick={() => onEdit(supplier)}
+                          size="sm"
+                          sx={{
+                            bg: 'none',
+                            color: 'brand.blue',
+                            _hover: {
+                              bg: 'secondary.100',
+                              color: 'primary.default',
+                            },
+                          }}
+                        />
+                        <IconButton
+                          aria-label="Delete Event"
+                          icon={<FaTrash size={16} />}
+                          onClick={() => handleDeleteClick(supplier.id)}
+                          size="sm"
+                          sx={{
+                            bg: 'none',
+                            color: 'brand.blue',
+                            _hover: {
+                              bg: 'secondary.100',
+                              color: 'primary.default',
+                            },
+                          }}
+                        />
+                      </Flex>
+                    </Td>
+                  ) : null}
                   <Td>{supplier.name}</Td>
                   <Td>{supplier.phone}</Td>
                   <Td>{supplier.email}</Td>

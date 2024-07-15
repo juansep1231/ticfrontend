@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { Product } from '../../types/inventory-models';
 import { DEFAULT_STATE } from '../../utils/constants';
 
-
 export const useFetchProducts = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoadingProducts, setIsLoadingProducts] = useState(true);
@@ -39,10 +38,7 @@ export const useFetchProducts = () => {
     fetchProducts();
   }, [endpoint]);
 
-  const updateProductState = (
-    id: number,
-    updatedData: Partial<Product>
-  ) => {
+  const updateProductState = (id: number, updatedData: Partial<Product>) => {
     setProducts((prevData) => {
       const newData = prevData.map((item) =>
         item.id === id ? { ...item, ...updatedData } : item
@@ -52,12 +48,10 @@ export const useFetchProducts = () => {
     });
   };
 
-
   const addProductState = (newContributionPlan: Product) => {
-
     setProducts((prevData) => {
       const newData = [...prevData, newContributionPlan];
-      console.log('Added new associationd:', newData,"dsdsdsd");
+      console.log('Added new associationd:', newData, 'dsdsdsd');
       return newData;
     });
   };
@@ -71,7 +65,6 @@ export const useFetchProducts = () => {
     isLoadingProducts,
     productErrors,
     updateProductState,
-    addProductState
+    addProductState,
   };
 };
-

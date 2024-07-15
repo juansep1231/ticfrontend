@@ -15,7 +15,7 @@ export const suppliersSchema = yup.object().shape({
 
 export interface Supplier {
   id?: number;
-  stateid?:number;
+  stateid?: number;
   name: string;
   phone: string;
   email: string;

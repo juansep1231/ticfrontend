@@ -9,6 +9,8 @@ import {
 } from '@chakra-ui/react';
 
 import { EventView } from '../../../../types/event-models';
+import { isCulture } from '../../../../utils/check-role-helper';
+import { useAuth } from '../../../../contexts/auth-context';
 
 import { AddEventModal } from './AddEventModal';
 import { ButtonExcel } from './ButtonExcel';
@@ -28,6 +30,7 @@ export const TableOptions = ({
 }: TableOptionsProps) => {
   const [isAddEventModalOpen, setIsAddEventModalOpen] = useState(false);
 
+  const { user } = useAuth();
   return (
     <Flex
       sx={{
@@ -47,12 +50,14 @@ export const TableOptions = ({
         />
       </InputGroup>
       <Flex sx={{ gap: 'sm' }}>
-        <Button
-          leftIcon={<AddIcon />}
-          onClick={() => setIsAddEventModalOpen(true)}
-        >
-          Evento
-        </Button>
+        {isCulture(user) ? (
+          <Button
+            leftIcon={<AddIcon />}
+            onClick={() => setIsAddEventModalOpen(true)}
+          >
+            Evento
+          </Button>
+        ) : null}
         <ButtonExcel data={events} />
       </Flex>
 

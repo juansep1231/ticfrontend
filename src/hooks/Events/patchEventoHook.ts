@@ -8,7 +8,7 @@ const usePatchEventState = () => {
 
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_BASE_URL}${import.meta.env.VITE_API_EVENT_ENDPOINT}/${id}`,
+        `${import.meta.env.VITE_API_BASE_URL}${import.meta.env.VITE_API_EVENTS_ENDPOINT}/${id}`,
         {
           method: 'PATCH',
           headers: {

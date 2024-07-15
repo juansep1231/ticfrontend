@@ -8,9 +8,11 @@ import useUpdateEvent, {
   CreateUpdateEventDTO,
 } from '../../../hooks/Events/updateEventhook';
 import usePostEventWithFinancialRequest from '../../../hooks/Events/createEventHook';
+import { useAuth } from '../../../contexts/auth-context';
 
 import { EditEventModal } from './components/EditEventModal';
 import { EventsTable } from './components/EventsTable';
+import usePatchEventState from '../../../hooks/Events/patchEventoHook';
 /*
 export const initialEvents: EventView[] = [
   {
@@ -69,9 +71,10 @@ export const EventsPage = () => {
   //const [events, setEvents] = useState<EventView[]>(initialEvents);
   const [searchEvent, setSearchEvent] = useState('');
   const { postEvent } = usePostEventWithFinancialRequest();
-  const { addEventState } = useFetchEvents();
-
+  const { events, isLoadingEvents, eventErrors, updateEventState, addEventState} =
+    useFetchEvents();
   const { updateEvent } = useUpdateEvent();
+  const { patchEventState } = usePatchEventState();
   const handleEditEvent = async (data: { event: EventView }) => {
     try {
       const formattedDate = formatISO(new Date(data.event.startDate));
@@ -97,7 +100,12 @@ export const EventsPage = () => {
       );
       await updateEvent(data.event.id!, updatedInfo);
 
-      updateEventState(data.event.id!, { ...data.event, ...updatedInfo, startDate: originalFormattedStartDate, endDate: originalFormattedEndDate });
+      updateEventState(data.event.id!, {
+        ...data.event,
+        ...updatedInfo,
+        startDate: originalFormattedStartDate,
+        endDate: originalFormattedEndDate,
+      });
 
       console.log('Updated event information:', data.event);
     } catch (error) {
@@ -105,12 +113,14 @@ export const EventsPage = () => {
     }
   };
 
-  const { events, isLoadingEvents, eventErrors, updateEventState } =
-    useFetchEvents();
-
-  const handleDeleteEvent = (id: number | undefined) => {
-    events.filter((event) => event.id !== id);
-    console.log('Evento eliminado:', id);
+  const handleDeleteEvent = async (id: number | undefined) => {
+    try {
+      await patchEventState(id!);
+      updateEventState(id!, { stateid: 2 });
+      console.log('Aportante eliminado:', id);
+    } catch (error) {
+      console.error('Failed to update association state:', error);
+    }
   };
 
   const openEditEventModal = (event: EventView) => {
@@ -137,7 +147,7 @@ export const EventsPage = () => {
         location: newEvent.location,
         income: newEvent.income,
       };
-     
+
       const newAdminMember = await postEvent(updatedInfo);
 
       addEventState(newAdminMember);

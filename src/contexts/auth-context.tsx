@@ -14,13 +14,16 @@ import { firebaseApp } from '../firebase/firebase-config';
 interface AuthContextType {
   user: UserData | null;
   token: string | null;
+  loadingContext: boolean;
 }
 
 interface AuthProviderProps {
   children: ReactNode;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+export const AuthContext = createContext<AuthContextType | undefined>(
+  undefined
+);
 const auth = getAuth(firebaseApp);
 const firestore = getFirestore(firebaseApp);
 
@@ -33,6 +36,7 @@ const getUserRol = async (uid: string) => {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<UserData | null>(null);
   const [token, setToken] = useState<string | null>(null);
+  const [loadingContext, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
@@ -44,19 +48,21 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           role: userRole,
         };
         const token = await firebaseUser.getIdToken();
+        console.log('Useraisaiisiaisiaisia:', userData);
         setUser(userData);
         setToken(token);
       } else {
         setUser(null);
         setToken(null);
       }
+      setLoading(false);
     });
 
     return () => unsubscribe();
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, token }}>
+    <AuthContext.Provider value={{ user, token, loadingContext }}>
       {children}
     </AuthContext.Provider>
   );

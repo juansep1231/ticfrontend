@@ -18,14 +18,15 @@ import {
 } from 'firebase/auth';
 import { getFirestore, doc, setDoc } from 'firebase/firestore';
 
-import { positions, User } from '../../../types/organizational-models';
-import { userSchema } from '../../../utils/admin-validations-helper';
+import { RegisterUser } from '../../../types/organizational-models';
+import { registerUserSchema } from '../../../utils/admin-validations-helper';
 import { FormField } from '../../../components/FormField';
 import {
   firebaseApp,
   functions,
   httpsCallable,
 } from '../../../firebase/firebase-config';
+import useFetchRoles from '../../../hooks/general/fetchRolesHook';
 
 interface RegisterModalProps {
   isOpen: boolean;
@@ -35,17 +36,18 @@ interface RegisterModalProps {
 const auth = getAuth(firebaseApp);
 const firestore = getFirestore(firebaseApp);
 export const RegisterModal = ({ isOpen, onClose }: RegisterModalProps) => {
+  const { roles } = useFetchRoles();
+
   const {
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm<User>({
-    resolver: yupResolver(userSchema),
+  } = useForm<RegisterUser>({
+    resolver: yupResolver(registerUserSchema),
   });
 
   const addRoleClaim = async (email: string, role: string) => {
     try {
-      //call to the function hosted in firebase functions
       const addUserRole = httpsCallable(functions, 'addUserRole');
       const result = await addUserRole({ email, role });
       console.log('llamadaaa a añadir claiiiiiimmmm');
@@ -86,7 +88,7 @@ export const RegisterModal = ({ isOpen, onClose }: RegisterModalProps) => {
     }
   };
 
-  const onSubmit = async (data: User) => {
+  const onSubmit = async (data: RegisterUser) => {
     try {
       const userData = await registerUser(
         data.email,
@@ -123,7 +125,7 @@ export const RegisterModal = ({ isOpen, onClose }: RegisterModalProps) => {
             placeholder="Seleccione el rol"
             register={register}
             errors={errors.position}
-            options={positions}
+            options={roles}
           />
           <FormField
             id="password"

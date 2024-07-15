@@ -1,10 +1,10 @@
 import { useState } from 'react';
 
 export interface CreateUpdateFinantialRequestDTO {
-    eventName: string;
-    requestStatusName: string; //EN REVISION, APROBADO, RECHAZADO
-    reason: string;
-    value: number;
+  eventName: string;
+  requestStatusName: string; //EN REVISION, APROBADO, RECHAZADO
+  reason: string;
+  value: number;
 }
 
 const useUpdateFinantialRequest = () => {

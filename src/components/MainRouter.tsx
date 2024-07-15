@@ -14,21 +14,19 @@ import { InventoryPage } from '../pages/landing/inventory/InventoryPage';
 import { SuppliersPage } from '../pages/landing/suppliers/SuppliersPage';
 import { SubscribersPage } from '../pages/landing/subscriptions/subscribers/SusbcribersPage';
 import { SubscriptionPlansPage } from '../pages/landing/subscriptions/subscription-plans/SusbcriptionPlansPage';
-import { positions } from '../types/organizational-models';
 import { BudgetRequestPage } from '../pages/landing/events/budget-request/BudgetRequestPage';
+import {
+  ADMIN,
+  DIRECTOR_FINANCIERO,
+  PRESIDENTE,
+  SECRETARIO,
+  VICEPRESIDENTE_DE_CULTURA,
+  VICEPRESIDENTE_FINANCIERO,
+  VICEPRESIDENTE_GENERAL,
+} from '../utils/roles-constants';
 
 import { Layout } from './Layout';
-
-/*const PRESIDENTE = positions[0];
-const VICEPRESIDENTE_ACADEMICO = positions[1];
-const VOCAL_DE_VICEPRESIDENCIA_ACADEMICA = positions[2];
-const VICEPRESIDENTE_DE_DEPORTES = positions[3];
-const VOCAL_DE_VICEPRESIDENCIA_DE_DEPORTES = positions[4];
-const VICEPRESIDENTE_DE_CULTURA = positions[5];
-const VOCAL_DE_VICEPRESIDENCIA_DE_CULTURA = positions[6];
-const VICEPRESIDENTE_FINANCIERO = positions[7];
-const VOCAL_DE_VICEPRESIDENCIA_FINANCIERA = positions[8];
-*/
+import ProtectedRoute from './ProtectedRoute';
 
 const router = createBrowserRouter([
   {
@@ -47,9 +45,21 @@ const router = createBrowserRouter([
   {
     path: '/admin',
     element: (
-      <Layout>
-        <AdminHome />
-      </Layout>
+      <ProtectedRoute
+        adminPage={true}
+        unauthorizedRoles={[
+          PRESIDENTE,
+          VICEPRESIDENTE_DE_CULTURA,
+          VICEPRESIDENTE_FINANCIERO,
+          DIRECTOR_FINANCIERO,
+          VICEPRESIDENTE_GENERAL,
+          SECRETARIO,
+        ]}
+      >
+        <Layout>
+          <AdminHome />
+        </Layout>
+      </ProtectedRoute>
     ),
   },
   {
@@ -79,73 +89,91 @@ const router = createBrowserRouter([
   {
     path: '/eventos',
     element: (
-      <Layout>
-        <EventsPage />
-      </Layout>
+      <ProtectedRoute unauthorizedRoles={[ADMIN]}>
+        <Layout>
+          <EventsPage />
+        </Layout>
+      </ProtectedRoute>
     ),
   },
   {
     path: '/eventos/solicitud-presupuesto',
     element: (
-      <Layout>
-        <BudgetRequestPage />
-      </Layout>
+      <ProtectedRoute unauthorizedRoles={[ADMIN]}>
+        <Layout>
+          <BudgetRequestPage />
+        </Layout>
+      </ProtectedRoute>
     ),
   },
   {
     path: '/proveedores',
     element: (
-      <Layout>
-        <SuppliersPage />
-      </Layout>
+      <ProtectedRoute unauthorizedRoles={[ADMIN]}>
+        <Layout>
+          <SuppliersPage />
+        </Layout>
+      </ProtectedRoute>
     ),
   },
   {
     path: '/finanzas/transacciones',
     element: (
-      <Layout>
-        <TransactionPage />
-      </Layout>
+      <ProtectedRoute unauthorizedRoles={[ADMIN]}>
+        <Layout>
+          <TransactionPage />
+        </Layout>
+      </ProtectedRoute>
     ),
   },
   {
     path: '/finanzas/cuentas-contables',
     element: (
-      <Layout>
-        <AccountPage />
-      </Layout>
+      <ProtectedRoute unauthorizedRoles={[ADMIN]}>
+        <Layout>
+          <AccountPage />
+        </Layout>
+      </ProtectedRoute>
     ),
   },
   {
-    path: '/inventario',
+    path: '/inventario/movimientos',
     element: (
-      <Layout>
-        <InventoryPage />
-      </Layout>
+      <ProtectedRoute unauthorizedRoles={[ADMIN]}>
+        <Layout>
+          <InventoryPage />
+        </Layout>
+      </ProtectedRoute>
     ),
   },
   {
     path: '/inventario/productos',
     element: (
-      <Layout>
-        <ProductsPage />
-      </Layout>
+      <ProtectedRoute unauthorizedRoles={[ADMIN]}>
+        <Layout>
+          <ProductsPage />
+        </Layout>
+      </ProtectedRoute>
     ),
   },
   {
     path: '/aportaciones/aportantes',
     element: (
-      <Layout>
-        <SubscribersPage />
-      </Layout>
+      <ProtectedRoute unauthorizedRoles={[ADMIN]}>
+        <Layout>
+          <SubscribersPage />
+        </Layout>
+      </ProtectedRoute>
     ),
   },
   {
     path: '/aportaciones/planes-aportacion',
     element: (
-      <Layout>
-        <SubscriptionPlansPage />
-      </Layout>
+      <ProtectedRoute unauthorizedRoles={[ADMIN]}>
+        <Layout>
+          <SubscriptionPlansPage />
+        </Layout>
+      </ProtectedRoute>
     ),
   },
 ]);

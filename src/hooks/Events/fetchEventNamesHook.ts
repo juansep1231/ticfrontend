@@ -30,7 +30,10 @@ export const useFetchEventNames = () => {
 
         const data: EventDTO[] = await response.json();
         setEventNames(data.map((event) => event.title));
-        console.log('Fetched event names:', data.map((event) => event.title));
+        console.log(
+          'Fetched event names:',
+          data.map((event) => event.title)
+        );
       } catch (error) {
         if (error instanceof Error) {
           setError(error);

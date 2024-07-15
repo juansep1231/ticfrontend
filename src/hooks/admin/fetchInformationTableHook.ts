@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { OrganizationalInfo } from '../../types/organizational-models';
 import { DEFAULT_STATE } from '../../utils/constants';
 
- const useFetchAssociations = () => {
+const useFetchAssociations = () => {
   const [associations, setData] = useState<OrganizationalInfo[]>([]);
   const [isLoadingAssociations, setIsLoading] = useState(true);
   const [associationErrors, setError] = useState<Error | null>(null);
@@ -52,12 +52,10 @@ import { DEFAULT_STATE } from '../../utils/constants';
     });
   };
 
-
   const addAssociationState = (newAssociation: OrganizationalInfo) => {
-
     setData((prevData) => {
       const newData = [...prevData, newAssociation];
-      console.log('Added new associationd:', newData,"dsdsdsd");
+      console.log('Added new associationd:', newData, 'dsdsdsd');
       return newData;
     });
   };
@@ -67,12 +65,12 @@ import { DEFAULT_STATE } from '../../utils/constants';
   );
 
   return {
-    associations:filteredAssociations,
+    associations: filteredAssociations,
     isLoadingAssociations,
     associationErrors,
     updateAssociationState,
-    addAssociationState
+    addAssociationState,
   };
 };
 
-export default  useFetchAssociations
+export default useFetchAssociations;

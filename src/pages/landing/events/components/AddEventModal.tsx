@@ -62,8 +62,8 @@ export const AddEventModal = ({
           />
           <FormField
             id="status"
-            label="Estado del evento"
-            placeholder="Seleccione estado del evento"
+            label="Fase del evento"
+            placeholder="Seleccione fase del evento"
             register={register}
             errors={errors.status}
             options={eventStatesData}

@@ -19,6 +19,8 @@ import { BudgetRequest } from '../../../../../types/event-models';
 import { useErrorToast } from '../../../../../hooks/general/useErrorToast';
 import { budgetRequestFilterByEventName } from '../../../../../utils/filter-helper';
 import { BUDGET_REQUEST_TABLE_HEADERS } from '../../../../../utils/constants';
+import { useAuth } from '../../../../../contexts/auth-context';
+import { isCulture } from '../../../../../utils/check-role-helper';
 
 import { TableOptions } from './TableOptions';
 //import { initialEvents } from '../EventPage';
@@ -44,6 +46,7 @@ export const BudgetRequestTable = ({
   onSearchRequestChange,
   onAddBudgetRequest,
 }: BudgetRequestTableProps) => {
+  const { user } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedBudgetRequestId, setSelectedBudgetRequestId] = useState<
     number | undefined
@@ -76,7 +79,7 @@ export const BudgetRequestTable = ({
 
   if (isLoading) {
     return (
-      <Center sx={{ width: '100vw' }}>
+      <Center sx={{ width: 'auto' }}>
         <Spinner size="xl" sx={{ color: 'brand.blue' }} />
       </Center>
     );
@@ -118,12 +121,14 @@ export const BudgetRequestTable = ({
         >
           <Thead>
             <Tr sx={{ textColor: 'surface.default' }}>
-              <Th
-                sx={{
-                  borderRight: '1px',
-                  width: '20',
-                }}
-              ></Th>
+              {isCulture(user) ? (
+                <Th
+                  sx={{
+                    borderRight: '1px',
+                    width: '20',
+                  }}
+                ></Th>
+              ) : null}
               {BUDGET_REQUEST_TABLE_HEADERS.map((header, index) => (
                 <Th
                   key={index}
@@ -147,43 +152,45 @@ export const BudgetRequestTable = ({
             ) : (
               filteredRequests.map((budgetRequest) => (
                 <Tr key={budgetRequest.id}>
-                  <Td>
-                    <Flex
-                      sx={{
-                        gap: 'sm',
-                        flexDirection: { sm: 'column', lg: 'row' },
-                      }}
-                    >
-                      <IconButton
-                        aria-label="Edit Event"
-                        icon={<FaEdit size={16} />}
-                        onClick={() => onEdit(budgetRequest)}
-                        size="sm"
+                  {isCulture(user) ? (
+                    <Td>
+                      <Flex
                         sx={{
-                          bg: 'none',
-                          color: 'brand.blue',
-                          _hover: {
-                            bg: 'secondary.100',
-                            color: 'primary.default',
-                          },
+                          gap: 'sm',
+                          flexDirection: { sm: 'column', lg: 'row' },
                         }}
-                      />
-                      <IconButton
-                        aria-label="Delete Event"
-                        icon={<FaTrash size={16} />}
-                        onClick={() => handleDeleteClick(budgetRequest.id)}
-                        size="sm"
-                        sx={{
-                          bg: 'none',
-                          color: 'brand.blue',
-                          _hover: {
-                            bg: 'secondary.100',
-                            color: 'primary.default',
-                          },
-                        }}
-                      />
-                    </Flex>
-                  </Td>
+                      >
+                        <IconButton
+                          aria-label="Edit Event"
+                          icon={<FaEdit size={16} />}
+                          onClick={() => onEdit(budgetRequest)}
+                          size="sm"
+                          sx={{
+                            bg: 'none',
+                            color: 'brand.blue',
+                            _hover: {
+                              bg: 'secondary.100',
+                              color: 'primary.default',
+                            },
+                          }}
+                        />
+                        <IconButton
+                          aria-label="Delete Event"
+                          icon={<FaTrash size={16} />}
+                          onClick={() => handleDeleteClick(budgetRequest.id)}
+                          size="sm"
+                          sx={{
+                            bg: 'none',
+                            color: 'brand.blue',
+                            _hover: {
+                              bg: 'secondary.100',
+                              color: 'primary.default',
+                            },
+                          }}
+                        />
+                      </Flex>
+                    </Td>
+                  ) : null}
                   <Td>{budgetRequest.eventName}</Td>
                   <Td>{budgetRequest.requestStatusName}</Td>
                   <Td>{budgetRequest.reason}</Td>

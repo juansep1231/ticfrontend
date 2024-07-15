@@ -7,10 +7,10 @@ import useFetchAccountingAccounts from '../../../../hooks/financial/fetchAccount
 import useUpdateAccountingAccount, {
   CreateUpdateAccountingAccountDTO,
 } from '../../../../hooks/financial/updateAccountingAccountHook';
+import usePostAccountingAccount from '../../../../hooks/financial/createAccountingAccounts';
 
 import { AccountTable } from './components/AccountTable';
 import { EditAccountModal } from './components/EditAccountModal';
-import usePostAccountingAccount from '../../../../hooks/financial/createAccountingAccounts';
 /*
 export const initialAccounts: Account[] = [
   {
@@ -66,7 +66,7 @@ export const AccountPage = () => {
     isLoadingAccounts,
     accountErrors,
     updateAccountState,
-    addAccountState
+    addAccountState,
   } = useFetchAccountingAccounts();
   const { postAccountingAccount } = usePostAccountingAccount();
   const [accounts, setAccount] = useState<Account[]>(accountingAccounts);
@@ -111,13 +111,14 @@ export const AccountPage = () => {
     try {
       const newAccountCreatedDTO: CreateUpdateAccountingAccountDTO = {
         accountName: newAccount.accountName,
-       accountType: newAccount.accountType,
+        accountType: newAccount.accountType,
         currentValue: newAccount.currentValue,
         initialBalance: newAccount.currentValue,
         date: formatISO(new Date(newAccount.date)),
       };
-      console.log("bueeeeeee", newAccountCreatedDTO);
-      const newAccountcreated = await postAccountingAccount(newAccountCreatedDTO);
+      console.log('bueeeeeee', newAccountCreatedDTO);
+      const newAccountcreated =
+        await postAccountingAccount(newAccountCreatedDTO);
 
       addAccountState(newAccountcreated);
     } catch (error) {

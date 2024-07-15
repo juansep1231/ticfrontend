@@ -1,12 +1,17 @@
 import { Flex, Heading, Text } from '@chakra-ui/react';
+import useFetchAssociations from '../../../hooks/admin/fetchInformationTableHook';
 
 export const MisionVisionCard = () => {
+
+  const { associations} = useFetchAssociations();
+
   return (
     <Flex sx={{ gap: '3xl', width: '100%' }}>
       <Flex
         sx={{
           flexDirection: 'column',
           gap: 'sm',
+          width: '50%'
         }}
       >
         <Heading
@@ -17,9 +22,7 @@ export const MisionVisionCard = () => {
           Misión
         </Heading>
         <Text sx={{ textColor: 'text.default', textAlign: 'justify' }}>
-          ¡Bienvenidos al Sistema Cloud ERP de la FEPON! Gestiona tus
-          actividades y recursos de manera eficiente con nuestra plataforma
-          integral.
+          {associations[0]?.mission}
         </Text>
       </Flex>
       <Flex
@@ -39,9 +42,7 @@ export const MisionVisionCard = () => {
           Visión
         </Heading>
         <Text sx={{ textColor: 'text.default', textAlign: 'justify' }}>
-          ¡Bienvenidos al Sistema Cloud ERP de la FEPON! Gestiona tus
-          actividades y recursos de manera eficiente con nuestra plataforma
-          integral.
+        {associations[0]?.vision}
         </Text>
       </Flex>
     </Flex>

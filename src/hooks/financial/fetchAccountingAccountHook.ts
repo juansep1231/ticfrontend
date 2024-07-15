@@ -1,18 +1,21 @@
 import { useEffect, useState } from 'react';
+
 import { CreateUpdateAccountingAccountDTO } from './updateAccountingAccountHook';
 
 export interface AccountingAccountDTO {
-    id?: number;
-    accountType: string;
-    accountName: string;
-    currentValue: number;
-    date: string;
-    initialBalance?: number;
-    //accountingAccountStatus: string;
+  id?: number;
+  accountType: string;
+  accountName: string;
+  currentValue: number;
+  date: string;
+  initialBalance?: number;
+  //accountingAccountStatus: string;
 }
 
 export const useFetchAccountingAccounts = () => {
-  const [accountingAccounts, setAccountingAccounts] = useState<AccountingAccountDTO[]>([]);
+  const [accountingAccounts, setAccountingAccounts] = useState<
+    AccountingAccountDTO[]
+  >([]);
   const [isLoadingAccounts, setIsLoadingAccounts] = useState(true);
   const [accountErrors, setAccountErrors] = useState<Error | null>(null);
   const endpoint = `${import.meta.env.VITE_API_BASE_URL}${import.meta.env.VITE_API_ACCOUNTING_ACCOUNTS_ENDPOINT}`;
@@ -59,12 +62,10 @@ export const useFetchAccountingAccounts = () => {
     });
   };
 
-
-  const addAccountState = (newEvent:AccountingAccountDTO) => {
-
+  const addAccountState = (newEvent: AccountingAccountDTO) => {
     setAccountingAccounts((prevData) => {
       const newData = [...prevData, newEvent];
-      console.log('Added new member:', newData,"dsdsdsd");
+      console.log('Added new member:', newData, 'dsdsdsd');
       return newData;
     });
   };
@@ -73,7 +74,7 @@ export const useFetchAccountingAccounts = () => {
     isLoadingAccounts,
     accountErrors,
     updateAccountState,
-    addAccountState
+    addAccountState,
   };
 };
 

@@ -9,6 +9,8 @@ import {
 } from '@chakra-ui/react';
 
 import { SubscriptionPlan } from '../../../../../types/subscription-models';
+import { isOrganizational } from '../../../../../utils/check-role-helper';
+import { useAuth } from '../../../../../contexts/auth-context';
 
 import { AddSubscriptionPlanrModal } from './AddSubscriptionPlanModal';
 import { ButtonExcel } from './ButtonExcel';
@@ -27,7 +29,7 @@ export const TableOptions = ({
   onAddSubscriptionPlan,
 }: TableOptionsProps) => {
   const [isAddPlanModalOpen, setIsAddPlanModalOpen] = useState(false);
-
+  const { user } = useAuth();
   return (
     <Flex
       sx={{
@@ -47,12 +49,14 @@ export const TableOptions = ({
         />
       </InputGroup>
       <Flex sx={{ gap: 'sm' }}>
-        <Button
-          leftIcon={<AddIcon />}
-          onClick={() => setIsAddPlanModalOpen(true)}
-        >
-          Plan
-        </Button>
+        {isOrganizational(user) ? (
+          <Button
+            leftIcon={<AddIcon />}
+            onClick={() => setIsAddPlanModalOpen(true)}
+          >
+            Plan
+          </Button>
+        ) : null}
         <ButtonExcel data={plans} />
       </Flex>
 

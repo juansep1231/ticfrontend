@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { CreateUpdateInventoryMovementDTO } from './updateInventoryHook';
+
 import { Inventory } from '../../types/inventory-models';
 
+import { CreateUpdateInventoryMovementDTO } from './updateInventoryHook';
 
 export const usePostInventoryMovement = () => {
   const [postError, setPostError] = useState<string | null>(null);
@@ -29,7 +30,7 @@ export const usePostInventoryMovement = () => {
       }
 
       const createdInventoryMovement: Inventory = await response.json();
-      console.log("Posted inventory movement:", createdInventoryMovement);
+      console.log('Posted inventory movement:', createdInventoryMovement);
       return createdInventoryMovement;
     } catch (error: any) {
       console.error('Failed to create inventory movement:', error);

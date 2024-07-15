@@ -9,9 +9,15 @@ import {
 } from '@chakra-ui/react';
 
 import { Account } from '../../../../../types/finantial-models';
+import { useAuth } from '../../../../../contexts/auth-context';
+import {
+  VICEPRESIDENTE_DE_CULTURA,
+  VICEPRESIDENTE_FINANCIERO,
+} from '../../../../../utils/roles-constants';
+import { isFinantial } from '../../../../../utils/check-role-helper';
 
-import { AddAccountModal } from './AddAccountModal';
 import { ButtonExcel } from './ButtonExcel';
+import { AddAccountModal } from './AddAccountModal';
 
 interface TableOptionsProps {
   accounts: Account[];
@@ -27,7 +33,7 @@ export const TableOptions = ({
   onAddAccount,
 }: TableOptionsProps) => {
   const [isAddAccountModalOpen, setIsAddAccountModalOpen] = useState(false);
-
+  const { user } = useAuth();
   return (
     <Flex
       sx={{
@@ -47,12 +53,14 @@ export const TableOptions = ({
         />
       </InputGroup>
       <Flex sx={{ gap: 'sm' }}>
-        <Button
-          leftIcon={<AddIcon />}
-          onClick={() => setIsAddAccountModalOpen(true)}
-        >
-          Cuenta
-        </Button>
+        {isFinantial(user) ? (
+          <Button
+            leftIcon={<AddIcon />}
+            onClick={() => setIsAddAccountModalOpen(true)}
+          >
+            Cuenta
+          </Button>
+        ) : null}
         <ButtonExcel data={accounts} />
       </Flex>
 

@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { CreateUpdateProductDTO } from './updateProductHook';
+
 import { Product } from '../../types/inventory-models';
 
+import { CreateUpdateProductDTO } from './updateProductHook';
 
 const usePostProduct = () => {
   const [postError, setPostError] = useState<string | null>(null);
@@ -29,7 +30,7 @@ const usePostProduct = () => {
       }
 
       const createdProduct: Product = await response.json();
-      console.log("Posted product:", createdProduct);
+      console.log('Posted product:', createdProduct);
       return createdProduct;
     } catch (error: any) {
       console.error('Failed to create product:', error);

@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 
 export interface AcademicPeriodDTO {
-    academicPeriod: string;
-  }
-
+  academicPeriod: string;
+}
 
 const useFetchAcademicPeriods = () => {
   const [academicPeriodsData, setAcademicPeriodsData] = useState<string[]>([]);
   const [academicPeriodsLoading, setAcademicPeriodsLoading] = useState(true);
-  const [academicPeriodsError, setAcademicPeriodsError] = useState<Error | null>(null);
+  const [academicPeriodsError, setAcademicPeriodsError] =
+    useState<Error | null>(null);
   const endpoint = `${import.meta.env.VITE_API_BASE_URL}${import.meta.env.VITE_API_ACADEMIC_PERIODS_ENDPOINT}`;
 
   useEffect(() => {

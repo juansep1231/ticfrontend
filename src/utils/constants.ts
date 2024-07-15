@@ -19,7 +19,7 @@ export const DROPDOWN_MENUS = [
   {
     name: 'Inventario',
     items: [
-      { name: 'Inventario', path: '/inventario' },
+      { name: 'Movimientos', path: '/inventario/movimientos' },
       { name: 'Proveedores', path: '/proveedores' },
       { name: 'Productos', path: '/inventario/productos' },
     ],
@@ -111,7 +111,7 @@ export const SUPPLIERS_TABLE_HEADERS = ['Nombre', 'Teléfono Celular', 'Correo']
 
 export const EVENTS_TABLE_HEADERS = [
   'Título',
-  'Estado',
+  'Fase del evento',
   'Descripción',
   'Fecha de inicio',
   'Fecha de fin',
@@ -119,11 +119,6 @@ export const EVENTS_TABLE_HEADERS = [
   'Estado del presupuesto',
   'Lugar',
   'Ingresos',
-];
-
-export const NAV_LINKS = [
-  { name: 'Home', path: '/' },
-  { name: 'Ayuda', path: '/ayuda' },
 ];
 
 export const DEFAULT_STATE = 1;

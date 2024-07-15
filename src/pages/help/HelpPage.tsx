@@ -59,7 +59,6 @@ export const HelpPage: React.FC = () => {
     >
       <Flex sx={{ flexDirection: 'column', gap: 'md', pb: 'xl' }}>
         <Heading>Ayuda</Heading>
-        <button onClick={fetchData}>Fetch Data</button>
         <Box>
           <Text sx={{ textColor: 'text.default', textAlign: 'justify' }}>
             Recuerda cambiar tu contraseña la primera vez que ingreses al

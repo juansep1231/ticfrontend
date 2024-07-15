@@ -19,6 +19,8 @@ import { SUBSCRIBER_TABLE_HEADERS } from '../../../../../utils/constants';
 import { Subscriber } from '../../../../../types/subscription-models';
 import { subscribersFilterByName } from '../../../../../utils/filter-helper';
 import { useErrorToast } from '../../../../../hooks/general/useErrorToast';
+import { isOrganizational } from '../../../../../utils/check-role-helper';
+import { useAuth } from '../../../../../contexts/auth-context';
 
 import { TableOptions } from './TableOptions';
 
@@ -43,6 +45,7 @@ export const SubscribersTable = ({
   onSearchSubscriberChange,
   onAddSubscriber,
 }: SubscribersTableProps) => {
+  const { user } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedSubscriberId, setSelectedSubscriberId] = useState<
     number | undefined
@@ -77,7 +80,7 @@ export const SubscribersTable = ({
 
   if (isLoading) {
     return (
-      <Center sx={{ width: '100vw' }}>
+      <Center sx={{ width: 'auto' }}>
         <Spinner size="xl" sx={{ color: 'brand.blue' }} />
       </Center>
     );
@@ -119,12 +122,14 @@ export const SubscribersTable = ({
         >
           <Thead>
             <Tr sx={{ textColor: 'surface.default' }}>
-              <Th
-                sx={{
-                  borderRight: '1px',
-                  width: '20',
-                }}
-              ></Th>
+              {isOrganizational(user) ? (
+                <Th
+                  sx={{
+                    borderRight: '1px',
+                    width: '20',
+                  }}
+                ></Th>
+              ) : null}
               {SUBSCRIBER_TABLE_HEADERS.map((header, index) => (
                 <Th
                   key={index}
@@ -148,43 +153,45 @@ export const SubscribersTable = ({
             ) : (
               filteredSubscribers.map((subscriber) => (
                 <Tr key={subscriber.id}>
-                  <Td>
-                    <Flex
-                      sx={{
-                        gap: 'sm',
-                        flexDirection: { sm: 'column', lg: 'row' },
-                      }}
-                    >
-                      <IconButton
-                        aria-label="Edit Event"
-                        icon={<FaEdit size={16} />}
-                        onClick={() => onEdit(subscriber)}
-                        size="sm"
+                  {isOrganizational(user) ? (
+                    <Td>
+                      <Flex
                         sx={{
-                          bg: 'none',
-                          color: 'brand.blue',
-                          _hover: {
-                            bg: 'secondary.100',
-                            color: 'primary.default',
-                          },
+                          gap: 'sm',
+                          flexDirection: { sm: 'column', lg: 'row' },
                         }}
-                      />
-                      <IconButton
-                        aria-label="Delete Event"
-                        icon={<FaTrash size={16} />}
-                        onClick={() => handleDeleteClick(subscriber.id)}
-                        size="sm"
-                        sx={{
-                          bg: 'none',
-                          color: 'brand.blue',
-                          _hover: {
-                            bg: 'secondary.100',
-                            color: 'primary.default',
-                          },
-                        }}
-                      />
-                    </Flex>
-                  </Td>
+                      >
+                        <IconButton
+                          aria-label="Edit Event"
+                          icon={<FaEdit size={16} />}
+                          onClick={() => onEdit(subscriber)}
+                          size="sm"
+                          sx={{
+                            bg: 'none',
+                            color: 'brand.blue',
+                            _hover: {
+                              bg: 'secondary.100',
+                              color: 'primary.default',
+                            },
+                          }}
+                        />
+                        <IconButton
+                          aria-label="Delete Event"
+                          icon={<FaTrash size={16} />}
+                          onClick={() => handleDeleteClick(subscriber.id)}
+                          size="sm"
+                          sx={{
+                            bg: 'none',
+                            color: 'brand.blue',
+                            _hover: {
+                              bg: 'secondary.100',
+                              color: 'primary.default',
+                            },
+                          }}
+                        />
+                      </Flex>
+                    </Td>
+                  ) : null}
                   <Td>{subscriber.date}</Td>
                   <Td>{subscriber.name}</Td>
                   <Td>{subscriber.faculty}</Td>

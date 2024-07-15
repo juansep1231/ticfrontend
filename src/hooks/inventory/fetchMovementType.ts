@@ -5,9 +5,13 @@ export interface InventoryMovementTypeDTO {
 }
 
 const useFetchInventoryMovementTypes = () => {
-  const [inventoryMovementTypes, setInventoryMovementTypes] = useState<InventoryMovementTypeDTO[]>([]);
-  const [isLoadingInventoryMovementTypes, setIsLoadingInventoryMovementTypes] = useState(true);
-  const [inventoryMovementTypeErrors, setInventoryMovementTypeErrors] = useState<Error | null>(null);
+  const [inventoryMovementTypes, setInventoryMovementTypes] = useState<
+    InventoryMovementTypeDTO[]
+  >([]);
+  const [isLoadingInventoryMovementTypes, setIsLoadingInventoryMovementTypes] =
+    useState(true);
+  const [inventoryMovementTypeErrors, setInventoryMovementTypeErrors] =
+    useState<Error | null>(null);
   const endpoint = `${import.meta.env.VITE_API_BASE_URL}${import.meta.env.VITE_API_INVENTORY_MOVEMENT_TYPES_ENDPOINT}`;
 
   useEffect(() => {

@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 
 export interface CategoryDTO {
-    description: string;
-  }
+  description: string;
+}
 export const useFetchCategories = () => {
   const [categoriesData, setCategoriesData] = useState<string[]>([]);
   const [categoriesLoading, setCategoriesLoading] = useState(true);
@@ -37,4 +37,3 @@ export const useFetchCategories = () => {
 
   return { categoriesData, categoriesLoading, categoriesError };
 };
-

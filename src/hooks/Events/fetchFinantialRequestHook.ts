@@ -5,13 +5,16 @@ export interface FinantialRequestDTO {
   requestStatusName: string; //EN REVISION, APROBADO, RECHAZADO
   reason: string;
   value: number;
-  }
-
+}
 
 export const useFetchFinantialRequests = () => {
-  const [finantialRequests, setFinantialRequests] = useState<FinantialRequestDTO[]>([]);
-  const [isLoadingFinantialRequests, setIsLoadingFinantialRequests] = useState(true);
-  const [finantialRequestErrors, setFinantialRequestErrors] = useState<Error | null>(null);
+  const [finantialRequests, setFinantialRequests] = useState<
+    FinantialRequestDTO[]
+  >([]);
+  const [isLoadingFinantialRequests, setIsLoadingFinantialRequests] =
+    useState(true);
+  const [finantialRequestErrors, setFinantialRequestErrors] =
+    useState<Error | null>(null);
   const endpoint = `${import.meta.env.VITE_API_BASE_URL}${import.meta.env.VITE_API_FINANTIAL_REQUESTS_ENDPOINT}`;
 
   useEffect(() => {

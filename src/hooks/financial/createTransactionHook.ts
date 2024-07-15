@@ -3,19 +3,22 @@ import { useState } from 'react';
 import { Transaction } from '../../types/finantial-models';
 
 export interface CreateUpdateTransactionDTO {
-    date: string;
-    originAccount: string;
-    destinationAccount: string;
-    value: number;
-    transactionType: string;
-    description: string;
+  date: string;
+  originAccount: string;
+  destinationAccount: string;
+  value: number;
+  transactionType: string;
+  description: string;
 }
 
-
 const usePostTransaction = () => {
-  const [postTransactionError, setPostTransactionError] = useState<string | null>(null);
+  const [postTransactionError, setPostTransactionError] = useState<
+    string | null
+  >(null);
 
-  const postTransaction = async (newTransaction: CreateUpdateTransactionDTO) => {
+  const postTransaction = async (
+    newTransaction: CreateUpdateTransactionDTO
+  ) => {
     setPostTransactionError(null);
 
     try {
@@ -36,7 +39,7 @@ const usePostTransaction = () => {
       }
 
       const createdTransaction: Transaction = await response.json();
-      console.log("Created transaction:", createdTransaction);
+      console.log('Created transaction:', createdTransaction);
       return createdTransaction;
     } catch (error: any) {
       console.error('Failed to create transaction:', error);

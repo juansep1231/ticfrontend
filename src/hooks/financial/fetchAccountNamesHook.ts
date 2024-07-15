@@ -27,7 +27,10 @@ export const useFetchAccountingAccountNames = () => {
 
         const data: AccountingAccountDTO[] = await response.json();
         setAccountNames(data.map((account) => account.accountName));
-        console.log('Fetched account names:', data.map((account) => account.accountName));
+        console.log(
+          'Fetched account names:',
+          data.map((account) => account.accountName)
+        );
       } catch (error) {
         if (error instanceof Error) {
           setError(error);

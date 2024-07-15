@@ -3,11 +3,14 @@ import { useEffect, useState } from 'react';
 import { SubscriptionPlan } from '../../types/subscription-models';
 import { DEFAULT_STATE } from '../../utils/constants';
 
-
 const useFetchContributionPlans = () => {
-  const [contributionPlans, setContributionPlans] = useState<SubscriptionPlan[]>([]);
-  const [isLoadingContributionPlans, setIsLoadingContributionPlans] = useState(true);
-  const [contributionPlanErrors, setContributionPlanErrors] = useState<Error | null>(null);
+  const [contributionPlans, setContributionPlans] = useState<
+    SubscriptionPlan[]
+  >([]);
+  const [isLoadingContributionPlans, setIsLoadingContributionPlans] =
+    useState(true);
+  const [contributionPlanErrors, setContributionPlanErrors] =
+    useState<Error | null>(null);
   const endpoint = `${import.meta.env.VITE_API_BASE_URL}${import.meta.env.VITE_API_CONTRIBUTION_PLANS_ENDPOINT}`;
 
   useEffect(() => {
@@ -53,14 +56,12 @@ const useFetchContributionPlans = () => {
   };
 
   const addContributionPlanState = (newContributionPlan: SubscriptionPlan) => {
-
     setContributionPlans((prevData) => {
       const newData = [...prevData, newContributionPlan];
-      console.log('Added new associationd:', newData,"dsdsdsd");
+      console.log('Added new associationd:', newData, 'dsdsdsd');
       return newData;
     });
   };
-
 
   const filteredContributionPlans = contributionPlans.filter(
     (item) => item.state_id === DEFAULT_STATE // Adjust the filter condition as needed
@@ -71,7 +72,7 @@ const useFetchContributionPlans = () => {
     isLoadingContributionPlans,
     contributionPlanErrors,
     updateContributionPlanState,
-    addContributionPlanState
+    addContributionPlanState,
   };
 };
 

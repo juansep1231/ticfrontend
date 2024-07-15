@@ -38,7 +38,6 @@ const useFetchAdministrativeMembers = () => {
     fetchData();
   }, [endpoint]);
 
-
   const updateAdministrativeMemberState = (
     id: number,
     updatedData: Partial<Member>
@@ -53,10 +52,9 @@ const useFetchAdministrativeMembers = () => {
   };
 
   const addAdminMemberState = (newAdminMmeber: Member) => {
-
     setData((prevData) => {
       const newData = [...prevData, newAdminMmeber];
-      console.log('Added new member:', newData,"dsdsdsd");
+      console.log('Added new member:', newData, 'dsdsdsd');
       return newData;
     });
   };
@@ -70,9 +68,8 @@ const useFetchAdministrativeMembers = () => {
     addAdminMemberState,
     isLoadingAdministrativeMembers,
     administrativeMemberErrors,
-    updateAdministrativeMemberState
+    updateAdministrativeMemberState,
   };
 };
 
-
-export default useFetchAdministrativeMembers
+export default useFetchAdministrativeMembers;

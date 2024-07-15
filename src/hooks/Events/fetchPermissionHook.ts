@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
 export interface PermissionDTO {
-    Permission_Id: number;
-    Request: string;
-    Request_Status: string;
-  }
-
+  Permission_Id: number;
+  Request: string;
+  Request_Status: string;
+}
 
 export const useFetchPermissions = () => {
   const [permissions, setPermissions] = useState<PermissionDTO[]>([]);

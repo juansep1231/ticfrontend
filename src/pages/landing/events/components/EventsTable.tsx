@@ -19,6 +19,8 @@ import { ConfirmationModal } from '../../../../components/ConfirmationModal';
 import { EventView } from '../../../../types/event-models';
 import { eventsFilterByName } from '../../../../utils/filter-helper';
 import { useErrorToast } from '../../../../hooks/general/useErrorToast';
+import { isCulture } from '../../../../utils/check-role-helper';
+import { useAuth } from '../../../../contexts/auth-context';
 
 import { TableOptions } from './TableOptions';
 //import { initialEvents } from '../EventPage';
@@ -44,6 +46,7 @@ export const EventsTable = ({
   onSearchEventChange,
   onAddEvent,
 }: EventTableProps) => {
+  const { user } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedEventId, setSelectedEventId] = useState<number | undefined>();
   const [filteredEvents, setFilteredEvents] = useState<EventView[]>([]);
@@ -72,7 +75,7 @@ export const EventsTable = ({
 
   if (isLoading) {
     return (
-      <Center sx={{ width: '100vw' }}>
+      <Center sx={{ width: 'auto' }}>
         <Spinner size="xl" sx={{ color: 'brand.blue' }} />
       </Center>
     );
@@ -114,12 +117,14 @@ export const EventsTable = ({
         >
           <Thead>
             <Tr sx={{ textColor: 'surface.default' }}>
-              <Th
-                sx={{
-                  borderRight: '1px',
-                  width: '20',
-                }}
-              ></Th>
+              {isCulture(user) ? (
+                <Th
+                  sx={{
+                    borderRight: '1px',
+                    width: '20',
+                  }}
+                ></Th>
+              ) : null}
               {EVENTS_TABLE_HEADERS.map((header, index) => (
                 <Th
                   key={index}
@@ -143,43 +148,45 @@ export const EventsTable = ({
             ) : (
               filteredEvents.map((event) => (
                 <Tr key={event.id}>
-                  <Td>
-                    <Flex
-                      sx={{
-                        gap: 'sm',
-                        flexDirection: { sm: 'column', lg: 'row' },
-                      }}
-                    >
-                      <IconButton
-                        aria-label="Edit Event"
-                        icon={<FaEdit size={16} />}
-                        onClick={() => onEdit(event)}
-                        size="sm"
+                  {isCulture(user) ? (
+                    <Td>
+                      <Flex
                         sx={{
-                          bg: 'none',
-                          color: 'brand.blue',
-                          _hover: {
-                            bg: 'secondary.100',
-                            color: 'primary.default',
-                          },
+                          gap: 'sm',
+                          flexDirection: { sm: 'column', lg: 'row' },
                         }}
-                      />
-                      <IconButton
-                        aria-label="Delete Event"
-                        icon={<FaTrash size={16} />}
-                        onClick={() => handleDeleteClick(event.id)}
-                        size="sm"
-                        sx={{
-                          bg: 'none',
-                          color: 'brand.blue',
-                          _hover: {
-                            bg: 'secondary.100',
-                            color: 'primary.default',
-                          },
-                        }}
-                      />
-                    </Flex>
-                  </Td>
+                      >
+                        <IconButton
+                          aria-label="Edit Event"
+                          icon={<FaEdit size={16} />}
+                          onClick={() => onEdit(event)}
+                          size="sm"
+                          sx={{
+                            bg: 'none',
+                            color: 'brand.blue',
+                            _hover: {
+                              bg: 'secondary.100',
+                              color: 'primary.default',
+                            },
+                          }}
+                        />
+                        <IconButton
+                          aria-label="Delete Event"
+                          icon={<FaTrash size={16} />}
+                          onClick={() => handleDeleteClick(event.id)}
+                          size="sm"
+                          sx={{
+                            bg: 'none',
+                            color: 'brand.blue',
+                            _hover: {
+                              bg: 'secondary.100',
+                              color: 'primary.default',
+                            },
+                          }}
+                        />
+                      </Flex>
+                    </Td>
+                  ) : null}
                   <Td>{event.title}</Td>
                   <Td>{event.status}</Td>
                   <Td>{event.description}</Td>

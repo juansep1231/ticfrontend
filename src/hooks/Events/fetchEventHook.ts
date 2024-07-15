@@ -1,20 +1,21 @@
 import { useEffect, useState } from 'react';
 
 import { CreateUpdateEventDTO } from './updateEventhook';
+import { DEFAULT_STATE } from '../../utils/constants';
 
-  export interface EventView {
-    id?: number;
-    title: string;
-    status: string;
-    description: string;
-    startDate: string;
-    endDate: string;
-    budget: number;
-    budgetStatus: string;
-    location: string;
-    income?: number;
-  }
-
+export interface EventView {
+  id?: number;
+  stateid?: number;
+  title: string;
+  status: string;
+  description: string;
+  startDate: string;
+  endDate: string;
+  budget: number;
+  budgetStatus: string;
+  location: string;
+  income?: number;
+}
 
 export const useFetchEvents = () => {
   const [events, setEvents] = useState<EventView[]>([]);
@@ -51,10 +52,7 @@ export const useFetchEvents = () => {
     fetchEvents();
   }, [endpoint]);
 
-  const updateEventState = (
-    id: number,
-    updatedData: Partial<EventView>
-  ) => {
+  const updateEventState = (id: number, updatedData: Partial<EventView>) => {
     setEvents((prevData) => {
       const newData = prevData.map((item) =>
         item.id === id ? { ...item, ...updatedData } : item
@@ -64,22 +62,25 @@ export const useFetchEvents = () => {
     });
   };
 
-  const addEventState = (newEvent:CreateUpdateEventDTO ) => {
-
+  const addEventState = (newEvent: CreateUpdateEventDTO) => {
     setEvents((prevData) => {
       const newData = [...prevData, newEvent];
-      console.log('Added new member:', newData,"dsdsdsd");
+      console.log('Added new member:', newData, 'dsdsdsd');
       return newData;
     });
   };
 
+  const filteredEvents = events.filter(
+    (item) => item.stateid === DEFAULT_STATE // Adjust the filter condition as needed
+  );
+
 
   return {
-    events,
+    events: filteredEvents,
     isLoadingEvents,
     eventErrors,
     updateEventState,
-    addEventState
+    addEventState,
   };
 };
 

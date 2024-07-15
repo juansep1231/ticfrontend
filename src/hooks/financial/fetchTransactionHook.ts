@@ -4,11 +4,12 @@ import { Transaction } from '../../types/finantial-models';
 
 import { CreateUpdateTransactionDTO } from './createTransactionHook';
 
-
 export const useFetchTransactions = () => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [isLoadingTransactions, setIsLoadingTransactions] = useState(true);
-  const [transactionErrors, setTransactionErrors] = useState<Error | null>(null);
+  const [transactionErrors, setTransactionErrors] = useState<Error | null>(
+    null
+  );
   const endpoint = `${import.meta.env.VITE_API_BASE_URL}${import.meta.env.VITE_API_TRANSACTIONS_ENDPOINT}`;
 
   useEffect(() => {
@@ -52,22 +53,20 @@ export const useFetchTransactions = () => {
       return newData;
     });
   };
-  const addTransactionState = (newEvent:CreateUpdateTransactionDTO ) => {
-
+  const addTransactionState = (newEvent: CreateUpdateTransactionDTO) => {
     setTransactions((prevData) => {
       const newData = [...prevData, newEvent];
-      console.log('Added new member:', newData,"dsdsdsd");
+      console.log('Added new member:', newData, 'dsdsdsd');
       return newData;
     });
   };
-
 
   return {
     transactions,
     isLoadingTransactions,
     transactionErrors,
     updateTransactionState,
-    addTransactionState
+    addTransactionState,
   };
 };
 

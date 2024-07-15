@@ -1,5 +1,7 @@
 import { useState } from 'react';
+
 import { Supplier } from '../../types/supplier-models';
+
 import { CreateUpdateProviderDTO } from './updateProviderHook';
 
 const usePostProvider = () => {
@@ -28,7 +30,7 @@ const usePostProvider = () => {
       }
 
       const createdProvider: Supplier = await response.json();
-      console.log("Posted provider:", createdProvider);
+      console.log('Posted provider:', createdProvider);
       return createdProvider;
     } catch (error: any) {
       console.error('Failed to create provider:', error);

@@ -12,7 +12,10 @@ export interface CreateUpdateAccountingAccountDTO {
 const useUpdateAccountingAccount = () => {
   const [updateError, setUpdateError] = useState<string | null>(null);
 
-  const updateAccountingAccount = async (id: number, updatedAccount: CreateUpdateAccountingAccountDTO) => {
+  const updateAccountingAccount = async (
+    id: number,
+    updatedAccount: CreateUpdateAccountingAccountDTO
+  ) => {
     setUpdateError(null);
 
     try {

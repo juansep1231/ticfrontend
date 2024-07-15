@@ -15,7 +15,10 @@ export interface CreateUpdateEventDTO {
 const useUpdateEvent = () => {
   const [updateError, setUpdateError] = useState<string | null>(null);
 
-  const updateEvent = async (id: number, updatedEvent: CreateUpdateEventDTO) => {
+  const updateEvent = async (
+    id: number,
+    updatedEvent: CreateUpdateEventDTO
+  ) => {
     setUpdateError(null);
 
     try {

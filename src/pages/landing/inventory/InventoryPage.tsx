@@ -8,10 +8,10 @@ import useUpdateInventoryMovement, {
   CreateUpdateInventoryMovementDTO,
 } from '../../../hooks/inventory/updateInventoryHook';
 import usePatchInventoryMovementState from '../../../hooks/inventory/patchInventoryHook';
+import usePostInventoryMovement from '../../../hooks/inventory/createInventoryHook';
 
 import { EditInventoryModal } from './components/EditInventoryModal';
 import { InventoryTable } from './components/InventoryTable';
-import usePostInventoryMovement from '../../../hooks/inventory/createInventoryHook';
 
 export const initialInventory: Inventory[] = [
   {
@@ -70,11 +70,11 @@ export const InventoryPage = () => {
     isLoadingInventoryMovements,
     inventoryMovementErrors,
     updateInventoryMovementState,
-    addInventiryMovementtate
+    addInventiryMovementtate,
   } = useFetchInventoryMovements();
 
   const { patchInventoryMovementState } = usePatchInventoryMovementState();
-  const {  postInventoryMovement } = usePostInventoryMovement();
+  const { postInventoryMovement } = usePostInventoryMovement();
   const handleEditMovement = async (data: { movements: Inventory }) => {
     try {
       const formattedDate = formatISO(new Date(data.movements.date));
@@ -129,7 +129,7 @@ export const InventoryPage = () => {
         date: formatISO(new Date(newInventory.date)),
         product_Name: newInventory.product,
         inventory_Movement_Type_Name: newInventory.movementType,
-        quantity: newInventory.quantity
+        quantity: newInventory.quantity,
       };
       const newAdminMember = await postInventoryMovement(newContributionPlan);
 
@@ -144,7 +144,7 @@ export const InventoryPage = () => {
       flex="1"
       sx={{ flexDirection: 'column', gap: 'lg', px: { base: 'md', lg: '3xl' } }}
     >
-      <Heading>Inventario</Heading>
+      <Heading>Movimientos de Inventario</Heading>
       <Text sx={{ color: 'text.default', textAlign: 'justify' }}>
         Antes de añadir un movimiento de inventario, asegúrate de que tu
         producto y proveedor ya se encuentren registrados. En caso de no estar

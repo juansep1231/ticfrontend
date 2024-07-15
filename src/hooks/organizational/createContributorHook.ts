@@ -1,11 +1,15 @@
 import { useState } from 'react';
-import { CreateUpdateContributorDTO } from './updateContributor';
+
 import { Subscriber } from '../../types/subscription-models';
+
+import { CreateUpdateContributorDTO } from './updateContributor';
 
 const usePostContributor = () => {
   const [postError, setPostError] = useState<string | null>(null);
 
-  const postContributor = async (newContributor: CreateUpdateContributorDTO) => {
+  const postContributor = async (
+    newContributor: CreateUpdateContributorDTO
+  ) => {
     setPostError(null);
 
     try {
@@ -26,7 +30,7 @@ const usePostContributor = () => {
       }
 
       const createdContributor: Subscriber = await response.json();
-      console.log("Created contributor:", createdContributor);
+      console.log('Created contributor:', createdContributor);
       return createdContributor;
     } catch (error: any) {
       console.error('Failed to create contributor:', error);

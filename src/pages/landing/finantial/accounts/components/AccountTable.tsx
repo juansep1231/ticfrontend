@@ -73,7 +73,7 @@ export const AccountTable = ({
 
   if (isLoading) {
     return (
-      <Center sx={{ width: '100vw' }}>
+      <Center sx={{ width: 'auto' }}>
         <Spinner size="xl" sx={{ color: 'brand.blue' }} />
       </Center>
     );
@@ -115,12 +115,12 @@ export const AccountTable = ({
         >
           <Thead>
             <Tr sx={{ textColor: 'surface.default' }}>
-              <Th
+              {/*<Th
                 sx={{
                   borderRight: '1px',
                   width: '20',
                 }}
-              ></Th>
+              ></Th>*/}
               {ACCOUNT_TABLE_HEADERS.map((header, index) => (
                 <Th
                   key={index}
@@ -137,14 +137,14 @@ export const AccountTable = ({
           <Tbody>
             {filteredAccounts.length === 0 ? (
               <Tr>
-                <Td colSpan={ACCOUNT_TABLE_HEADERS.length + 1}>
+                <Td colSpan={ACCOUNT_TABLE_HEADERS.length /*+ 1*/}>
                   No olvides ingresar cuentas contables.
                 </Td>
               </Tr>
             ) : (
               filteredAccounts.map((account) => (
                 <Tr key={account.id}>
-                  <Td>
+                  {/*<Td>
                     <Flex
                       sx={{
                         gap: 'sm',
@@ -180,7 +180,7 @@ export const AccountTable = ({
                         }}
                       />
                     </Flex>
-                  </Td>
+                  </Td>*/}
                   <Td>{account.accountType}</Td>
                   <Td>{account.accountName}</Td>
                   <Td>{account.currentValue}</Td>

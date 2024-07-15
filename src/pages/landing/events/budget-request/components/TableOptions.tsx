@@ -9,6 +9,8 @@ import {
 } from '@chakra-ui/react';
 
 import { BudgetRequest } from '../../../../../types/event-models';
+import { isCulture } from '../../../../../utils/check-role-helper';
+import { useAuth } from '../../../../../contexts/auth-context';
 
 import { AddBudgetRequestModal } from './AddBudgetRequestModal';
 import { ButtonExcel } from './ButtonExcel';
@@ -29,6 +31,7 @@ export const TableOptions = ({
   const [isAddBudgetRequestModalOpen, setIsAddBudgetRequestModalOpen] =
     useState(false);
 
+  const { user } = useAuth();
   return (
     <Flex
       sx={{
@@ -48,12 +51,14 @@ export const TableOptions = ({
         />
       </InputGroup>
       <Flex sx={{ gap: 'sm' }}>
-        <Button
-          leftIcon={<AddIcon />}
-          onClick={() => setIsAddBudgetRequestModalOpen(true)}
-        >
-          Solicitud
-        </Button>
+        {isCulture(user) ? (
+          <Button
+            leftIcon={<AddIcon />}
+            onClick={() => setIsAddBudgetRequestModalOpen(true)}
+          >
+            Solicitud
+          </Button>
+        ) : null}
         <ButtonExcel data={requests} />
       </Flex>
 

@@ -9,6 +9,8 @@ import {
 } from '@chakra-ui/react';
 
 import { Product } from '../../../../../types/inventory-models';
+import { useAuth } from '../../../../../contexts/auth-context';
+import { isInventory } from '../../../../../utils/check-role-helper';
 
 import { AddProductModal } from './AddProductModal';
 import { ButtonExcel } from './ButtonExcel';
@@ -27,7 +29,7 @@ export const TableOptions = ({
   onAddProduct,
 }: TableOptionsProps) => {
   const [isAddProductModalOpen, setIsAddProductModalOpen] = useState(false);
-
+  const { user } = useAuth();
   return (
     <Flex
       sx={{
@@ -47,12 +49,14 @@ export const TableOptions = ({
         />
       </InputGroup>
       <Flex sx={{ gap: 'sm' }}>
-        <Button
-          leftIcon={<AddIcon />}
-          onClick={() => setIsAddProductModalOpen(true)}
-        >
-          Producto
-        </Button>
+        {isInventory(user) ? (
+          <Button
+            leftIcon={<AddIcon />}
+            onClick={() => setIsAddProductModalOpen(true)}
+          >
+            Producto
+          </Button>
+        ) : null}
         <ButtonExcel data={products} />
       </Flex>
 

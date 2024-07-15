@@ -10,7 +10,6 @@ export interface CreateUpdateAssociationDTO {
 const usePostAssociation = () => {
   const [postError, setPostError] = useState<string | null>(null);
 
-
   const postAssociation = async (
     newAssociation: CreateUpdateAssociationDTO
   ) => {
@@ -33,11 +32,9 @@ const usePostAssociation = () => {
         throw new Error(errorData.message);
       }
 
-
-        const createdAssociation: OrganizationalInfo = await response.json();
-        console.log("dentro del estado",createdAssociation);
-        return createdAssociation;
-
+      const createdAssociation: OrganizationalInfo = await response.json();
+      console.log('dentro del estado', createdAssociation);
+      return createdAssociation;
     } catch (error: any) {
       console.error('Failed to create association:', error);
       setPostError(error.message);
@@ -45,7 +42,7 @@ const usePostAssociation = () => {
     }
   };
 
-  return { postAssociation, postError};
+  return { postAssociation, postError };
 };
 
 export default usePostAssociation;

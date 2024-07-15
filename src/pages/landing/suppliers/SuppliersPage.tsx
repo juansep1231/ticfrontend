@@ -7,10 +7,10 @@ import useUpdateProvider, {
   CreateUpdateProviderDTO,
 } from '../../../hooks/inventory/updateProviderHook';
 import usePatchProviderState from '../../../hooks/inventory/patchProvider';
+import usePostProvider from '../../../hooks/inventory/createProviderHook';
 
 import { EditSupplierModal } from './components/EditSupplierModal';
 import { SuppliersTable } from './components/SuppliersTable';
-import usePostProvider from '../../../hooks/inventory/createProviderHook';
 
 export const initialSuppliers: Supplier[] = [
   {
@@ -57,8 +57,13 @@ export const SuppliersPage = () => {
     null
   );
   const [searchSupplier, setSearchSupplier] = useState('');
-  const { providers, isLoadingProviders, providerErrors, updateProviderState, addProviderState } =
-    useFetchProviders();
+  const {
+    providers,
+    isLoadingProviders,
+    providerErrors,
+    updateProviderState,
+    addProviderState,
+  } = useFetchProviders();
   const { updateProvider } = useUpdateProvider();
   const { patchProviderState } = usePatchProviderState();
   const { postProvider } = usePostProvider();
@@ -129,7 +134,10 @@ export const SuppliersPage = () => {
           registrar tus eventos
         </Link>
         o
-        <Link href="/inventario" sx={{ color: 'brand.blue', ml: '3xs' }}>
+        <Link
+          href="/inventario/movimientos"
+          sx={{ color: 'brand.blue', ml: '3xs' }}
+        >
           añadir movimientos de inventario.
         </Link>
       </Text>

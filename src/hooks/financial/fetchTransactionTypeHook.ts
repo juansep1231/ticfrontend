@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 interface StateDTO {
-    state_Name: string;
+  state_Name: string;
 }
 
 export const useFetchTransactionStates = () => {
@@ -21,7 +21,10 @@ export const useFetchTransactionStates = () => {
 
         const data: StateDTO[] = await response.json();
         setTransactionStates(data.map((state) => state.state_Name));
-        console.log('Fetched transaction states:', data.map((state) => state.state_Name));
+        console.log(
+          'Fetched transaction states:',
+          data.map((state) => state.state_Name)
+        );
       } catch (error) {
         if (error instanceof Error) {
           setError(error);

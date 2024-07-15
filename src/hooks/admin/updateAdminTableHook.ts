@@ -1,19 +1,21 @@
 import { useState } from 'react';
 
 export interface CreateUpdateAdministrativeMemberDTO {
-    firstName: string;
-    lastName: string;
-    birthDate: string;
-    cellphone: string;
-    faculty: string;
-    career: string;
-    semester: string;
-    email: string;
-    position: string;
+  firstName: string;
+  lastName: string;
+  birthDate: string;
+  cellphone: string;
+  faculty: string;
+  career: string;
+  semester: string;
+  email: string;
+  position: string;
 }
 
 const useUpdateAdministrativeMember = () => {
-  const [updateAdministrativeMemberError, setUpdateError] = useState<string | null>(null);
+  const [updateAdministrativeMemberError, setUpdateError] = useState<
+    string | null
+  >(null);
 
   const updateAdministrativeMember = async (
     id: number,

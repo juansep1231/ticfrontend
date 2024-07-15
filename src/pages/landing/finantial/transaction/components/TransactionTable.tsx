@@ -78,7 +78,7 @@ export const TransactionTable = ({
 
   if (isLoading) {
     return (
-      <Center sx={{ width: '100vw' }}>
+      <Center sx={{ width: 'auto' }}>
         <Spinner size="xl" sx={{ color: 'brand.blue' }} />
       </Center>
     );
@@ -120,12 +120,12 @@ export const TransactionTable = ({
         >
           <Thead>
             <Tr sx={{ textColor: 'surface.default' }}>
-              <Th
+              {/*<Th
                 sx={{
                   borderRight: '1px',
                   width: '20',
                 }}
-              ></Th>
+              ></Th>*/}
               {TRANSACTION_TABLE_HEADERS.map((header, index) => (
                 <Th
                   key={index}
@@ -142,14 +142,14 @@ export const TransactionTable = ({
           <Tbody>
             {filteredTransactions.length === 0 ? (
               <Tr>
-                <Td colSpan={TRANSACTION_TABLE_HEADERS.length + 1}>
+                <Td colSpan={TRANSACTION_TABLE_HEADERS.length /*+ 1*/}>
                   No olvides ingresar transacciones.
                 </Td>
               </Tr>
             ) : (
               filteredTransactions.map((transaction) => (
                 <Tr key={transaction.id}>
-                  <Td>
+                  {/*<Td>
                     <Flex
                       sx={{
                         gap: 'sm',
@@ -185,7 +185,7 @@ export const TransactionTable = ({
                         }}
                       />
                     </Flex>
-                  </Td>
+                  </Td>*/}
                   <Td>{transaction.date}</Td>
                   <Td>{transaction.originAccount}</Td>
                   <Td>{transaction.destinationAccount}</Td>

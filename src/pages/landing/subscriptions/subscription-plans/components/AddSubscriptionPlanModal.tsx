@@ -16,7 +16,6 @@ import { subscriptionPlanSchema } from '../../../../../utils/subscription-valida
 import { SubscriptionPlan } from '../../../../../types/subscription-models';
 import useFetchAcademicPeriods from '../../../../../hooks/general/fetchAcademicPeriodHook';
 
-
 interface AddSubscriptionPlanModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -42,7 +41,7 @@ export const AddSubscriptionPlanrModal = ({
     onClose();
   };
 
-  const {academicPeriodsData} = useFetchAcademicPeriods();
+  const { academicPeriodsData } = useFetchAcademicPeriods();
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />

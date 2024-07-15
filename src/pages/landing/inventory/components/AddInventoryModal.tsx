@@ -42,12 +42,13 @@ export const AddInventoryModal = ({
     onClose();
   };
 
-
-  const {products} = useFetchProducts();
-  const {  inventoryMovementTypes } = useFetchInventoryMovementTypes();
+  const { products } = useFetchProducts();
+  const { inventoryMovementTypes } = useFetchInventoryMovementTypes();
 
   const contributionPlanNames = products.map((product) => product.name);
-  const inventoryMovementTypesName = inventoryMovementTypes.map((inventoryMovementType) => inventoryMovementType.movement_Type_Name);
+  const inventoryMovementTypesName = inventoryMovementTypes.map(
+    (inventoryMovementType) => inventoryMovementType.movement_Type_Name
+  );
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>

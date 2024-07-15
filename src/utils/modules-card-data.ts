@@ -26,8 +26,8 @@ export const moduleCardData = [
       'Obtén información detallada sobre las cuentas contables manejadas por FEPON.',
   },
   {
-    to: '/inventario',
-    title: 'Inventario',
+    to: '/inventario/movimientos',
+    title: 'Movimientos de inventario',
     description:
       'Gestiona y consulta el inventario de FEPON, incluyendo todos los activos y recursos disponibles.',
   },

@@ -2,7 +2,6 @@ import { useState } from 'react';
 
 import { Member } from '../../types/organizational-models';
 
-
 export interface CreateUpdateAdministrativeMemberDTO {
   firstName: string;
   lastName: string;
@@ -17,7 +16,6 @@ export interface CreateUpdateAdministrativeMemberDTO {
 
 const usePostAdministrativeMember = () => {
   const [postAdminError, setPostError] = useState<string | null>(null);
-
 
   const postAdministrativeMember = async (
     newMember: CreateUpdateAdministrativeMemberDTO
@@ -42,7 +40,7 @@ const usePostAdministrativeMember = () => {
       }
 
       const createdMember: Member = await response.json();
-      console.log("Created administrative member:", createdMember);
+      console.log('Created administrative member:', createdMember);
       return createdMember;
     } catch (error: any) {
       console.error('Failed to create administrative member:', error);
@@ -51,7 +49,7 @@ const usePostAdministrativeMember = () => {
     }
   };
 
-  return { postAdministrativeMember, postAdminError};
+  return { postAdministrativeMember, postAdminError };
 };
 
 export default usePostAdministrativeMember;

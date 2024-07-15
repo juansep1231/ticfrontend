@@ -7,12 +7,20 @@ export const resetPassworSchema = yup.object().shape({
     .email('El correo no es válido'),
 });
 
-export const userSchema = yup.object().shape({
+export const registerUserSchema = yup.object().shape({
   email: yup
     .string()
     .required('El correo es obligatorio')
     .email('El correo no es válido'),
-  position: yup.string().optional(),
+  position: yup.string().required('El rol es obligatorio'),
+  password: yup.string().required('La contraseña es obligatoria'),
+});
+
+export const loginUserSchema = yup.object().shape({
+  email: yup
+    .string()
+    .required('El correo es obligatorio')
+    .email('El correo no es válido'),
   password: yup.string().required('La contraseña es obligatoria'),
 });
 

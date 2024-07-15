@@ -19,6 +19,8 @@ import { PRODUCTS_TABLE_HEADERS } from '../../../../../utils/constants';
 import { Product } from '../../../../../types/inventory-models';
 import { productsFilterByName } from '../../../../../utils/filter-helper';
 import { useErrorToast } from '../../../../../hooks/general/useErrorToast';
+import { useAuth } from '../../../../../contexts/auth-context';
+import { isInventory } from '../../../../../utils/check-role-helper';
 
 import { TableOptions } from './TableOptions';
 
@@ -48,7 +50,7 @@ export const ProductsTable = ({
     number | undefined
   >();
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
-
+  const { user } = useAuth();
   useEffect(() => {
     setFilteredProducts(productsFilterByName(products, searchProduct));
   }, [products, searchProduct]);
@@ -73,7 +75,7 @@ export const ProductsTable = ({
 
   if (isLoading) {
     return (
-      <Center sx={{ width: '100vw' }}>
+      <Center sx={{ width: 'auto' }}>
         <Spinner size="xl" sx={{ color: 'brand.blue' }} />
       </Center>
     );
@@ -115,12 +117,14 @@ export const ProductsTable = ({
         >
           <Thead>
             <Tr sx={{ textColor: 'surface.default' }}>
-              <Th
-                sx={{
-                  borderRight: '1px',
-                  width: '20',
-                }}
-              ></Th>
+              {isInventory(user) ? (
+                <Th
+                  sx={{
+                    borderRight: '1px',
+                    width: '20',
+                  }}
+                ></Th>
+              ) : null}
               {PRODUCTS_TABLE_HEADERS.map((header, index) => (
                 <Th
                   key={index}
@@ -144,43 +148,45 @@ export const ProductsTable = ({
             ) : (
               filteredProducts.map((product) => (
                 <Tr key={product.id}>
-                  <Td>
-                    <Flex
-                      sx={{
-                        gap: 'sm',
-                        flexDirection: { sm: 'column', lg: 'row' },
-                      }}
-                    >
-                      <IconButton
-                        aria-label="Edit Product"
-                        icon={<FaEdit size={16} />}
-                        onClick={() => onEdit(product)}
-                        size="sm"
+                  {isInventory(user) ? (
+                    <Td>
+                      <Flex
                         sx={{
-                          bg: 'none',
-                          color: 'brand.blue',
-                          _hover: {
-                            bg: 'secondary.100',
-                            color: 'primary.default',
-                          },
+                          gap: 'sm',
+                          flexDirection: { sm: 'column', lg: 'row' },
                         }}
-                      />
-                      <IconButton
-                        aria-label="Delete Product"
-                        icon={<FaTrash size={16} />}
-                        onClick={() => handleDeleteClick(product.id)}
-                        size="sm"
-                        sx={{
-                          bg: 'none',
-                          color: 'brand.blue',
-                          _hover: {
-                            bg: 'secondary.100',
-                            color: 'primary.default',
-                          },
-                        }}
-                      />
-                    </Flex>
-                  </Td>
+                      >
+                        <IconButton
+                          aria-label="Edit Product"
+                          icon={<FaEdit size={16} />}
+                          onClick={() => onEdit(product)}
+                          size="sm"
+                          sx={{
+                            bg: 'none',
+                            color: 'brand.blue',
+                            _hover: {
+                              bg: 'secondary.100',
+                              color: 'primary.default',
+                            },
+                          }}
+                        />
+                        <IconButton
+                          aria-label="Delete Product"
+                          icon={<FaTrash size={16} />}
+                          onClick={() => handleDeleteClick(product.id)}
+                          size="sm"
+                          sx={{
+                            bg: 'none',
+                            color: 'brand.blue',
+                            _hover: {
+                              bg: 'secondary.100',
+                              color: 'primary.default',
+                            },
+                          }}
+                        />
+                      </Flex>
+                    </Td>
+                  ) : null}
                   <Td>{product.name}</Td>
                   <Td>{product.category}</Td>
                   <Td>{product.description}</Td>

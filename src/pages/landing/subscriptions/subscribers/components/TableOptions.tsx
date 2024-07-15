@@ -9,6 +9,8 @@ import {
 } from '@chakra-ui/react';
 
 import { Subscriber } from '../../../../../types/subscription-models';
+import { isOrganizational } from '../../../../../utils/check-role-helper';
+import { useAuth } from '../../../../../contexts/auth-context';
 
 import { AddSubscriberModal } from './AddSubscriberModal';
 import { ButtonExcel } from './ButtonExcel';
@@ -29,6 +31,7 @@ export const TableOptions = ({
   const [isAddSubscriberModalOpen, setIsAddSubscriberModalOpen] =
     useState(false);
 
+  const { user } = useAuth();
   return (
     <Flex
       sx={{
@@ -48,12 +51,14 @@ export const TableOptions = ({
         />
       </InputGroup>
       <Flex sx={{ gap: 'sm' }}>
-        <Button
-          leftIcon={<AddIcon />}
-          onClick={() => setIsAddSubscriberModalOpen(true)}
-        >
-          Aportante
-        </Button>
+        {isOrganizational(user) ? (
+          <Button
+            leftIcon={<AddIcon />}
+            onClick={() => setIsAddSubscriberModalOpen(true)}
+          >
+            Aportante
+          </Button>
+        ) : null}
         <ButtonExcel data={subscribers} />
       </Flex>
 

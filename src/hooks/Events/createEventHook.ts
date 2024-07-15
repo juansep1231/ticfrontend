@@ -14,8 +14,6 @@ export interface CreateUpdateEventDTO {
   income?: number;
 }
 
-
-
 const usePostEventWithFinancialRequest = () => {
   const [postEventError, setPostError] = useState<string | null>(null);
 
@@ -40,7 +38,7 @@ const usePostEventWithFinancialRequest = () => {
       }
 
       const createdEvent: EventView = await response.json();
-      console.log("Created event with financial request:", createdEvent);
+      console.log('Created event with financial request:', createdEvent);
       return createdEvent;
     } catch (error: any) {
       console.error('Failed to create event with financial request:', error);

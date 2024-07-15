@@ -46,9 +46,11 @@ export const AddSubscriberModal = ({
 
   const { careersData } = useFetchCareers();
   const { facultiesData } = useFetchFaculties();
-  const {contributionPlans} = useFetchContributionPlans();
+  const { contributionPlans } = useFetchContributionPlans();
 
-  const contributionPlanNames = contributionPlans.map((contributionPlan) => contributionPlan.planName);
+  const contributionPlanNames = contributionPlans.map(
+    (contributionPlan) => contributionPlan.planName
+  );
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>

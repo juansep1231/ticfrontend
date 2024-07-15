@@ -4,8 +4,6 @@ import { SubscriptionPlan } from '../../types/subscription-models';
 
 import { CreateUpdateContributionPlanDTO } from './updateContributorPlan';
 
-
-
 const usePostContributionPlan = () => {
   const [postError, setPostError] = useState<string | null>(null);
 
@@ -32,7 +30,7 @@ const usePostContributionPlan = () => {
       }
 
       const createdContributionPlan: SubscriptionPlan = await response.json();
-      console.log("Created contribution plan:", createdContributionPlan);
+      console.log('Created contribution plan:', createdContributionPlan);
       return createdContributionPlan;
     } catch (error: any) {
       console.error('Failed to create contribution plan:', error);

@@ -19,16 +19,19 @@ export const ButtonExcel = ({ data }: ButtonExcelProps) => {
     const finalData = [EVENTS_TABLE_HEADERS];
 
     data.forEach((event) => {
-      finalData.push([
-        event.title,
-        event.status,
-        event.description,
-        event.startDate,
-        event.endDate,
-        event.budget.toString(),
-        event.budgetStatus,
-        event.location,
-      ]);
+      if (event.income) {
+        finalData.push([
+          event.title,
+          event.status,
+          event.description,
+          event.startDate,
+          event.endDate,
+          event.budget.toString(),
+          event.budgetStatus,
+          event.location,
+          event.income.toString(),
+        ]);
+      }
     });
 
     const libro = XLSX.utils.book_new();

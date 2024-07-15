@@ -1,53 +1,3 @@
-export const faculties = [
-  'Facultad de Ingeniería Eléctrica y Electrónica',
-  'Facultad de Ingeniería Civil y Ambiental',
-  'Facultad de Ingeniería Mecánica',
-  'Facultad de Ingeniería Química y Agroindustria',
-  'Facultad de Ciencias',
-  'Facultad de Ciencias Administrativas',
-  'Facultad de Ciencias de la Computación',
-  'Facultad de Ciencias de la Tierra y Construcción',
-  'Facultad de Ciencias de la Vida',
-  'Facultad de Ciencias Económicas y Financieras',
-];
-
-export const careers = [
-  'Ingeniería Eléctrica',
-  'Ingeniería Electrónica',
-  'Ingeniería Civil',
-  'Ingeniería Mecánica',
-  'Ingeniería Química',
-  'Ingeniería en Sistemas',
-  'Ingeniería Ambiental',
-  'Ingeniería Industrial',
-  'Arquitectura',
-  'Economía',
-];
-
-export const semesters = [
-  'Primero',
-  'Segundo',
-  'Tercero',
-  'Cuarto',
-  'Quinto',
-  'Sexto',
-  'Séptimo',
-  'Octavo',
-  'Noveno',
-];
-
-export const positions = [
-  'Presidente',
-  'Vicepresidente Académico',
-  'Vocal de Vicepresidencia Académica',
-  'Vicepresidente de Deportes',
-  'Vocal de Vicepresidencia de Deportes',
-  'Vicepresidente de Cultura',
-  'Vocal de Vicepresidencia de Cultura',
-  'Vicepresidente Financiero',
-  'Vocal de Vicepresidencia Financiera',
-];
-
 export interface Member {
   id?: number;
   state_id?: number;
@@ -62,10 +12,16 @@ export interface Member {
   position: string;
 }
 
-export interface User {
+export interface RegisterUser {
   id?: number;
   email: string;
-  position?: string;
+  position: string;
+  password: string;
+}
+
+export interface LoginUser {
+  id?: number;
+  email: string;
   password: string;
 }
 

@@ -1,22 +1,44 @@
-import { Flex, Heading, Image, Text } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
+import { Center, Flex, Heading, Image, Spinner, Text } from '@chakra-ui/react';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
-import { User } from '../../types/organizational-models';
+import { LoginUser } from '../../types/organizational-models';
 import { firebaseApp } from '../../firebase/firebase-config';
+import { useAuth } from '../../contexts/auth-context';
+import { ADMIN } from '../../utils/roles-constants';
 
 import { LoginForm } from './components/LoginForm';
 
 const auth = getAuth(firebaseApp);
 
 export const LoginPage = () => {
-  const handleLogin = async (formData: User) => {
+  const navigate = useNavigate();
+  const { user, loadingContext } = useAuth();
+
+  const handleLogin = async (formData: LoginUser) => {
     console.log('Formulario de login enviado:', formData);
     try {
       await signInWithEmailAndPassword(auth, formData.email, formData.password);
+
+      console.log('ROL LOGIN: ' + user?.role);
     } catch (error) {
       console.log(error);
     }
   };
+
+  if (loadingContext) {
+    return (
+      <Center sx={{ width: '100vw', height: '100vh' }}>
+        <Spinner size="xl" sx={{ color: 'brand.blue' }} />
+      </Center>
+    );
+  }
+
+  if (user && user?.role == ADMIN) {
+    navigate('/admin');
+  } else {
+    navigate('/');
+  }
 
   return (
     <Flex

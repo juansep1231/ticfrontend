@@ -7,7 +7,9 @@ interface AccountTypeDTO {
 export const useFetchAccountTypes = () => {
   const [accountTypesData, setAccountTypesData] = useState<string[]>([]);
   const [accountTypesLoading, setAccountTypesLoading] = useState(true);
-  const [accountTypesError, setAccountTypesError] = useState<Error | null>(null);
+  const [accountTypesError, setAccountTypesError] = useState<Error | null>(
+    null
+  );
   const endpoint = `${import.meta.env.VITE_API_BASE_URL}${import.meta.env.VITE_API_ACCOUNT_TYPES_ENDPOINT}`;
 
   useEffect(() => {

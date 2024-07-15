@@ -8,10 +8,10 @@ import useUpdateContributor, {
   CreateUpdateContributorDTO,
 } from '../../../../hooks/organizational/updateContributor';
 import usePatchContributorState from '../../../../hooks/organizational/patchContributorHook';
+import usePostContributor from '../../../../hooks/organizational/createContributorHook';
 
 import { EditSubscriberModal } from './components/EditSubscriberModal';
 import { SubscribersTable } from './components/SubscribersTable';
-import usePostContributor from '../../../../hooks/organizational/createContributorHook';
 
 export const initialSubscribers: Subscriber[] = [
   {
@@ -79,7 +79,7 @@ export const SubscribersPage = () => {
     isLoadingContributors,
     contributorErrors,
     updateContributorState,
-    addContributionPlanState
+    addContributionPlanState,
   } = useFetchContributors();
 
   const { patchContributorState } = usePatchContributorState();
@@ -152,7 +152,7 @@ export const SubscribersPage = () => {
     } catch (error) {
       console.error('Failed to create subscriber:', error);
     }
-  }
+  };
 
   return (
     <Flex

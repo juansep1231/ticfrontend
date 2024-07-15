@@ -122,7 +122,8 @@ export const ModulesNavbar = () => {
         />
       </Flex>
       <AnimatePresence>
-        {isOpen ? <MotionVStack
+        {isOpen ? (
+          <MotionVStack
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
@@ -155,7 +156,8 @@ export const ModulesNavbar = () => {
                   <ChevronDownIcon /> {menu.name}
                 </ChakraLink>
                 <AnimatePresence>
-                  {openMenu === menu.name ? <MotionVStack
+                  {openMenu === menu.name ? (
+                    <MotionVStack
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: 'auto', opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
@@ -187,11 +189,13 @@ export const ModulesNavbar = () => {
                           {item.name}
                         </ChakraLink>
                       ))}
-                    </MotionVStack> : null}
+                    </MotionVStack>
+                  ) : null}
                 </AnimatePresence>
               </Box>
             ))}
-          </MotionVStack> : null}
+          </MotionVStack>
+        ) : null}
       </AnimatePresence>
     </Box>
   );

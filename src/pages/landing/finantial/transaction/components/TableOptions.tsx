@@ -9,6 +9,8 @@ import {
 } from '@chakra-ui/react';
 
 import { Transaction } from '../../../../../types/finantial-models';
+import { isFinantial } from '../../../../../utils/check-role-helper';
+import { useAuth } from '../../../../../contexts/auth-context';
 
 import { AddTransactionModal } from './AddTransactionModal';
 import { ButtonExcel } from './ButtonExcel';
@@ -28,7 +30,7 @@ export const TableOptions = ({
 }: TableOptionsProps) => {
   const [isAddTransactionModalOpen, setIsAddTransactionModalOpen] =
     useState(false);
-
+  const { user } = useAuth();
   return (
     <Flex
       sx={{
@@ -48,12 +50,14 @@ export const TableOptions = ({
         />
       </InputGroup>
       <Flex sx={{ gap: 'sm' }}>
-        <Button
-          leftIcon={<AddIcon />}
-          onClick={() => setIsAddTransactionModalOpen(true)}
-        >
-          Transacción
-        </Button>
+        {isFinantial(user) ? (
+          <Button
+            leftIcon={<AddIcon />}
+            onClick={() => setIsAddTransactionModalOpen(true)}
+          >
+            Transacción
+          </Button>
+        ) : null}
         <ButtonExcel data={transactions} />
       </Flex>
 

@@ -3,11 +3,11 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { FormField } from '../../../components/FormField';
-import { User } from '../../../types/organizational-models';
-import { userSchema } from '../../../utils/admin-validations-helper';
+import { LoginUser } from '../../../types/organizational-models';
+import { loginUserSchema } from '../../../utils/admin-validations-helper';
 
 interface LoginFormProps {
-  onSubmit: (formData: User) => void;
+  onSubmit: (formData: LoginUser) => void;
 }
 
 export const LoginForm = ({ onSubmit }: LoginFormProps) => {
@@ -15,11 +15,11 @@ export const LoginForm = ({ onSubmit }: LoginFormProps) => {
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm<User>({
-    resolver: yupResolver(userSchema),
+  } = useForm<LoginUser>({
+    resolver: yupResolver(loginUserSchema),
   });
 
-  const onSubmitForm = (data: User) => {
+  const onSubmitForm = (data: LoginUser) => {
     console.log(data);
     onSubmit(data);
   };
@@ -84,7 +84,7 @@ export const LoginForm = ({ onSubmit }: LoginFormProps) => {
       </Flex>
       <Flex sx={{ justifyContent: 'center' }}>
         <Button type="submit" onClick={handleSubmit(onSubmitForm)}>
-          Guardar
+          Ingresar
         </Button>
       </Flex>
     </Flex>

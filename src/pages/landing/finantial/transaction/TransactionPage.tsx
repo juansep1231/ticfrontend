@@ -72,8 +72,12 @@ export const TransactionPage = () => {
     setEditTransactionModalOpen(true);
   };
 
-  const { transactions, isLoadingTransactions, transactionErrors, addTransactionState} =
-    useFetchTransactions();
+  const {
+    transactions,
+    isLoadingTransactions,
+    transactionErrors,
+    addTransactionState,
+  } = useFetchTransactions();
 
   const handleSearchTransactionChange = (name: string) => {
     setSearchTransaction(name);
@@ -90,7 +94,7 @@ export const TransactionPage = () => {
         transactionType: newTransaction.transactionType,
         description: newTransaction.description,
       };
-     
+
       const newAdminMember = await postTransaction(updatedInfo);
 
       addTransactionState(newAdminMember);
