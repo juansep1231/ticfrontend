@@ -13,6 +13,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FiLogIn, FiLogOut } from 'react-icons/fi';
 import { getAuth, signOut } from 'firebase/auth';
 
+import { useGenericToast } from '../hooks/general/useGenericToast';
+
 import { firebaseApp } from '../firebase/firebase-config';
 import { useAuth } from '../contexts/auth-context';
 import { ADMIN } from '../utils/roles-constants';
@@ -24,12 +26,13 @@ const auth = getAuth(firebaseApp);
 export const Navbar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { user } = useAuth();
+  const showToast = useGenericToast();
+
   const NAV_LINKS = [
     { name: 'Home', path: user && user.role == ADMIN ? '/admin' : '/' },
     { name: 'Ayuda', path: '/ayuda' },
   ];
 
-  console.log('para ingresaaaaaaar', user);
   const toggleMenu = () => {
     if (isOpen) {
       onClose();
@@ -43,6 +46,24 @@ export const Navbar = () => {
   ) : (
     <HamburgerIcon sx={{ color: 'black' }} />
   );
+
+  const handleLogout = async () => {
+    try {
+      signOut(auth);
+      showToast({
+        title: 'Sesión cerrada',
+        description: 'Has cerrado sesión correctamente.',
+        status: 'info',
+      });
+    } catch (error) {
+      console.error('Error al cerrar sesión:', error);
+      showToast({
+        title: 'Error al cerrar sesión',
+        description: 'Hubo un problema al intentar cerrar sesión.',
+        status: 'error',
+      });
+    }
+  };
 
   return (
     <Box
@@ -133,7 +154,7 @@ export const Navbar = () => {
             <ChakraLink
               as={RouterLink}
               to="/admin"
-              onClick={() => signOut(auth)}
+              onClick={handleLogout}
               sx={{
                 display: 'flex',
                 alignItems: 'center',
@@ -229,7 +250,7 @@ export const Navbar = () => {
               <ChakraLink
                 as={RouterLink}
                 to="/admin"
-                onClick={() => signOut(auth)}
+                onClick={handleLogout}
                 sx={{
                   display: 'flex',
                   alignItems: 'center',

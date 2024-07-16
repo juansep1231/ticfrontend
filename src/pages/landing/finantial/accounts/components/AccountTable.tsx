@@ -18,7 +18,7 @@ import { ConfirmationModal } from '../../../../../components/ConfirmationModal';
 import { ACCOUNT_TABLE_HEADERS } from '../../../../../utils/constants';
 import { Account } from '../../../../../types/finantial-models';
 import { accountFilterByName } from '../../../../../utils/filter-helper';
-import { useErrorToast } from '../../../../../hooks/general/useErrorToast';
+import { useGenericToast } from '../../../../../hooks/general/useGenericToast';
 
 import { TableOptions } from './TableOptions';
 
@@ -48,12 +48,21 @@ export const AccountTable = ({
     number | undefined
   >();
   const [filteredAccounts, setFilteredAccounts] = useState<Account[]>([]);
+  const showToast = useGenericToast();
+
+  useEffect(() => {
+    if (error) {
+      showToast({
+        title: 'Error',
+        description: error.message,
+        status: 'error',
+      });
+    }
+  }, [error, showToast]);
 
   useEffect(() => {
     setFilteredAccounts(accountFilterByName(accounts, searchAccount));
   }, [accounts, searchAccount]);
-
-  useErrorToast(error);
 
   const handleDeleteClick = (id: number | undefined) => {
     setSelectedAccountId(id);
@@ -115,12 +124,6 @@ export const AccountTable = ({
         >
           <Thead>
             <Tr sx={{ textColor: 'surface.default' }}>
-              {/*<Th
-                sx={{
-                  borderRight: '1px',
-                  width: '20',
-                }}
-              ></Th>*/}
               {ACCOUNT_TABLE_HEADERS.map((header, index) => (
                 <Th
                   key={index}
@@ -144,43 +147,6 @@ export const AccountTable = ({
             ) : (
               filteredAccounts.map((account) => (
                 <Tr key={account.id}>
-                  {/*<Td>
-                    <Flex
-                      sx={{
-                        gap: 'sm',
-                        flexDirection: { sm: 'column', lg: 'row' },
-                      }}
-                    >
-                      <IconButton
-                        aria-label="Edit Transaction"
-                        icon={<FaEdit size={16} />}
-                        onClick={() => onEdit(account)}
-                        size="sm"
-                        sx={{
-                          bg: 'none',
-                          color: 'brand.blue',
-                          _hover: {
-                            bg: 'secondary.100',
-                            color: 'primary.default',
-                          },
-                        }}
-                      />
-                      <IconButton
-                        aria-label="Delete Event"
-                        icon={<FaTrash size={16} />}
-                        onClick={() => handleDeleteClick(account.id)}
-                        size="sm"
-                        sx={{
-                          bg: 'none',
-                          color: 'brand.blue',
-                          _hover: {
-                            bg: 'secondary.100',
-                            color: 'primary.default',
-                          },
-                        }}
-                      />
-                    </Flex>
-                  </Td>*/}
                   <Td>{account.accountType}</Td>
                   <Td>{account.accountName}</Td>
                   <Td>{account.currentValue}</Td>

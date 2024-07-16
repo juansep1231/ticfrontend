@@ -22,11 +22,12 @@ export const Questions = ({ question, text, image, video }: Props) => {
           </Text>
         ) : null}
         {image ? <Image src={image} alt="" /> : null}
-        {video ? (
+        {/*{video ? (
           <Box sx={{ my: 'sm', mx: 'auto' }}>
             <video controls autoPlay muted src={video}></video>
           </Box>
-        ) : null}
+        ) : null}*/
+        }
       </Flex>
     </Flex>
   );

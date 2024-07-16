@@ -4,23 +4,51 @@ export const resetPassworSchema = yup.object().shape({
   email: yup
     .string()
     .required('El correo es obligatorio')
-    .email('El correo no es válido'),
+    .email('El correo no es válido')
+    .matches(
+      /@(epn\.edu\.ec|fepon-epn\.com)$/,
+      'El correo debe pertenecer a epn.edu.ec o fepon-epn.com'
+    ),
 });
 
 export const registerUserSchema = yup.object().shape({
   email: yup
     .string()
     .required('El correo es obligatorio')
-    .email('El correo no es válido'),
+    .email('El correo no es válido')
+    .matches(
+      /@(epn\.edu\.ec|fepon-epn\.com)$/,
+      'El correo debe pertenecer a epn.edu.ec o fepon-epn.com'
+    ),
   position: yup.string().required('El rol es obligatorio'),
-  password: yup.string().required('La contraseña es obligatoria'),
+  password: yup
+    .string()
+    .required('La contraseña es obligatoria')
+    .min(8, 'La contraseña debe tener al menos 8 caracteres')
+    .matches(
+      /[a-z]/,
+      'La contraseña debe contener al menos una letra minúscula'
+    )
+    .matches(
+      /[A-Z]/,
+      'La contraseña debe contener al menos una letra mayúscula'
+    )
+    .matches(/[0-9]/, 'La contraseña debe contener al menos un número')
+    .matches(
+      /[\W_]/,
+      'La contraseña debe contener al menos un carácter especial'
+    ),
 });
 
 export const loginUserSchema = yup.object().shape({
   email: yup
     .string()
     .required('El correo es obligatorio')
-    .email('El correo no es válido'),
+    .email('El correo no es válido')
+    .matches(
+      /@(epn\.edu\.ec|fepon-epn\.com)$/,
+      'El correo debe pertenecer a epn.edu.ec o fepon-epn.com'
+    ),
   password: yup.string().required('La contraseña es obligatoria'),
 });
 
@@ -46,6 +74,10 @@ export const memberSchema = yup.object().shape({
   email: yup
     .string()
     .required('El correo es obligatorio')
-    .email('El correo no es válido'),
+    .email('El correo no es válido')
+    .matches(
+      /@(epn\.edu\.ec|fepon-epn\.com)$/,
+      'El correo debe pertenecer a epn.edu.ec o fepon-epn.com'
+    ),
   position: yup.string().required('El rol es obligatorio'),
 });

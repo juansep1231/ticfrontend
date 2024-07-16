@@ -1,3 +1,4 @@
+import { endOfDay, isBefore, isEqual, parseISO, startOfDay } from 'date-fns';
 import * as yup from 'yup';
 
 export const inventorySchema = yup.object().shape({
@@ -9,7 +10,22 @@ export const inventorySchema = yup.object().shape({
     .integer('La cantidad debe ser un número entero')
     .positive('La cantidad debe ser un número positivo')
     .required('La cantidad es obligatoria'),
-  date: yup.string().required('La fecha es obligatoria'),
+  date: yup
+    .string()
+    .required('La fecha es obligatoria')
+    .test(
+      'is-not-future-date',
+      'La fecha no puede ser mayor a hoy',
+      (value) => {
+        if (!value) return false;
+        const parsedDate = parseISO(value);
+        const today = new Date();
+        return (
+          isBefore(parsedDate, endOfDay(today)) ||
+          isEqual(parsedDate, startOfDay(today))
+        );
+      }
+    ),
 });
 
 export const productsSchema = yup.object().shape({

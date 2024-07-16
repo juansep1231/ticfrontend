@@ -18,7 +18,7 @@ import { ConfirmationModal } from '../../../../../components/ConfirmationModal';
 import { TRANSACTION_TABLE_HEADERS } from '../../../../../utils/constants';
 import { Transaction } from '../../../../../types/finantial-models';
 import { transactionFilterByType } from '../../../../../utils/filter-helper';
-import { useErrorToast } from '../../../../../hooks/general/useErrorToast';
+import { useGenericToast } from '../../../../../hooks/general/useGenericToast';
 
 import { TableOptions } from './TableOptions';
 
@@ -47,18 +47,26 @@ export const TransactionTable = ({
   const [selectedTransactionId, setSelectedTransactionId] = useState<
     number | undefined
   >();
-
   const [filteredTransactions, setFilteredTransactions] = useState<
     Transaction[]
   >([]);
+  const showToast = useGenericToast();
+
+  useEffect(() => {
+    if (error) {
+      showToast({
+        title: 'Error',
+        description: error.message,
+        status: 'error',
+      });
+    }
+  }, [error, showToast]);
 
   useEffect(() => {
     setFilteredTransactions(
       transactionFilterByType(transactions, searchTransaction)
     );
   }, [transactions, searchTransaction]);
-
-  useErrorToast(error);
 
   const handleDeleteClick = (id: number | undefined) => {
     setSelectedTransactionId(id);

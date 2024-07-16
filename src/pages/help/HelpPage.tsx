@@ -35,14 +35,6 @@ export const HelpPage: React.FC = () => {
 
   const { token } = useAuth();
 
-  const fetchData = async () => {
-    if (token) {
-      console.log(token);
-      return;
-    } else {
-      console.log('valio pito el token');
-    }
-  };
   const glosaryList = glosaryBank.map((g, i) => {
     const iconIndex = i % FeatIcons.length;
     const icon = FeatIcons[iconIndex];
@@ -61,18 +53,16 @@ export const HelpPage: React.FC = () => {
         <Heading>Ayuda</Heading>
         <Box>
           <Text sx={{ textColor: 'text.default', textAlign: 'justify' }}>
-            Recuerda cambiar tu contraseña la primera vez que ingreses al
-            sistema. Si tienes dudas de cómo hacerlo, aquí tienes un video
-            tutorial del proceso. Recuerda cambiar tu contraseña la primera vez
-            que ingreses al sistema. Si tienes dudas de cómo hacerlo, aquí
-            tienes un video tutorial del proceso. Recuerda cambiar tu contraseña
-            la primera vez que ingreses al sistema. Si tienes dudas de cómo
-            hacerlo, aquí tienes un video tutorial del proceso.
+            Encuentra respuestas a tus preguntas frecuentes y un completo
+            glosario para entender mejor el sistema. Si tienes dudas sobre cómo
+            cambiar tu contraseña, configurar tu cuenta o cualquier otra
+            funcionalidad, aquí encontrarás la información que necesitas para
+            resolver tus problemas y optimizar tu experiencia
           </Text>
         </Box>
-        <Box sx={{ mx: 'auto' }}>
+        {/* <Box sx={{ mx: 'auto' }}>
           <video controls autoPlay muted src=""></video>
-        </Box>
+        </Box>*/}
       </Flex>
 
       <Box>

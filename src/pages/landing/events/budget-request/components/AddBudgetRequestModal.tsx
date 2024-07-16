@@ -40,7 +40,6 @@ export const AddBudgetRequestModal = ({
   });
 
   const onSubmit = (data: BudgetRequest) => {
-    console.log('Nueva solicitud agregada:', data);
     onAddBudgetRequest(data);
     onClose();
   };

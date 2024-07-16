@@ -35,7 +35,6 @@ export const AddSupplierModal = ({
   });
 
   const onSubmit = (data: Supplier) => {
-    console.log('Nuevo proveedor agregado:', data);
     onAddSupplier(data);
     onClose();
   };

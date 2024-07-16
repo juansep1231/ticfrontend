@@ -33,7 +33,7 @@ export const ResetPasswordForm = ({ onClick }: ResetPassworFormProps) => {
     try {
       await sendPasswordResetEmail(auth, data.email);
       toast({
-        title: 'Email Sent',
+        title: 'Correo enviado',
         description: 'Revisa tu correo para reestablecer tu contraseña',
         status: 'success',
         duration: 9000,

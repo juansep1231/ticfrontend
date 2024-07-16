@@ -8,48 +8,10 @@ import useUpdateProvider, {
 } from '../../../hooks/inventory/updateProviderHook';
 import usePatchProviderState from '../../../hooks/inventory/patchProvider';
 import usePostProvider from '../../../hooks/inventory/createProviderHook';
+import { useGenericToast } from '../../../hooks/general/useGenericToast';
 
 import { EditSupplierModal } from './components/EditSupplierModal';
 import { SuppliersTable } from './components/SuppliersTable';
-
-export const initialSuppliers: Supplier[] = [
-  {
-    id: 1,
-    name: 'ABC Supplies Co.',
-    phone: '+1-555-123-4567',
-    email: 'contact@abcsupplies.com',
-  },
-  {
-    id: 2,
-    name: 'Global Industrial',
-    phone: '+1-555-987-6543',
-    email: 'sales@globalindustrial.com',
-  },
-  {
-    id: 3,
-    name: 'Tech Solutions Ltd.',
-    phone: '+44-20-7946-0958',
-    email: 'info@techsolutions.co.uk',
-  },
-  {
-    id: 4,
-    name: 'Creative Supplies Inc.',
-    phone: '+1-555-567-8910',
-    email: 'support@creativesupplies.com',
-  },
-  {
-    id: 5,
-    name: 'Supply Chain Partners',
-    phone: '+61-2-1234-5678',
-    email: 'partners@supplychain.com.au',
-  },
-  {
-    id: 6,
-    name: 'Eco-Friendly Goods',
-    phone: '+1-555-234-6789',
-    email: 'eco@friendlygoods.com',
-  },
-];
 
 export const SuppliersPage = () => {
   const [isEditSupplierModalOpen, setEditSupplierModalOpen] = useState(false);
@@ -57,6 +19,7 @@ export const SuppliersPage = () => {
     null
   );
   const [searchSupplier, setSearchSupplier] = useState('');
+
   const {
     providers,
     isLoadingProviders,
@@ -67,6 +30,8 @@ export const SuppliersPage = () => {
   const { updateProvider } = useUpdateProvider();
   const { patchProviderState } = usePatchProviderState();
   const { postProvider } = usePostProvider();
+
+  const showToast = useGenericToast();
 
   const handleEditMovement = async (data: { supplier: Supplier }) => {
     try {
@@ -83,9 +48,21 @@ export const SuppliersPage = () => {
         ...updatedInfo,
       });
 
+      showToast({
+        title: 'Actualización exitosa',
+        description: 'Proveedor actualizado correctamente.',
+        status: 'success',
+      });
+
       console.log('Updated organizational information:', data.supplier);
     } catch (error) {
       console.error('Failed to update association:', error);
+
+      showToast({
+        title: 'Error',
+        description: 'Hubo un problema al actualizar el proveedor.',
+        status: 'error',
+      });
     }
   };
 
@@ -93,9 +70,22 @@ export const SuppliersPage = () => {
     try {
       await patchProviderState(id!);
       updateProviderState(id!, { stateid: 2 });
+
+      showToast({
+        title: 'Eliminación exitosa',
+        description: `Proveedor eliminado: ${id}`,
+        status: 'success',
+      });
+
       console.log('Informacion organizacional eliminada:', id);
     } catch (error) {
       console.error('Failed to update association state:', error);
+
+      showToast({
+        title: 'Error',
+        description: 'Hubo un problema al eliminar el proveedor.',
+        status: 'error',
+      });
     }
   };
 
@@ -115,13 +105,27 @@ export const SuppliersPage = () => {
         phone: newSupplier.phone,
         email: newSupplier.email,
       };
+
       const createdProvider = await postProvider(newProvider);
 
       addProviderState(createdProvider);
+
+      showToast({
+        title: 'Creación exitosa',
+        description: 'Proveedor creado correctamente.',
+        status: 'success',
+      });
     } catch (error) {
       console.error('Failed to create Subscriber:', error);
+
+      showToast({
+        title: 'Error',
+        description: 'Hubo un problema al crear el proveedor.',
+        status: 'error',
+      });
     }
   };
+
   return (
     <Flex
       flex="1"

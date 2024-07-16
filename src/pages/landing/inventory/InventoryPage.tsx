@@ -12,51 +12,7 @@ import usePostInventoryMovement from '../../../hooks/inventory/createInventoryHo
 
 import { EditInventoryModal } from './components/EditInventoryModal';
 import { InventoryTable } from './components/InventoryTable';
-
-export const initialInventory: Inventory[] = [
-  {
-    id: 1,
-    product: 'Laptop',
-    movementType: 'COMPRA',
-    quantity: 10,
-    date: '2024-01-05',
-  },
-  {
-    id: 2,
-    product: 'Mouse',
-    movementType: 'VENTA',
-    quantity: 5,
-    date: '2024-01-06',
-  },
-  {
-    id: 3,
-    product: 'Teclado',
-    movementType: 'DONACIÓN',
-    quantity: 2,
-    date: '2024-01-07',
-  },
-  {
-    id: 4,
-    product: 'Monitor',
-    movementType: 'DESECHO',
-    quantity: 1,
-    date: '2024-01-08',
-  },
-  {
-    id: 5,
-    product: 'Impresora',
-    movementType: 'COMPRA',
-    quantity: 3,
-    date: '2024-01-09',
-  },
-  {
-    id: 6,
-    product: 'Proyector',
-    movementType: 'VENTA',
-    quantity: 1,
-    date: '2024-01-10',
-  },
-];
+import { useGenericToast } from '../../../hooks/general/useGenericToast';
 
 export const InventoryPage = () => {
   const [isEditInventoryModalOpen, setEditInventoryModalOpen] = useState(false);
@@ -70,11 +26,13 @@ export const InventoryPage = () => {
     isLoadingInventoryMovements,
     inventoryMovementErrors,
     updateInventoryMovementState,
-    addInventiryMovementtate,
+    addInventoryMovementState,
   } = useFetchInventoryMovements();
 
   const { patchInventoryMovementState } = usePatchInventoryMovementState();
   const { postInventoryMovement } = usePostInventoryMovement();
+  const showToast = useGenericToast();
+
   const handleEditMovement = async (data: { movements: Inventory }) => {
     try {
       const formattedDate = formatISO(new Date(data.movements.date));
@@ -98,9 +56,20 @@ export const InventoryPage = () => {
         date: originalFormattedDate,
       });
 
-      console.log('Updated organizational information:', data.movements);
+      showToast({
+        title: 'Actualización exitosa',
+        description: 'Movimiento de inventario actualizado con éxito.',
+        status: 'success',
+      });
     } catch (error) {
       console.error('Failed to update association:', error);
+      if (error instanceof Error) {
+        showToast({
+          title: 'Error al actualizar el movimiento de inventario',
+          description: error.message,
+          status: 'error',
+        });
+      }
     }
   };
 
@@ -108,9 +77,21 @@ export const InventoryPage = () => {
     try {
       await patchInventoryMovementState(id!);
       updateInventoryMovementState(id!, { stateid: 2 });
-      console.log('Aportante eliminado:', id);
+
+      showToast({
+        title: 'Eliminación exitosa',
+        description: `Movimiento de inventario eliminado: ${id}`,
+        status: 'success',
+      });
     } catch (error) {
       console.error('Failed to update association state:', error);
+      if (error instanceof Error) {
+        showToast({
+          title: 'Error al eliminar el movimiento de inventario',
+          description: error.message,
+          status: 'error',
+        });
+      }
     }
   };
 
@@ -131,11 +112,26 @@ export const InventoryPage = () => {
         inventory_Movement_Type_Name: newInventory.movementType,
         quantity: newInventory.quantity,
       };
-      const newAdminMember = await postInventoryMovement(newContributionPlan);
 
-      addInventiryMovementtate(newAdminMember);
+      const newInventoryMovement =
+        await postInventoryMovement(newContributionPlan);
+
+      addInventoryMovementState(newInventoryMovement);
+
+      showToast({
+        title: 'Registro exitoso',
+        description: 'El movimiento de inventario se registró correctamente.',
+        status: 'success',
+      });
     } catch (error) {
       console.error('Failed to update association:', error);
+      if (error instanceof Error) {
+        showToast({
+          title: 'Error al añadir el movimiento de inventario',
+          description: error.message,
+          status: 'error',
+        });
+      }
     }
   };
 

@@ -18,6 +18,8 @@ import { Subscriber } from '../../../../../types/subscription-models';
 import useFetchFaculties from '../../../../../hooks/general/fetchFacultyHook';
 import useFetchCareers from '../../../../../hooks/general/FetchCareerHook';
 import useFetchContributionPlans from '../../../../../hooks/organizational/fetchContributionPlan';
+import { parse } from 'date-fns/parse';
+import { format } from 'date-fns';
 
 interface EditSubscriberModalProps {
   isOpen: boolean;
@@ -47,6 +49,14 @@ export const EditSubscriberModal = ({
         setValue(key as keyof Subscriber, subscriber[key as keyof Subscriber]);
       });
     }
+
+    // Handle automated date
+    if (subscriber?.date) {
+      const dateValue = parse(subscriber.date, 'dd/MM/yyyy', new Date());
+      if (!isNaN(dateValue.getTime())) {
+        setValue('date', format(dateValue, 'yyyy-MM-dd'));
+      }
+    }
   }, [subscriber, setValue]);
 
   const handleFormSubmit = (data: Subscriber) => {
@@ -70,6 +80,7 @@ export const EditSubscriberModal = ({
             id="date"
             label="Fecha"
             type="date"
+            disableFutureDates={true}
             placeholder="Seleccione la fecha de la aportación"
             register={register}
             errors={errors.date}

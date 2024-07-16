@@ -17,6 +17,7 @@ import { inventorySchema } from '../../../../utils/inventory-validations-helper'
 import { Inventory } from '../../../../types/inventory-models';
 import { useFetchProducts } from '../../../../hooks/inventory/fetchProductHook';
 import useFetchInventoryMovementTypes from '../../../../hooks/inventory/fetchMovementType';
+import { format, parse } from 'date-fns';
 
 interface AddInventoryModalProps {
   isOpen: boolean;
@@ -46,6 +47,13 @@ export const EditInventoryModal = ({
       Object.keys(inventory).forEach((key) => {
         setValue(key as keyof Inventory, inventory[key as keyof Inventory]);
       });
+    }
+
+    if (inventory?.date) {
+      const dateValue = parse(inventory.date, 'dd/MM/yyyy', new Date());
+      if (!isNaN(dateValue.getTime())) {
+        setValue('date', format(dateValue, 'yyyy-MM-dd'));
+      }
     }
   }, [inventory, setValue]);
 
@@ -96,6 +104,7 @@ export const EditInventoryModal = ({
             label="Fecha"
             placeholder="Seleccione la fecha del movimiento"
             type="date"
+            disableFutureDates={true}
             register={register}
             errors={errors.date}
           />

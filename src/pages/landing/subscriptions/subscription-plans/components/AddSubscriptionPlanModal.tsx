@@ -36,7 +36,6 @@ export const AddSubscriptionPlanrModal = ({
   });
 
   const onSubmit = (data: SubscriptionPlan) => {
-    console.log('Nuevo plan de aportación agregado:', data);
     onAddSubscriber(data);
     onClose();
   };

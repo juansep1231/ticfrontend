@@ -17,10 +17,10 @@ import { FaEdit, FaTrash } from 'react-icons/fa';
 import { ConfirmationModal } from '../../../../components/ConfirmationModal';
 import { SUPPLIERS_TABLE_HEADERS } from '../../../../utils/constants';
 import { Supplier } from '../../../../types/supplier-models';
-import { useErrorToast } from '../../../../hooks/general/useErrorToast';
 import { suppliersFilterByName } from '../../../../utils/filter-helper';
 import { isInventory } from '../../../../utils/check-role-helper';
 import { useAuth } from '../../../../contexts/auth-context';
+import { useGenericToast } from '../../../../hooks/general/useGenericToast';
 
 import { TableOptions } from './TableOptions';
 
@@ -55,8 +55,17 @@ export const SuppliersTable = ({
   useEffect(() => {
     setFilteredSuppliers(suppliersFilterByName(suppliers, searchSupplier));
   }, [suppliers, searchSupplier]);
+  const showToast = useGenericToast();
 
-  useErrorToast(error);
+  useEffect(() => {
+    if (error) {
+      showToast({
+        title: 'Error',
+        description: error.message,
+        status: 'error',
+      });
+    }
+  }, [error, showToast]);
 
   const handleDeleteClick = (id: number | undefined) => {
     setSelectedSupplierId(id);

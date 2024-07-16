@@ -87,6 +87,7 @@ export const AddInventoryModal = ({
             label="Fecha"
             placeholder="Seleccione la fecha del movimiento"
             type="date"
+            disableFutureDates={true}
             register={register}
             errors={errors.date}
           />

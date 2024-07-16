@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Table,
   Thead,
@@ -15,9 +15,9 @@ import {
 import { FaTrash, FaEdit } from 'react-icons/fa';
 
 import { ConfirmationModal } from '../../../components/ConfirmationModal';
-import { useErrorToast } from '../../../hooks/general/useErrorToast';
 import { OrganizationalInfo } from '../../../types/organizational-models';
 import { INFO_TABLE_HEADERS } from '../../../utils/constants';
+import { useGenericToast } from '../../../hooks/general/useGenericToast';
 
 interface InformationTableProps {
   info: OrganizationalInfo[];
@@ -35,8 +35,17 @@ export const InformationTable = ({
 }: InformationTableProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedInfoId, setSelectedInfoId] = useState<number | undefined>();
+  const showToast = useGenericToast();
 
-  useErrorToast(error);
+  useEffect(() => {
+    if (error) {
+      showToast({
+        title: 'Error',
+        description: error.message,
+        status: 'error',
+      });
+    }
+  }, [error, showToast]);
 
   const handleDeleteClick = (id: number | undefined) => {
     setSelectedInfoId(id);

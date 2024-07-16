@@ -8,54 +8,11 @@ import useUpdateAccountingAccount, {
   CreateUpdateAccountingAccountDTO,
 } from '../../../../hooks/financial/updateAccountingAccountHook';
 import usePostAccountingAccount from '../../../../hooks/financial/createAccountingAccounts';
+import { useGenericToast } from '../../../../hooks/general/useGenericToast';
 
 import { AccountTable } from './components/AccountTable';
 import { EditAccountModal } from './components/EditAccountModal';
-/*
-export const initialAccounts: Account[] = [
-  {
-    id: 1,
-    accountType: 'Savings',
-    accountName: 'Personal Savings',
-    currentValue: 15000.0,
-    date: '2024-01-01',
-  },
-  {
-    id: 2,
-    accountType: 'Checking',
-    accountName: 'Business Checking',
-    currentValue: 25000.0,
-    date: '2024-01-02',
-  },
-  {
-    id: 3,
-    accountType: 'Investment',
-    accountName: 'Retirement Fund',
-    currentValue: 75000.0,
-    date: '2024-01-03',
-  },
-  {
-    id: 4,
-    accountType: 'Savings',
-    accountName: 'Emergency Fund',
-    currentValue: 10000.0,
-    date: '2024-01-04',
-  },
-  {
-    id: 5,
-    accountType: 'Checking',
-    accountName: 'Household Expenses',
-    currentValue: 5000.0,
-    date: '2024-01-05',
-  },
-  {
-    id: 6,
-    accountType: 'Investment',
-    accountName: 'Stock Portfolio',
-    currentValue: 120000.0,
-    date: '2024-01-06',
-  },
-];*/
+
 export const AccountPage = () => {
   const [isEditAccountModalOpen, setEditAccountModalOpen] = useState(false);
   const [selectedAccount, setSelectedAccount] = useState<Account | null>(null);
@@ -71,8 +28,9 @@ export const AccountPage = () => {
   const { postAccountingAccount } = usePostAccountingAccount();
   const [accounts, setAccount] = useState<Account[]>(accountingAccounts);
   const { updateAccountingAccount } = useUpdateAccountingAccount();
+  const showToast = useGenericToast();
+
   const handleEditAccount = async (data: { account: Account }) => {
-    //console.log('Cuenta actualizada:', data.account);
     try {
       const formattedDate = formatISO(new Date(data.account.date));
       const updatedInfo: CreateUpdateAccountingAccountDTO = {
@@ -88,8 +46,19 @@ export const AccountPage = () => {
       updateAccountState(data.account.id!, { ...data.account, ...updatedInfo });
 
       console.log('Updated event information:', data.account);
+      showToast({
+        title: 'Actualización exitosa',
+        description: 'Cuenta contable actualizada.',
+        status: 'success',
+      });
     } catch (error) {
-      console.error('Failed to update event:', error);
+      if (error instanceof Error) {
+        showToast({
+          title: 'Error al actualizar la cuenta contable',
+          description: error.message,
+          status: 'error',
+        });
+      }
     }
   };
 
@@ -121,8 +90,19 @@ export const AccountPage = () => {
         await postAccountingAccount(newAccountCreatedDTO);
 
       addAccountState(newAccountcreated);
+      showToast({
+        title: 'Registro exitoso',
+        description: 'La cuenta contable se registró correctamente.',
+        status: 'success',
+      });
     } catch (error) {
-      console.error('Failed to create account', error);
+      if (error instanceof Error) {
+        showToast({
+          title: 'Error al registrar la cuenta contable',
+          description: error.message,
+          status: 'error',
+        });
+      }
     }
   };
 

@@ -18,12 +18,11 @@ import { EVENTS_TABLE_HEADERS } from '../../../../utils/constants';
 import { ConfirmationModal } from '../../../../components/ConfirmationModal';
 import { EventView } from '../../../../types/event-models';
 import { eventsFilterByName } from '../../../../utils/filter-helper';
-import { useErrorToast } from '../../../../hooks/general/useErrorToast';
 import { isCulture } from '../../../../utils/check-role-helper';
 import { useAuth } from '../../../../contexts/auth-context';
+import { useGenericToast } from '../../../../hooks/general/useGenericToast';
 
 import { TableOptions } from './TableOptions';
-//import { initialEvents } from '../EventPage';
 
 interface EventTableProps {
   events: EventView[];
@@ -50,8 +49,17 @@ export const EventsTable = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedEventId, setSelectedEventId] = useState<number | undefined>();
   const [filteredEvents, setFilteredEvents] = useState<EventView[]>([]);
+  const showToast = useGenericToast();
 
-  useErrorToast(error);
+  useEffect(() => {
+    if (error) {
+      showToast({
+        title: 'Error',
+        description: error.message,
+        status: 'error',
+      });
+    }
+  }, [error, showToast]);
 
   const handleDeleteClick = (id: number | undefined) => {
     setSelectedEventId(id);

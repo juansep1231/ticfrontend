@@ -16,6 +16,7 @@ import {
   Path,
   FieldValues,
 } from 'react-hook-form';
+import { formatISO, addDays } from 'date-fns'; // Importamos las funciones necesarias
 
 interface FormFieldProps<T extends FieldValues> {
   id: Path<T>;
@@ -29,6 +30,7 @@ interface FormFieldProps<T extends FieldValues> {
   onChange?: (value: string) => void;
   showPasswordToggle?: boolean;
   disabled?: boolean;
+  disableFutureDates?: boolean; // Nuevo parámetro
 }
 
 export const FormField = <T extends FieldValues>({
@@ -43,6 +45,7 @@ export const FormField = <T extends FieldValues>({
   onChange,
   showPasswordToggle = false,
   disabled = false,
+  disableFutureDates = false, // Nuevo parámetro con valor predeterminado
 }: FormFieldProps<T>) => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -57,6 +60,8 @@ export const FormField = <T extends FieldValues>({
       onChange(e.target.value);
     }
   };
+
+  const isDateType = type === 'date';
 
   return (
     <FormControl id={id as string} sx={{ mb: 'sm' }} isInvalid={!!errors}>
@@ -102,6 +107,20 @@ export const FormField = <T extends FieldValues>({
             />
           </InputRightElement>
         </InputGroup>
+      ) : isDateType ? (
+        <Input
+          {...register(id)}
+          type={type}
+          defaultValue={defaultValue}
+          placeholder={placeholder}
+          onChange={handleChange}
+          isDisabled={disabled}
+          max={
+            disableFutureDates
+              ? formatISO(addDays(new Date(), 0), { representation: 'date' })
+              : undefined
+          } // Configura el máximo si disableFutureDates es true
+        />
       ) : (
         <Input
           {...register(id)}

@@ -8,73 +8,28 @@ import useUpdateEvent, {
   CreateUpdateEventDTO,
 } from '../../../hooks/Events/updateEventhook';
 import usePostEventWithFinancialRequest from '../../../hooks/Events/createEventHook';
-import { useAuth } from '../../../contexts/auth-context';
+import usePatchEventState from '../../../hooks/Events/patchEventoHook';
+import { useGenericToast } from '../../../hooks/general/useGenericToast';
 
 import { EditEventModal } from './components/EditEventModal';
 import { EventsTable } from './components/EventsTable';
-import usePatchEventState from '../../../hooks/Events/patchEventoHook';
-/*
-export const initialEvents: EventView[] = [
-  {
-    id: 1,
-    title: 'Conferencia de Tecnología',
-    status: 'FINALIZADO',
-    description: 'Una conferencia sobre las últimas tendencias en tecnología.',
-    startDate: '2024-08-01',
-    endDate: '2024-08-02',
-    budget: 5000,
-    budgetStatus: 'EN REVISIÓN',
-    location: 'Centro de Convenciones',
-    income: 8000,
-  },
-  {
-    id: 2,
-    title: 'Taller de Desarrollo Web',
-    status: 'APROBADO',
-    description: 'Un taller intensivo sobre desarrollo web moderno.',
-    startDate: '2024-09-10',
-    endDate: '2024-09-11',
-    budget: 3000,
-    budgetStatus: 'APROBADO',
-    location: 'Sala de Conferencias',
-  },
-  {
-    id: 3,
-    title: 'Seminario de Marketing Digital',
-    status: 'FINALIZADO',
-    description: 'Seminario sobre estrategias avanzadas de marketing digital.',
-    startDate: '2024-10-05',
-    endDate: '2024-10-06',
-    budget: 4000,
-    budgetStatus: 'EN REVISIÓN',
-    location: 'Hotel Central',
-    income: 6000,
-  },
-  {
-    id: 4,
-    title: 'Hackathon 2024',
-    status: 'EN PROGRESO',
-    description: 'Competencia de programación de 48 horas.',
-    startDate: '2024-11-15',
-    endDate: '2024-11-17',
-    budget: 7000,
-    budgetStatus: 'APROBADO',
-    location: 'Centro Tecnológico',
-  },
-];
-
-*/
 
 export const EventsPage = () => {
   const [isEditEventModalOpen, setEditEventModalOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<EventView | null>(null);
-  //const [events, setEvents] = useState<EventView[]>(initialEvents);
   const [searchEvent, setSearchEvent] = useState('');
   const { postEvent } = usePostEventWithFinancialRequest();
-  const { events, isLoadingEvents, eventErrors, updateEventState, addEventState} =
-    useFetchEvents();
+  const {
+    events,
+    isLoadingEvents,
+    eventErrors,
+    updateEventState,
+    addEventState,
+  } = useFetchEvents();
   const { updateEvent } = useUpdateEvent();
   const { patchEventState } = usePatchEventState();
+  const showToast = useGenericToast();
+
   const handleEditEvent = async (data: { event: EventView }) => {
     try {
       const formattedDate = formatISO(new Date(data.event.startDate));
@@ -107,9 +62,18 @@ export const EventsPage = () => {
         endDate: originalFormattedEndDate,
       });
 
-      console.log('Updated event information:', data.event);
+      showToast({
+        title: 'Actualización exitosa',
+        description: 'Evento actualizado con éxito.',
+        status: 'success',
+      });
     } catch (error) {
-      console.error('Failed to update event:', error);
+      if (error instanceof Error)
+        showToast({
+          title: 'Error al actualizar el evento',
+          description: error.message,
+          status: 'error',
+        });
     }
   };
 
@@ -117,9 +81,18 @@ export const EventsPage = () => {
     try {
       await patchEventState(id!);
       updateEventState(id!, { stateid: 2 });
-      console.log('Aportante eliminado:', id);
+      showToast({
+        title: 'Eliminación exitosa',
+        description: `Evento eliminado: ${id}`,
+        status: 'success',
+      });
     } catch (error) {
-      console.error('Failed to update association state:', error);
+      if (error instanceof Error)
+        showToast({
+          title: 'Error al eliminar el evento',
+          description: error.message,
+          status: 'error',
+        });
     }
   };
 
@@ -151,8 +124,18 @@ export const EventsPage = () => {
       const newAdminMember = await postEvent(updatedInfo);
 
       addEventState(newAdminMember);
+      showToast({
+        title: 'Registro exitoso',
+        description: 'El evento se registró correctamente.',
+        status: 'success',
+      });
     } catch (error) {
-      console.error('Failed to update Event:', error);
+      if (error instanceof Error)
+        showToast({
+          title: 'Error al añadir el evento',
+          description: error.message,
+          status: 'error',
+        });
     }
   };
 

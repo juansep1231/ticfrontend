@@ -6,48 +6,10 @@ import useFetchFinantialRequests from '../../../../hooks/Events/fetchFinantialRe
 import useUpdateFinantialRequest, {
   CreateUpdateFinantialRequestDTO,
 } from '../../../../hooks/Events/updateFinancialRequestHook';
+import { useGenericToast } from '../../../../hooks/general/useGenericToast';
 
 import { EditBudgetRequestModal } from './components/EditBudgetRequestModal';
 import { BudgetRequestTable } from './components/BudgetRequestTable';
-/*
-export const fakeBudgetRequests: BudgetRequest[] = [
-  {
-    id: 1,
-    eventName: 'Annual Science Conference',
-    requestStatusName: 'EN REVISION',
-    reason: 'Necesitamos fondos para alquilar el lugar y comprar suministros.',
-    value: 5000
-  },
-  {
-    id: 2,
-    eventName: 'Tech Expo 2024',
-    requestStatusName: 'APROBADO',
-    reason: 'Cubrir los costos de los stands y material promocional.',
-    value: 3000
-  },
-  {
-    id: 3,
-    eventName: 'Math Olympiad',
-    requestStatusName: 'RECHAZADO',
-    reason: 'Gastos de transporte y alojamiento para los participantes.',
-    value: 2000
-  },
-  {
-    id: 4,
-    eventName: 'History Symposium',
-    requestStatusName: 'EN REVISION',
-    reason: 'Honorarios para los ponentes y alquiler del auditorio.',
-    value: 4500
-  },
-  {
-    id: 5,
-    eventName: 'Art Workshop Series',
-    requestStatusName: 'APROBADO',
-    reason: 'Compra de materiales y alquiler del espacio.',
-    value: 1500
-  }
-];
-*/
 
 export const BudgetRequestPage = () => {
   const [isEditBudgetRequestModalOpen, setEditBudgetRequestModalOpen] =
@@ -55,7 +17,6 @@ export const BudgetRequestPage = () => {
   const [selectedBudgetRequest, setSelectedBudgetRequest] =
     useState<BudgetRequest | null>(null);
   const [searchBudgetRequest, setSearchBudgetRequest] = useState('');
-
   /*const { updateEvent, updateError } = useUpdateEvent();
   const handleEditEvent = async (data: { event: EventView }) => {
     try {
@@ -93,6 +54,8 @@ export const BudgetRequestPage = () => {
     updateFinantialRequestState,
   } = useFetchFinantialRequests();
   const { updateFinantialRequest } = useUpdateFinantialRequest();
+  const showToast = useGenericToast();
+
   const handleEditBudgetRequest = async (data: { request: BudgetRequest }) => {
     try {
       const updatedInfo: CreateUpdateFinantialRequestDTO = {
@@ -110,8 +73,19 @@ export const BudgetRequestPage = () => {
       });
 
       console.log('Updated event information:', data.request);
+      showToast({
+        title: 'Actualización exitosa',
+        description: 'Solicitud de presupuesto actualizada.',
+        status: 'success',
+      });
     } catch (error) {
-      console.error('Failed to update event:', error);
+      if (error instanceof Error) {
+        showToast({
+          title: 'Error al actualizar la solicitud de presupuesto',
+          description: error.message,
+          status: 'error',
+        });
+      }
     }
   };
 
@@ -130,7 +104,7 @@ export const BudgetRequestPage = () => {
   };
 
   const handleAddBudgetRequest = async (newRequest: BudgetRequest) => {
-    return console.log('Añadir solicitud: ', newRequest);
+    console.log('Añadir solicitud: ', newRequest);
   };
 
   return (

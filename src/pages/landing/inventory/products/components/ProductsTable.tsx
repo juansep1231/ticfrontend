@@ -18,9 +18,9 @@ import { ConfirmationModal } from '../../../../../components/ConfirmationModal';
 import { PRODUCTS_TABLE_HEADERS } from '../../../../../utils/constants';
 import { Product } from '../../../../../types/inventory-models';
 import { productsFilterByName } from '../../../../../utils/filter-helper';
-import { useErrorToast } from '../../../../../hooks/general/useErrorToast';
 import { useAuth } from '../../../../../contexts/auth-context';
 import { isInventory } from '../../../../../utils/check-role-helper';
+import { useGenericToast } from '../../../../../hooks/general/useGenericToast';
 
 import { TableOptions } from './TableOptions';
 
@@ -54,8 +54,17 @@ export const ProductsTable = ({
   useEffect(() => {
     setFilteredProducts(productsFilterByName(products, searchProduct));
   }, [products, searchProduct]);
+  const showToast = useGenericToast();
 
-  useErrorToast(error);
+  useEffect(() => {
+    if (error) {
+      showToast({
+        title: 'Error',
+        description: error.message,
+        status: 'error',
+      });
+    }
+  }, [error, showToast]);
 
   const handleDeleteClick = (id: number | undefined) => {
     setSelectedProductId(id);

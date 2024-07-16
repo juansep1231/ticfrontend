@@ -7,68 +7,30 @@ import { useFetchTransactions } from '../../../../hooks/financial/fetchTransacti
 import usePostTransaction, {
   CreateUpdateTransactionDTO,
 } from '../../../../hooks/financial/createTransactionHook';
+import { useGenericToast } from '../../../../hooks/general/useGenericToast';
 
 import { TransactionTable } from './components/TransactionTable';
 import { EditTransactionModal } from './components/EditTransactionModal';
 
-export const initialTransactions: Transaction[] = [
-  {
-    id: 1,
-    date: '2024-01-01',
-    originAccount: 'Cuenta A',
-    destinationAccount: 'Cuenta B',
-    value: 1000,
-    transactionType: 'INGRESO',
-    description: 'Pago de servicios',
-  },
-  {
-    id: 2,
-    date: '2024-01-02',
-    originAccount: 'Cuenta B',
-    destinationAccount: 'Cuenta C',
-    value: 500,
-    transactionType: 'EGRESO',
-    description: 'Compra de materiales',
-  },
-  {
-    id: 3,
-    date: '2024-01-03',
-    originAccount: 'Cuenta A',
-    destinationAccount: 'Cuenta D',
-    value: 200,
-    transactionType: 'INGRESO',
-    description: 'Venta de productos',
-  },
-  {
-    id: 4,
-    date: '2024-01-04',
-    originAccount: 'Cuenta D',
-    destinationAccount: 'Cuenta B',
-    value: 300,
-    transactionType: 'EGRESO',
-    description: 'Gastos administrativos',
-  },
-];
-
 export const TransactionPage = () => {
   const [isEditTransactionModalOpen, setEditTransactionModalOpen] =
     useState(false);
-  const [selectedTrasaction, setSelectedTransaction] =
+  const [selectedTransaction, setSelectedTransaction] =
     useState<Transaction | null>(null);
   const [searchTransaction, setSearchTransaction] = useState('');
 
   const { postTransaction } = usePostTransaction();
+  const showToast = useGenericToast();
 
   const handleEditTransaction = (data: { transaction: Transaction }) => {
-    console.log('Transacción actualizado:', data.transaction);
+    console.log('Transacción actualizada:', data.transaction);
   };
 
   const handleDeleteTransaction = (id: number | undefined) => {
-    console.log('Transacción eliminado:', id);
+    console.log('Transacción eliminada:', id);
   };
-
-  const openEditTransactionModal = (trasaction: Transaction) => {
-    setSelectedTransaction(trasaction);
+  const openEditTransactionModal = (transaction: Transaction) => {
+    setSelectedTransaction(transaction);
     setEditTransactionModalOpen(true);
   };
 
@@ -98,8 +60,19 @@ export const TransactionPage = () => {
       const newAdminMember = await postTransaction(updatedInfo);
 
       addTransactionState(newAdminMember);
+      showToast({
+        title: 'Registro exitoso',
+        description: 'La transacción se registró correctamente.',
+        status: 'success',
+      });
     } catch (error) {
-      console.error('Failed to update Event:', error);
+      if (error instanceof Error) {
+        showToast({
+          title: 'Error al añadir la transacción',
+          description: error.message,
+          status: 'error',
+        });
+      }
     }
   };
 
@@ -134,7 +107,7 @@ export const TransactionPage = () => {
       <EditTransactionModal
         isOpen={isEditTransactionModalOpen}
         onClose={() => setEditTransactionModalOpen(false)}
-        transaction={selectedTrasaction}
+        transaction={selectedTransaction}
         onSubmit={handleEditTransaction}
       />
     </Flex>

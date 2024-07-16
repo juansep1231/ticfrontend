@@ -39,7 +39,6 @@ export const AddEventModal = ({
   const { eventStatesData } = useFetchEventStates();
 
   const onSubmit = (data: EventView) => {
-    console.log('Nuevo evento agregado:', data);
     onAddEvent(data);
     onClose();
   };

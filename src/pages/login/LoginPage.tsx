@@ -6,6 +6,7 @@ import { LoginUser } from '../../types/organizational-models';
 import { firebaseApp } from '../../firebase/firebase-config';
 import { useAuth } from '../../contexts/auth-context';
 import { ADMIN } from '../../utils/roles-constants';
+import { useGenericToast } from '../../hooks/general/useGenericToast';
 
 import { LoginForm } from './components/LoginForm';
 
@@ -14,15 +15,37 @@ const auth = getAuth(firebaseApp);
 export const LoginPage = () => {
   const navigate = useNavigate();
   const { user, loadingContext } = useAuth();
+  const showToast = useGenericToast();
 
   const handleLogin = async (formData: LoginUser) => {
     console.log('Formulario de login enviado:', formData);
     try {
       await signInWithEmailAndPassword(auth, formData.email, formData.password);
+      if (auth.currentUser) {
+        if (user?.role === ADMIN) {
+          showToast({
+            title: 'Error',
+            description: 'Failed to add information',
+            status: 'error',
+          });
 
-      console.log('ROL LOGIN: ' + user?.role);
+          navigate('/admin');
+        } else {
+          showToast({
+            title: 'Inicio de sesión exitoso',
+            description: 'Bienvenido al Sistema Cloud ERP de FEPON',
+            status: 'success',
+          });
+          navigate('/');
+        }
+      }
     } catch (error) {
       console.log(error);
+      showToast({
+        title: 'Error de inicio de sesión',
+        description: 'Credenciales incorrectas. Por favor, inténtalo de nuevo.',
+        status: 'error',
+      });
     }
   };
 
@@ -32,12 +55,6 @@ export const LoginPage = () => {
         <Spinner size="xl" sx={{ color: 'brand.blue' }} />
       </Center>
     );
-  }
-
-  if (user && user?.role == ADMIN) {
-    navigate('/admin');
-  } else {
-    navigate('/');
   }
 
   return (

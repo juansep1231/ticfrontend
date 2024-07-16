@@ -16,14 +16,13 @@ import { FaEdit, FaTrash } from 'react-icons/fa';
 
 import { ConfirmationModal } from '../../../../../components/ConfirmationModal';
 import { BudgetRequest } from '../../../../../types/event-models';
-import { useErrorToast } from '../../../../../hooks/general/useErrorToast';
 import { budgetRequestFilterByEventName } from '../../../../../utils/filter-helper';
 import { BUDGET_REQUEST_TABLE_HEADERS } from '../../../../../utils/constants';
 import { useAuth } from '../../../../../contexts/auth-context';
 import { isCulture } from '../../../../../utils/check-role-helper';
+import { useGenericToast } from '../../../../../hooks/general/useGenericToast';
 
 import { TableOptions } from './TableOptions';
-//import { initialEvents } from '../EventPage';
 
 interface BudgetRequestTableProps {
   budgetRequests: BudgetRequest[];
@@ -52,9 +51,17 @@ export const BudgetRequestTable = ({
     number | undefined
   >();
   const [filteredRequests, setFilteredRequests] = useState<BudgetRequest[]>([]);
+  const showToast = useGenericToast();
 
-  useErrorToast(error);
-
+  useEffect(() => {
+    if (error) {
+      showToast({
+        title: 'Error',
+        description: error.message,
+        status: 'error',
+      });
+    }
+  }, [error, showToast]);
   const handleDeleteClick = (id: number | undefined) => {
     setSelectedBudgetRequestId(id);
     setIsModalOpen(true);

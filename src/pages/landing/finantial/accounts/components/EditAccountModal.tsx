@@ -88,6 +88,7 @@ export const EditAccountModal = ({
             id="date"
             label="Fecha de creación de cuenta"
             type="date"
+            disableFutureDates={true}
             placeholder="Seleccione la fecha de la creación de la cuenta"
             register={register}
             errors={errors.date}

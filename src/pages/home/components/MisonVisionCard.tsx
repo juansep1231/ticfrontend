@@ -2,16 +2,16 @@ import { Flex, Heading, Text } from '@chakra-ui/react';
 import useFetchAssociations from '../../../hooks/admin/fetchInformationTableHook';
 
 export const MisionVisionCard = () => {
-
-  const { associations} = useFetchAssociations();
+  const { associations } = useFetchAssociations();
 
   return (
-    <Flex sx={{ gap: '3xl', width: '100%' }}>
+    <Flex sx={{ gap: '3xl', maxWidth: '100vw' }}>
       <Flex
         sx={{
+          mr: { sm: 'none', lg: '3xl' },
           flexDirection: 'column',
           gap: 'sm',
-          width: '50%'
+          width: '50%',
         }}
       >
         <Heading
@@ -21,17 +21,20 @@ export const MisionVisionCard = () => {
         >
           Misión
         </Heading>
-        <Text sx={{ textColor: 'text.default', textAlign: 'justify' }}>
+        <Text
+          sx={{
+            textColor: 'text.default',
+            textAlign: 'justify',
+          }}
+        >
           {associations[0]?.mission}
         </Text>
       </Flex>
       <Flex
         sx={{
+          width: '50%',
           flexDirection: 'column',
           gap: 'sm',
-          borderLeft: { sm: 'none', lg: '1px solid' },
-          borderColor: { sm: 'none', lg: 'surface.default' },
-          pl: { sm: 'none', lg: '3xl' },
         }}
       >
         <Heading
@@ -41,8 +44,13 @@ export const MisionVisionCard = () => {
         >
           Visión
         </Heading>
-        <Text sx={{ textColor: 'text.default', textAlign: 'justify' }}>
-        {associations[0]?.vision}
+        <Text
+          sx={{
+            textColor: 'text.default',
+            textAlign: 'justify',
+          }}
+        >
+          {associations[0]?.vision}
         </Text>
       </Flex>
     </Flex>

@@ -68,6 +68,7 @@ export const EditTransactionModal = ({
             id="date"
             label="Fecha de transacción"
             type="date"
+            disableFutureDates={true}
             placeholder="Seleccione la fecha de transacción"
             register={register}
             errors={errors.date}

@@ -17,6 +17,8 @@ import { eventsSchema } from '../../../../utils/event-validations-helper';
 import { EventView } from '../../../../types/event-models';
 import useFetchFinancialStates from '../../../../hooks/Events/fetchFinancialRequestStateHook';
 import useFetchEventStates from '../../../../hooks/Events/fetchEventStatusHook';
+import { parse } from 'date-fns/parse';
+import { format } from 'date-fns/format';
 
 interface AddEventModalProps {
   isOpen: boolean;
@@ -46,8 +48,26 @@ export const EditEventModal = ({
     if (event) {
       // Set initial form values when info prop changes
       Object.keys(event).forEach((key) => {
+        console.log("key"+key+"que es esto"+event[key as keyof EventView]);
+        console
         setValue(key as keyof EventView, event[key as keyof EventView]);
       });
+
+       // Handle automated date
+      if (event.startDate) {
+        const dateValue = parse(event.startDate, 'dd/MM/yyyy', new Date());
+        if (!isNaN(dateValue.getTime())) {
+          setValue('startDate', format(dateValue, 'yyyy-MM-dd'));
+        }
+      }
+
+      if (event.endDate) {
+        const dateValue = parse(event.endDate, 'dd/MM/yyyy', new Date());
+        if (!isNaN(dateValue.getTime())) {
+          setValue('endDate', format(dateValue, 'yyyy-MM-dd'));
+        }
+      }
+
     }
   }, [event, setValue]);
 

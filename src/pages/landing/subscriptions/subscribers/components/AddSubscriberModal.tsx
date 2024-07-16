@@ -14,7 +14,6 @@ import {
 import { FormField } from '../../../../../components/FormField';
 import { subscriberSchema } from '../../../../../utils/subscription-validations-helper';
 import { Subscriber } from '../../../../../types/subscription-models';
-import { careers, faculties } from '../../../../../types/organizational-models';
 import useFetchCareers from '../../../../../hooks/general/FetchCareerHook';
 import useFetchFaculties from '../../../../../hooks/general/fetchFacultyHook';
 import useFetchContributionPlans from '../../../../../hooks/organizational/fetchContributionPlan';
@@ -39,7 +38,6 @@ export const AddSubscriberModal = ({
   });
 
   const onSubmit = (data: Subscriber) => {
-    console.log('Nuevo aportante agregado:', data);
     onAddSubscriber(data);
     onClose();
   };
@@ -65,6 +63,7 @@ export const AddSubscriberModal = ({
             id="date"
             label="Fecha"
             type="date"
+            disableFutureDates={true}
             placeholder="Seleccione la fecha de la aportación"
             register={register}
             errors={errors.date}

@@ -57,7 +57,7 @@ export const useFetchInventoryMovements = () => {
     (item) => item.stateid === DEFAULT_STATE // Adjust the filter condition as needed
   );
 
-  const addInventiryMovementtate = (newContributionPlan: Inventory) => {
+  const addInventoryMovementState = (newContributionPlan: Inventory) => {
     setInventoryMovements((prevData) => {
       const newData = [...prevData, newContributionPlan];
       console.log('Added new associationd:', newData, 'dsdsdsd');
@@ -70,7 +70,7 @@ export const useFetchInventoryMovements = () => {
     isLoadingInventoryMovements,
     inventoryMovementErrors,
     updateInventoryMovementState,
-    addInventiryMovementtate,
+    addInventoryMovementState,
   };
 };
 

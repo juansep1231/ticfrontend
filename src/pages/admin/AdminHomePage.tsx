@@ -14,6 +14,7 @@ import useFetchAdministrativeMembers from '../../hooks/admin/fetchAdminTableHook
 import useFetchAssociations from '../../hooks/admin/fetchInformationTableHook';
 import usePostAssociation from '../../hooks/admin/createInformationTableHook';
 import usePostAdministrativeMember from '../../hooks/admin/createMemberTableHook';
+import { useGenericToast } from '../../hooks/general/useGenericToast';
 
 import { EditInformationModal } from './components/EditInformationModal';
 import { InformationTable } from './components/InformationTable';
@@ -56,6 +57,8 @@ export const AdminHome = () => {
     usePatchAdministrativeMemberState();
   const { updateAdministrativeMember } = useUpdateAdministrativeMember();
 
+  const showToast = useGenericToast();
+
   const handleAddMember = async (createdMember: Member) => {
     try {
       const formattedDate = formatISO(new Date(createdMember.birthDate));
@@ -73,8 +76,19 @@ export const AdminHome = () => {
       const newAdminMember = await postAdministrativeMember(newAdmin);
 
       addAdminMemberState(newAdminMember);
+      showToast({
+        title: 'Éxito',
+        description: 'Miembro añadido correctamente',
+        status: 'success',
+      });
+      setIsAddMemberModalOpen(false); // Cierra el modal después de agregar
     } catch (error) {
-      console.error('Failed to update association:', error);
+      console.error('Failed to add member:', error);
+      showToast({
+        title: 'Error',
+        description: 'No se pudo añadir el miembro',
+        status: 'error',
+      });
     }
   };
 
@@ -87,8 +101,18 @@ export const AdminHome = () => {
       const newInformatiom = await postAssociation(newInfo);
 
       addAssociationState(newInformatiom);
+      showToast({
+        title: 'Éxito',
+        description: 'Información añadida correctamente',
+        status: 'success',
+      });
+      setAddInfoModalOpen(false);
     } catch (error) {
-      console.error('Failed to update association:', error);
+      showToast({
+        title: 'Error',
+        description: 'No se pudo añadir la información',
+        status: 'error',
+      });
     }
   };
 
@@ -122,9 +146,17 @@ export const AdminHome = () => {
         birthDate: originalFormattedDate,
       });
 
-      console.log('Updated organizational information:', data.member);
+      showToast({
+        title: 'Éxito',
+        description: 'Miembro administrativo actualizado correctamente',
+        status: 'success',
+      });
     } catch (error) {
-      console.error('Failed to update association:', error);
+      showToast({
+        title: 'Error',
+        description: 'No se pudo actualizar al miembro administrativo',
+        status: 'error',
+      });
     }
   };
 
@@ -132,9 +164,17 @@ export const AdminHome = () => {
     try {
       await patchAdministrativeMemberState(id!);
       updateAdministrativeMemberState(id!, { state_id: 2 });
-      console.log('Informacion organizacional eliminada:', id);
+      showToast({
+        title: 'Éxito',
+        description: 'Miembro administrativo eliminado correctamente',
+        status: 'success',
+      });
     } catch (error) {
-      console.error('Failed to update association state:', error);
+      showToast({
+        title: 'Error',
+        description: 'No se pudo eliminar al miembro administrativo',
+        status: 'error',
+      });
     }
   };
 
@@ -157,11 +197,17 @@ export const AdminHome = () => {
       await updateAssociation(data.info.id!, updatedInfo);
 
       updateAssociationState(data.info.id!, { ...data.info, ...updatedInfo });
-
-      console.log('Updated organizational information:', data.info);
-      console.log('Informacion organizacional actualizada:', data.info);
+      showToast({
+        title: 'Éxito',
+        description: 'Información organizacional actualizada correctamente',
+        status: 'success',
+      });
     } catch (error) {
-      console.error('Failed to update association:', error);
+      showToast({
+        title: 'Error',
+        description: 'No se pudo actualizar la información organizacional.',
+        status: 'error',
+      });
     }
   };
 
@@ -169,9 +215,17 @@ export const AdminHome = () => {
     try {
       await patchAssociationState(id!);
       updateAssociationState(id!, { state_id: 2 });
-      console.log('Informacion organizacional eliminada:', id);
+      showToast({
+        title: 'Éxito',
+        description: 'Información organizacional eliminada correctamente',
+        status: 'success',
+      });
     } catch (error) {
-      console.error('Failed to update association state:', error);
+      showToast({
+        title: 'Error',
+        description: 'No se pudo eliminar la información organizacional.',
+        status: 'error',
+      });
     }
   };
 

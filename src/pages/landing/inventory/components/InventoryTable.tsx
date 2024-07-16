@@ -18,9 +18,9 @@ import { ConfirmationModal } from '../../../../components/ConfirmationModal';
 import { Inventory } from '../../../../types/inventory-models';
 import { INVENTORY_TABLE_HEADERS } from '../../../../utils/constants';
 import { inventoriesFilterByProduct } from '../../../../utils/filter-helper';
-import { useErrorToast } from '../../../../hooks/general/useErrorToast';
 import { isInventory } from '../../../../utils/check-role-helper';
 import { useAuth } from '../../../../contexts/auth-context';
+import { useGenericToast } from '../../../../hooks/general/useGenericToast';
 
 import { TableOptions } from './TableOptions';
 
@@ -45,7 +45,6 @@ export const InventoryTable = ({
   onSearchInventoryChange,
   onAddInventory,
 }: InventoryTableProps) => {
-  //const { data: members, isLoading, error } = useFetchData(url);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedMovementId, setSelectedMovementId] = useState<
     number | undefined
@@ -60,8 +59,17 @@ export const InventoryTable = ({
       inventoriesFilterByProduct(movements, searchInventory)
     );
   }, [movements, searchInventory]);
+  const showToast = useGenericToast();
 
-  useErrorToast(error);
+  useEffect(() => {
+    if (error) {
+      showToast({
+        title: 'Error',
+        description: error.message,
+        status: 'error',
+      });
+    }
+  }, [error, showToast]);
 
   const handleDeleteClick = (id: number | undefined) => {
     setSelectedMovementId(id);

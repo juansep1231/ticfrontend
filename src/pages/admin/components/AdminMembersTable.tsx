@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Table,
   Thead,
@@ -15,9 +15,9 @@ import {
 import { FaTrash, FaEdit } from 'react-icons/fa';
 
 import { ConfirmationModal } from '../../../components/ConfirmationModal'; // Importa el componente del modal
-import { useErrorToast } from '../../../hooks/general/useErrorToast'; // Importa el hook de error
 import { Member } from '../../../types/organizational-models';
 import { ADMIN_MEMBERS_TABLE_HEADERS } from '../../../utils/constants';
+import { useGenericToast } from '../../../hooks/general/useGenericToast';
 
 interface AdminMembersTableProps {
   members: Member[];
@@ -37,8 +37,17 @@ export const AdminMembersTable = ({
   const [selectedMemberId, setSelectedMemberId] = useState<
     number | undefined
   >();
+  const showToast = useGenericToast();
 
-  useErrorToast(error);
+  useEffect(() => {
+    if (error) {
+      showToast({
+        title: 'Error',
+        description: error.message,
+        status: 'error',
+      });
+    }
+  }, [error, showToast]);
 
   const handleDeleteClick = (id: number | undefined) => {
     setSelectedMemberId(id);

@@ -9,69 +9,16 @@ import useUpdateContributor, {
 } from '../../../../hooks/organizational/updateContributor';
 import usePatchContributorState from '../../../../hooks/organizational/patchContributorHook';
 import usePostContributor from '../../../../hooks/organizational/createContributorHook';
+import { useGenericToast } from '../../../../hooks/general/useGenericToast';
 
 import { EditSubscriberModal } from './components/EditSubscriberModal';
 import { SubscribersTable } from './components/SubscribersTable';
-
-export const initialSubscribers: Subscriber[] = [
-  {
-    id: 1,
-    date: '2024-01-01',
-    name: 'Juan Perez',
-    faculty: 'Engineering',
-    career: 'Computer Science',
-    email: 'juan.perez@example.com',
-    plan: 'Basic',
-    price: '$10',
-  },
-  {
-    id: 2,
-    date: '2024-02-15',
-    name: 'Maria Gomez',
-    faculty: 'Business',
-    career: 'Marketing',
-    email: 'maria.gomez@example.com',
-    plan: 'Premium',
-    price: '$25',
-  },
-  {
-    id: 3,
-    date: '2024-03-22',
-    name: 'Carlos Ramirez',
-    faculty: 'Humanities',
-    career: 'History',
-    email: 'carlos.ramirez@example.com',
-    plan: 'Standard',
-    price: '$15',
-  },
-  {
-    id: 4,
-    date: '2024-04-18',
-    name: 'Ana Martinez',
-    faculty: 'Medicine',
-    career: 'Nursing',
-    email: 'ana.martinez@example.com',
-    plan: 'Basic',
-    price: '$10',
-  },
-  {
-    id: 5,
-    date: '2024-05-30',
-    name: 'Luis Hernandez',
-    faculty: 'Law',
-    career: 'Law',
-    email: 'luis.hernandez@example.com',
-    plan: 'Premium',
-    price: '$25',
-  },
-];
 
 export const SubscribersPage = () => {
   const [isEditSubscriberModalOpen, setEditSubscriberModalOpen] =
     useState(false);
   const [selectedSubscriber, setSelectedSubscriber] =
     useState<Subscriber | null>(null);
-  const { updateContributor } = useUpdateContributor();
   const [searchSubscriber, setSearchSubscriber] = useState('');
 
   const {
@@ -82,8 +29,12 @@ export const SubscribersPage = () => {
     addContributionPlanState,
   } = useFetchContributors();
 
+  const { updateContributor } = useUpdateContributor();
   const { patchContributorState } = usePatchContributorState();
   const { postContributor } = usePostContributor();
+
+  const showToast = useGenericToast();
+
   const handleEditMovement = async (data: { subscriber: Subscriber }) => {
     try {
       const formattedDate = formatISO(new Date(data.subscriber.date));
@@ -110,9 +61,20 @@ export const SubscribersPage = () => {
         date: originalFormattedDate,
       });
 
+      showToast({
+        title: 'Actualización exitosa',
+        description: 'Información del aportante actualizada correctamente.',
+        status: 'success',
+      });
+
       console.log('Updated organizational information:', data.subscriber);
     } catch (error) {
       console.error('Failed to update association:', error);
+      showToast({
+        title: 'Error',
+        description: 'Hubo un problema al actualizar el aportante.',
+        status: 'error',
+      });
     }
   };
 
@@ -120,9 +82,21 @@ export const SubscribersPage = () => {
     try {
       await patchContributorState(id!);
       updateContributorState(id!, { state_id: 2 });
+
+      showToast({
+        title: 'Eliminación exitosa',
+        description: `Aportante eliminado: ${id}`,
+        status: 'success',
+      });
+
       console.log('Aportante eliminado:', id);
     } catch (error) {
       console.error('Failed to update association state:', error);
+      showToast({
+        title: 'Error',
+        description: 'Hubo un problema al eliminar el aportante.',
+        status: 'error',
+      });
     }
   };
 
@@ -137,7 +111,7 @@ export const SubscribersPage = () => {
 
   const handleAddSubscriber = async (newSubscriber: Subscriber) => {
     try {
-      const newadminContributor: CreateUpdateContributorDTO = {
+      const newContributor: CreateUpdateContributorDTO = {
         date: formatISO(new Date(newSubscriber.date)),
         name: newSubscriber.name,
         faculty: newSubscriber.faculty,
@@ -146,11 +120,24 @@ export const SubscribersPage = () => {
         plan: newSubscriber.plan,
         price: newSubscriber.price,
       };
-      const newContributor = await postContributor(newadminContributor);
 
-      addContributionPlanState(newContributor);
+      const createdSubscriber = await postContributor(newContributor);
+
+      addContributionPlanState(createdSubscriber);
+
+      showToast({
+        title: 'Creación exitosa',
+        description: 'Aportante creado correctamente.',
+        status: 'success',
+      });
     } catch (error) {
       console.error('Failed to create subscriber:', error);
+
+      showToast({
+        title: 'Error',
+        description: 'Hubo un problema al crear el aportante.',
+        status: 'error',
+      });
     }
   };
 

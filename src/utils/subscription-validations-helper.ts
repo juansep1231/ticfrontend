@@ -1,8 +1,24 @@
+import { endOfDay, isBefore, isEqual, parseISO, startOfDay } from 'date-fns';
 import * as yup from 'yup';
 
 export const subscriberSchema = yup.object().shape({
   id: yup.number().integer().positive().optional(),
-  date: yup.string().required('La fecha es obligatoria'),
+  date: yup
+    .string()
+    .required('La fecha es obligatoria')
+    .test(
+      'is-not-future-date',
+      'La fecha no puede ser mayor a hoy',
+      (value) => {
+        if (!value) return false;
+        const parsedDate = parseISO(value);
+        const today = new Date();
+        return (
+          isBefore(parsedDate, endOfDay(today)) ||
+          isEqual(parsedDate, startOfDay(today))
+        );
+      }
+    ),
   name: yup.string().required('El nombre es obligatorio'),
   faculty: yup.string().required('La facultad es obligatoria'),
   career: yup.string().required('La carrera es obligatoria'),

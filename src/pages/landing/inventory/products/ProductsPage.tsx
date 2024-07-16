@@ -8,53 +8,10 @@ import useUpdateProduct, {
 } from '../../../../hooks/inventory/updateProductHook';
 import usePatchProductState from '../../../../hooks/inventory/patchProductHook';
 import usePostProduct from '../../../../hooks/inventory/createProductHook';
+import { useGenericToast } from '../../../../hooks/general/useGenericToast';
 
 import { EditProductModal } from './components/EditProducModal';
 import { ProductsTable } from './components/ProductsTable';
-
-export const initialProducts: Product[] = [
-  {
-    id: 1,
-    name: 'Laptop',
-    category: 'Electronics',
-    description: 'A high-performance laptop with 16GB RAM and 512GB SSD.',
-    price: 1200,
-    quantity: 10,
-    label: 'High-end',
-    provider: 'TechSupplier Inc.',
-  },
-  {
-    id: 2,
-    name: 'Wireless Mouse',
-    category: 'Accessories',
-    description: 'Ergonomic wireless mouse with adjustable DPI settings.',
-    price: 25,
-    quantity: 50,
-    label: 'Popular',
-    provider: 'Accessories Co.',
-  },
-  {
-    id: 3,
-    name: 'Mechanical Keyboard',
-    category: 'Accessories',
-    description: 'Mechanical keyboard with RGB lighting and programmable keys.',
-    price: 75,
-    quantity: 30,
-    label: 'Top Seller',
-    provider: 'Keyboards R Us',
-  },
-  {
-    id: 4,
-    name: '27-inch Monitor',
-    category: 'Electronics',
-    description:
-      'Ultra HD 4K monitor with adjustable stand and multiple ports.',
-    price: 350,
-    quantity: 15,
-    label: 'New Arrival',
-    provider: 'Screens & Displays',
-  },
-];
 
 export const ProductsPage = () => {
   const [isEditProductModalOpen, setEditProductModalOpen] = useState(false);
@@ -71,6 +28,8 @@ export const ProductsPage = () => {
   const { patchProductState } = usePatchProductState();
   const { updateProduct } = useUpdateProduct();
   const { postProduct } = usePostProduct();
+  const showToast = useGenericToast();
+
   const handleEditProduct = async (data: { product: Product }) => {
     try {
       const updatedInfo: CreateUpdateProductDTO = {
@@ -87,9 +46,20 @@ export const ProductsPage = () => {
 
       updateProductState(data.product.id!, { ...data.product, ...updatedInfo });
 
+      showToast({
+        title: 'Actualización exitosa',
+        description: 'Información del producto actualizada correctamente.',
+        status: 'success',
+      });
+
       console.log('Updated organizational information:', data.product);
     } catch (error) {
       console.error('Failed to update association:', error);
+      showToast({
+        title: 'Error',
+        description: 'Hubo un problema al actualizar el producto.',
+        status: 'error',
+      });
     }
   };
 
@@ -97,9 +67,21 @@ export const ProductsPage = () => {
     try {
       await patchProductState(id!);
       updateProductState(id!, { stateid: 2 });
-      console.log('Aportante eliminado:', id);
+
+      showToast({
+        title: 'Eliminación exitosa',
+        description: `Producto eliminado: ${id}`,
+        status: 'success',
+      });
+
+      console.log('Producto eliminado:', id);
     } catch (error) {
       console.error('Failed to update association state:', error);
+      showToast({
+        title: 'Error',
+        description: 'Hubo un problema al eliminar el producto.',
+        status: 'error',
+      });
     }
   };
 
@@ -123,11 +105,24 @@ export const ProductsPage = () => {
         category: newProduct.category,
         provider: newProduct.provider,
       };
+
       const createdProduct = await postProduct(newProductCreated);
 
       addProductState(createdProduct);
+
+      showToast({
+        title: 'Creación exitosa',
+        description: 'Producto creado correctamente.',
+        status: 'success',
+      });
     } catch (error) {
       console.error('Failed to create product:', error);
+
+      showToast({
+        title: 'Error',
+        description: 'Hubo un problema al crear el producto.',
+        status: 'error',
+      });
     }
   };
 

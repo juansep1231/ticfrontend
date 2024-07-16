@@ -27,6 +27,7 @@ import {
   httpsCallable,
 } from '../../../firebase/firebase-config';
 import useFetchRoles from '../../../hooks/general/fetchRolesHook';
+import { useGenericToast } from '../../../hooks/general/useGenericToast';
 
 interface RegisterModalProps {
   isOpen: boolean;
@@ -35,8 +36,10 @@ interface RegisterModalProps {
 
 const auth = getAuth(firebaseApp);
 const firestore = getFirestore(firebaseApp);
+
 export const RegisterModal = ({ isOpen, onClose }: RegisterModalProps) => {
   const { roles } = useFetchRoles();
+  const showToast = useGenericToast();
 
   const {
     handleSubmit,
@@ -53,7 +56,12 @@ export const RegisterModal = ({ isOpen, onClose }: RegisterModalProps) => {
       console.log('llamadaaa a añadir claiiiiiimmmm');
       console.log(result);
     } catch (error) {
-      console.error('Error calling addUserRole:', error);
+      if (error instanceof Error)
+        showToast({
+          title: 'Error al añadir usuario',
+          description: error.message,
+          status: 'error',
+        });
     }
   };
 
@@ -63,28 +71,30 @@ export const RegisterModal = ({ isOpen, onClose }: RegisterModalProps) => {
     role: string
   ) => {
     try {
-      //create user
       const userData = await createUserWithEmailAndPassword(
         auth,
         username,
         password
       );
       console.log(userData);
-      //obtain a reference to the user doc
       const documentReference = doc(firestore, `usuarios/${userData.user.uid}`);
-      //write in the database the user
       await setDoc(documentReference, {
         email: username,
         role: role,
       });
 
       await addRoleClaim(username, role);
-      // Sign out the user to update the token
       await signOut(auth);
       console.log('User signed out');
       return userData;
     } catch (error) {
-      console.log(error);
+      if (error instanceof Error) {
+        showToast({
+          title: 'Error al registrar el usuario',
+          description: error.message,
+          status: 'error',
+        });
+      }
     }
   };
 
@@ -95,7 +105,11 @@ export const RegisterModal = ({ isOpen, onClose }: RegisterModalProps) => {
         data.password,
         data.position
       );
-      console.log('SIIIUUUUUUUUUUUUU', userData);
+      showToast({
+        title: 'Registro exitoso',
+        description: 'Su información se registró con éxito.',
+        status: 'success',
+      });
     } catch (error) {
       console.log(error);
     }
