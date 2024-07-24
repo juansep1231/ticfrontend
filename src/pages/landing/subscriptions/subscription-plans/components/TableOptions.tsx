@@ -51,6 +51,7 @@ export const TableOptions = ({
       <Flex sx={{ gap: 'sm' }}>
         {isOrganizational(user) ? (
           <Button
+            aria-label='Add Plan'
             leftIcon={<AddIcon />}
             onClick={() => setIsAddPlanModalOpen(true)}
           >

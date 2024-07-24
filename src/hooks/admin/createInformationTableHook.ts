@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import { OrganizationalInfo } from '../../types/organizational-models';
+import { useAuth } from '../../contexts/auth-context';
 
 export interface CreateUpdateAssociationDTO {
   mission: string;
@@ -9,6 +10,7 @@ export interface CreateUpdateAssociationDTO {
 
 const usePostAssociation = () => {
   const [postError, setPostError] = useState<string | null>(null);
+  const { token } = useAuth();
 
   const postAssociation = async (
     newAssociation: CreateUpdateAssociationDTO
@@ -22,7 +24,10 @@ const usePostAssociation = () => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+            
           },
+          mode: 'cors',
           body: JSON.stringify(newAssociation),
         }
       );

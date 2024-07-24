@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { format, formatISO, parseISO } from 'date-fns';
 
 import { Inventory } from '../../../types/inventory-models';
-import { useFetchInventoryMovements } from '../../../hooks/inventory/fetchInventoryHook';
+
 import useUpdateInventoryMovement, {
   CreateUpdateInventoryMovementDTO,
 } from '../../../hooks/inventory/updateInventoryHook';
@@ -13,6 +13,7 @@ import usePostInventoryMovement from '../../../hooks/inventory/createInventoryHo
 import { EditInventoryModal } from './components/EditInventoryModal';
 import { InventoryTable } from './components/InventoryTable';
 import { useGenericToast } from '../../../hooks/general/useGenericToast';
+import useFetchInventoryMovements from '../../../hooks/inventory/fetchInventoryHook';
 
 export const InventoryPage = () => {
   const [isEditInventoryModalOpen, setEditInventoryModalOpen] = useState(false);
@@ -80,7 +81,7 @@ export const InventoryPage = () => {
 
       showToast({
         title: 'Eliminación exitosa',
-        description: `Movimiento de inventario eliminado: ${id}`,
+        description: `Movimiento de inventario eliminado correctamente.`,
         status: 'success',
       });
     } catch (error) {

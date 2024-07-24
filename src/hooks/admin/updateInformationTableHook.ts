@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useAuth } from '../../contexts/auth-context';
 
 export interface CreateUpdateAssociationDTO {
   mission: string;
@@ -7,6 +8,7 @@ export interface CreateUpdateAssociationDTO {
 
 const useUpdateAssociation = () => {
   const [updateError, setUpdateError] = useState<string | null>(null);
+  const { token } = useAuth();
 
   const updateAssociation = async (
     id: number,
@@ -21,7 +23,9 @@ const useUpdateAssociation = () => {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
           },
+          mode: 'cors',
           body: JSON.stringify(updatedAssociation),
         }
       );

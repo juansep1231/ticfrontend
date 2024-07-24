@@ -3,7 +3,7 @@ import { Heading, Flex, Link, Text } from '@chakra-ui/react';
 import { format, formatISO, parseISO } from 'date-fns';
 
 import { Subscriber } from '../../../../types/subscription-models';
-import { useFetchContributors } from '../../../../hooks/organizational/fetchContributorHook';
+import  useFetchContributors  from '../../../../hooks/organizational/fetchContributorHook';
 import useUpdateContributor, {
   CreateUpdateContributorDTO,
 } from '../../../../hooks/organizational/updateContributor';
@@ -45,10 +45,9 @@ export const SubscribersPage = () => {
         career: data.subscriber.career,
         email: data.subscriber.email,
         plan: data.subscriber.plan,
-        price: data.subscriber.price,
       };
 
-      await updateContributor(data.subscriber.id!, updatedInfo);
+      const updatedSubscriber = await updateContributor(data.subscriber.id!, updatedInfo);
 
       const originalFormattedDate = format(
         parseISO(data.subscriber.date),
@@ -59,6 +58,8 @@ export const SubscribersPage = () => {
         ...data.subscriber,
         ...updatedInfo,
         date: originalFormattedDate,
+        price: updatedSubscriber.price,
+        academicPeriod: updatedSubscriber.academicPeriod,
       });
 
       showToast({
@@ -85,7 +86,7 @@ export const SubscribersPage = () => {
 
       showToast({
         title: 'Eliminación exitosa',
-        description: `Aportante eliminado: ${id}`,
+        description: `Aportante eliminado correctamente.`,
         status: 'success',
       });
 
@@ -118,10 +119,11 @@ export const SubscribersPage = () => {
         career: newSubscriber.career,
         email: newSubscriber.email,
         plan: newSubscriber.plan,
-        price: newSubscriber.price,
       };
 
       const createdSubscriber = await postContributor(newContributor);
+
+      console.log('Created subscribeeeeer despues del post:', createdSubscriber);
 
       addContributionPlanState(createdSubscriber);
 

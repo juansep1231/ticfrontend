@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { formatISO } from 'date-fns';
 
 import { Transaction } from '../../../../types/finantial-models';
-import { useFetchTransactions } from '../../../../hooks/financial/fetchTransactionHook';
+
 import usePostTransaction, {
   CreateUpdateTransactionDTO,
 } from '../../../../hooks/financial/createTransactionHook';
@@ -11,6 +11,7 @@ import { useGenericToast } from '../../../../hooks/general/useGenericToast';
 
 import { TransactionTable } from './components/TransactionTable';
 import { EditTransactionModal } from './components/EditTransactionModal';
+import useFetchTransactions from '../../../../hooks/financial/fetchTransactionHook';
 
 export const TransactionPage = () => {
   const [isEditTransactionModalOpen, setEditTransactionModalOpen] =

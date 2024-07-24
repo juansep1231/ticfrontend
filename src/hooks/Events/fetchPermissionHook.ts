@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useAuth } from '../../contexts/auth-context';
 export interface PermissionDTO {
   Permission_Id: number;
   Request: string;
@@ -10,11 +11,17 @@ export const useFetchPermissions = () => {
   const [isLoadingPermissions, setIsLoadingPermissions] = useState(true);
   const [permissionErrors, setPermissionErrors] = useState<Error | null>(null);
   const endpoint = `${import.meta.env.VITE_API_BASE_URL}${import.meta.env.VITE_API_PERMISSIONS_ENDPOINT}`;
+  const { token } = useAuth();
 
   useEffect(() => {
     const fetchPermissions = async () => {
       try {
-        const response = await fetch(endpoint);
+        const response = await fetch(endpoint,  {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          mode: 'cors',
+        });
 
         if (!response.ok) {
           const errorData = await response.json();

@@ -166,7 +166,7 @@ export const ProductsTable = ({
                         }}
                       >
                         <IconButton
-                          aria-label="Edit Product"
+                          aria-label="editProduct"
                           icon={<FaEdit size={16} />}
                           onClick={() => onEdit(product)}
                           size="sm"

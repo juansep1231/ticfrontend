@@ -52,6 +52,7 @@ export const TableOptions = ({
       <Flex sx={{ gap: 'sm' }}>
         {isCulture(user) ? (
           <Button
+            aria-label="Agregar evento"
             leftIcon={<AddIcon />}
             onClick={() => setIsAddEventModalOpen(true)}
           >

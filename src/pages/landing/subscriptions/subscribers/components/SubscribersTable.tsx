@@ -208,6 +208,7 @@ export const SubscribersTable = ({
                   <Td>{subscriber.email}</Td>
                   <Td>{subscriber.plan}</Td>
                   <Td>{subscriber.price}</Td>
+                  <Td>{subscriber.academicPeriod}</Td>
                 </Tr>
               ))
             )}

@@ -183,7 +183,7 @@ export const InventoryTable = ({
                             },
                           }}
                         />
-                        <IconButton
+                        {/*<IconButton
                           aria-label="Delete Movement"
                           icon={<FaTrash size={16} />}
                           onClick={() => handleDeleteClick(movment.id)}
@@ -196,7 +196,7 @@ export const InventoryTable = ({
                               color: 'primary.default',
                             },
                           }}
-                        />
+                        />*/}
                       </Flex>
                     </Td>
                   ) : null}

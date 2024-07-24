@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import { Member } from '../../types/organizational-models';
+import { useAuth } from '../../contexts/auth-context';
 
 export interface CreateUpdateAdministrativeMemberDTO {
   firstName: string;
@@ -16,6 +17,7 @@ export interface CreateUpdateAdministrativeMemberDTO {
 
 const usePostAdministrativeMember = () => {
   const [postAdminError, setPostError] = useState<string | null>(null);
+  const {token} = useAuth();
 
   const postAdministrativeMember = async (
     newMember: CreateUpdateAdministrativeMemberDTO
@@ -29,7 +31,9 @@ const usePostAdministrativeMember = () => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
           },
+          mode: 'cors',
           body: JSON.stringify(newMember),
         }
       );

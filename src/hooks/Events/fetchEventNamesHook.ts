@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useAuth } from '../../contexts/auth-context';
 
 interface EventDTO {
   id: number;
@@ -18,11 +19,17 @@ export const useFetchEventNames = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const endpoint = `${import.meta.env.VITE_API_BASE_URL}${import.meta.env.VITE_API_EVENTS_ENDPOINT}`;
+  const { token } = useAuth();
 
   useEffect(() => {
     const fetchEventNames = async () => {
       try {
-        const response = await fetch(endpoint);
+        const response = await fetch(endpoint,  {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          mode: 'cors',
+        });
 
         if (!response.ok) {
           throw new Error(`Error: ${response.status} ${response.statusText}`);

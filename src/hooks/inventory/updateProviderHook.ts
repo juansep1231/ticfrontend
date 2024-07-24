@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useAuth } from '../../contexts/auth-context';
 
 export interface CreateUpdateProviderDTO {
   name: string;
@@ -8,6 +9,7 @@ export interface CreateUpdateProviderDTO {
 
 const useUpdateProvider = () => {
   const [updateError, setUpdateError] = useState<string | null>(null);
+  const { token } = useAuth();
 
   const updateProvider = async (
     id: number,
@@ -22,7 +24,9 @@ const useUpdateProvider = () => {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
           },
+          mode: 'cors',
           body: JSON.stringify(updatedProvider),
         }
       );

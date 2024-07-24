@@ -3,9 +3,11 @@ import { useState } from 'react';
 import { Supplier } from '../../types/supplier-models';
 
 import { CreateUpdateProviderDTO } from './updateProviderHook';
+import { useAuth } from '../../contexts/auth-context';
 
 const usePostProvider = () => {
   const [postError, setPostError] = useState<string | null>(null);
+  const { token } = useAuth();
 
   const postProvider = async (
     providerDTO: CreateUpdateProviderDTO
@@ -19,7 +21,9 @@ const usePostProvider = () => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
           },
+          mode: 'cors',
           body: JSON.stringify(providerDTO),
         }
       );

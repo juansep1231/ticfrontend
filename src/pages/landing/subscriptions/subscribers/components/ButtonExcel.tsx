@@ -26,7 +26,8 @@ export const ButtonExcel = ({ data }: ButtonExcelProps) => {
         subscriber.career,
         subscriber.email,
         subscriber.plan,
-        subscriber.price.toString(),
+        subscriber.price?.toString() || '',
+        subscriber.academicPeriod?.toString() || '',
       ]);
     });
 

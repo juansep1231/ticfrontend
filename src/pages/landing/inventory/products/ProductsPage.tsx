@@ -2,7 +2,7 @@ import { Heading, Flex, Text, Link } from '@chakra-ui/react';
 import { useState } from 'react';
 
 import { Product } from '../../../../types/inventory-models';
-import { useFetchProducts } from '../../../../hooks/inventory/fetchProductHook';
+
 import useUpdateProduct, {
   CreateUpdateProductDTO,
 } from '../../../../hooks/inventory/updateProductHook';
@@ -12,6 +12,7 @@ import { useGenericToast } from '../../../../hooks/general/useGenericToast';
 
 import { EditProductModal } from './components/EditProducModal';
 import { ProductsTable } from './components/ProductsTable';
+import useFetchProducts from '../../../../hooks/inventory/fetchProductHook';
 
 export const ProductsPage = () => {
   const [isEditProductModalOpen, setEditProductModalOpen] = useState(false);
@@ -70,7 +71,7 @@ export const ProductsPage = () => {
 
       showToast({
         title: 'Eliminación exitosa',
-        description: `Producto eliminado: ${id}`,
+        description: `Producto eliminado correctamente.`,
         status: 'success',
       });
 

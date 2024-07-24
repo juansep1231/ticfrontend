@@ -72,6 +72,7 @@ export const SUBSCRIBER_TABLE_HEADERS = [
   'Correo institucional',
   'Plan de portación',
   'Valor',
+  'Periodo académico',
 ];
 
 export const SUBSCRIPTION_PLAN_TABLE_HEADERS = [

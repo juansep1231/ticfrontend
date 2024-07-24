@@ -52,6 +52,7 @@ export const TableOptions = ({
       <Flex sx={{ gap: 'sm' }}>
         {isFinantial(user) ? (
           <Button
+            aria-label='Add Transaction'
             leftIcon={<AddIcon />}
             onClick={() => setIsAddTransactionModalOpen(true)}
           >

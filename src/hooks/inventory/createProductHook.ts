@@ -3,9 +3,11 @@ import { useState } from 'react';
 import { Product } from '../../types/inventory-models';
 
 import { CreateUpdateProductDTO } from './updateProductHook';
+import { useAuth } from '../../contexts/auth-context';
 
 const usePostProduct = () => {
   const [postError, setPostError] = useState<string | null>(null);
+  const { token } = useAuth();
 
   const postProduct = async (
     productDTO: CreateUpdateProductDTO
@@ -19,7 +21,9 @@ const usePostProduct = () => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
           },
+          mode: 'cors',
           body: JSON.stringify(productDTO),
         }
       );

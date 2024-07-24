@@ -45,20 +45,20 @@ export const TableOptions = ({
           <SearchIcon sx={{ color: 'text.default' }} />
         </InputLeftElement>
         <Input
-          placeholder="Buscar uns solicitud de presupuesto"
+          placeholder="Buscar una solicitud de presupuesto"
           value={searchBudgetRequest}
           onChange={(e) => onSearchBudgetRequestChange(e.target.value)}
         />
       </InputGroup>
       <Flex sx={{ gap: 'sm' }}>
-        {isCulture(user) ? (
+        {/*{isCulture(user) ? (
           <Button
             leftIcon={<AddIcon />}
             onClick={() => setIsAddBudgetRequestModalOpen(true)}
           >
             Solicitud
           </Button>
-        ) : null}
+        ) : null}*/}
         <ButtonExcel data={requests} />
       </Flex>
 

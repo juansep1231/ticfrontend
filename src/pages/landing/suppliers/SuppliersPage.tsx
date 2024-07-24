@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Heading, Flex, Link, Text } from '@chakra-ui/react';
 
 import { Supplier } from '../../../types/supplier-models';
-import { useFetchProviders } from '../../../hooks/inventory/fetchProviderHook';
+
 import useUpdateProvider, {
   CreateUpdateProviderDTO,
 } from '../../../hooks/inventory/updateProviderHook';
@@ -12,6 +12,7 @@ import { useGenericToast } from '../../../hooks/general/useGenericToast';
 
 import { EditSupplierModal } from './components/EditSupplierModal';
 import { SuppliersTable } from './components/SuppliersTable';
+import useFetchProviders from '../../../hooks/inventory/fetchProviderHook';
 
 export const SuppliersPage = () => {
   const [isEditSupplierModalOpen, setEditSupplierModalOpen] = useState(false);
@@ -73,7 +74,7 @@ export const SuppliersPage = () => {
 
       showToast({
         title: 'Eliminación exitosa',
-        description: `Proveedor eliminado: ${id}`,
+        description: `Proveedor eliminado correctamente.`,
         status: 'success',
       });
 
@@ -134,8 +135,8 @@ export const SuppliersPage = () => {
       <Heading>Proveedores</Heading>
       <Text sx={{ color: 'text.default', textAlign: 'justify' }}>
         Ahora que añadiste los proveedores necesarios, ya puedes
-        <Link href="/eventos" sx={{ color: 'brand.blue', mx: '3xs' }}>
-          registrar tus eventos
+        <Link href="/inventario/productos" sx={{ color: 'brand.blue', mx: '3xs' }}>
+          registrar tus productos
         </Link>
         o
         <Link

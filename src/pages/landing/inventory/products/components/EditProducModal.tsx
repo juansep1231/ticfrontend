@@ -15,8 +15,8 @@ import {
 import { FormField } from '../../../../../components/FormField';
 import { productsSchema } from '../../../../../utils/inventory-validations-helper';
 import { Product } from '../../../../../types/inventory-models';
-import { useFetchProviders } from '../../../../../hooks/inventory/fetchProviderHook';
-import { useFetchCategories } from '../../../../../hooks/inventory/fetchCategoryHook';
+import useFetchProviders from '../../../../../hooks/inventory/fetchProviderHook';
+import useFetchCategories from '../../../../../hooks/inventory/fetchCategoryHook';
 
 interface EditProductModalProps {
   isOpen: boolean;
@@ -62,7 +62,7 @@ export const EditProductModal = ({
       <ModalOverlay />
       <ModalContent sx={{ p: 'sm' }}>
         <ModalHeader color="brand.blue" textAlign="center">
-          Editar Evento
+          Editar Producto
         </ModalHeader>
         <ModalCloseButton />
         <ModalBody textColor="text.default">

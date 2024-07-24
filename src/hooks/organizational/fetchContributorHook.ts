@@ -3,19 +3,27 @@ import { useEffect, useState } from 'react';
 import { DEFAULT_STATE } from '../../utils/constants';
 import { Subscriber } from '../../types/subscription-models';
 import { formatDate } from '../../utils/format-date-helper';
+import { useAuth } from '../../contexts/auth-context';
 
-export const useFetchContributors = () => {
+const useFetchContributors = () => {
   const [contributors, setContributors] = useState<Subscriber[]>([]);
   const [isLoadingContributors, setIsLoadingContributors] = useState(true);
   const [contributorErrors, setContributorErrors] = useState<Error | null>(
     null
   );
   const endpoint = `${import.meta.env.VITE_API_BASE_URL}${import.meta.env.VITE_API_CONTRIBUTORS_ENDPOINT}`;
+  
+  const {token} = useAuth();
 
   useEffect(() => {
     const fetchContributors = async () => {
       try {
-        const response = await fetch(endpoint);
+        const response = await fetch(endpoint, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          },
+          mode: 'cors',
+        });
 
         if (!response.ok) {
           const errorData = await response.json(); // Read the response body

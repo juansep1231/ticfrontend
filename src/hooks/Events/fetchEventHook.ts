@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { CreateUpdateEventDTO } from './updateEventhook';
 import { DEFAULT_STATE } from '../../utils/constants';
+import { useAuth } from '../../contexts/auth-context';
 
 export interface EventView {
   id?: number;
@@ -22,11 +23,17 @@ export const useFetchEvents = () => {
   const [isLoadingEvents, setIsLoadingEvents] = useState(true);
   const [eventErrors, setEventErrors] = useState<Error | null>(null);
   const endpoint = `${import.meta.env.VITE_API_BASE_URL}${import.meta.env.VITE_API_EVENTS_ENDPOINT}`;
+  const { token } = useAuth();
 
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await fetch(endpoint);
+        const response = await fetch(endpoint, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          mode: 'cors',
+        });
 
         if (!response.ok) {
           const errorData = await response.json(); // Read the response body
@@ -73,7 +80,6 @@ export const useFetchEvents = () => {
   const filteredEvents = events.filter(
     (item) => item.stateid === DEFAULT_STATE // Adjust the filter condition as needed
   );
-
 
   return {
     events: filteredEvents,

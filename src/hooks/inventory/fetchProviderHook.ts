@@ -2,17 +2,24 @@ import { useEffect, useState } from 'react';
 
 import { Supplier } from '../../types/supplier-models';
 import { DEFAULT_STATE } from '../../utils/constants';
+import { useAuth } from '../../contexts/auth-context';
 
-export const useFetchProviders = () => {
+const useFetchProviders = () => {
   const [providers, setProviders] = useState<Supplier[]>([]);
   const [isLoadingProviders, setIsLoadingProviders] = useState(true);
   const [providerErrors, setProviderErrors] = useState<Error | null>(null);
   const endpoint = `${import.meta.env.VITE_API_BASE_URL}${import.meta.env.VITE_API_PROVIDERS_ENDPOINT}`;
+  const { token } = useAuth();
 
   useEffect(() => {
     const fetchProviders = async () => {
       try {
-        const response = await fetch(endpoint);
+        const response = await fetch(endpoint,  {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          mode: 'cors',
+        });
 
         if (!response.ok) {
           const errorData = await response.json(); // Read the response body
@@ -66,3 +73,5 @@ export const useFetchProviders = () => {
     addProviderState,
   };
 };
+
+export default useFetchProviders;

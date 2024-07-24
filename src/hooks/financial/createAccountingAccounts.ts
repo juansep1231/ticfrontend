@@ -4,9 +4,11 @@ import { Account } from '../../types/finantial-models';
 
 import { CreateUpdateAccountingAccountDTO } from './updateAccountingAccountHook';
 import { AccountingAccountDTO } from './fetchAccountingAccountHook';
+import { useAuth } from '../../contexts/auth-context';
 
 const usePostAccountingAccount = () => {
   const [postError, setPostError] = useState<string | null>(null);
+  const { token } = useAuth();
 
   const postAccountingAccount = async (
     accountingAccountDTO: CreateUpdateAccountingAccountDTO
@@ -21,7 +23,9 @@ const usePostAccountingAccount = () => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
           },
+          mode: 'cors',
           body: JSON.stringify(accountingAccountDTO),
         }
       );

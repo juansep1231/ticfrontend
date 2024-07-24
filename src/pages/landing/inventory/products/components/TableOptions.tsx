@@ -51,6 +51,7 @@ export const TableOptions = ({
       <Flex sx={{ gap: 'sm' }}>
         {isInventory(user) ? (
           <Button
+           aria-label="AddProduct"
             leftIcon={<AddIcon />}
             onClick={() => setIsAddProductModalOpen(true)}
           >

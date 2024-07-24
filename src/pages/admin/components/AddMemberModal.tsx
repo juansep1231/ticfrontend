@@ -135,6 +135,15 @@ export const AddMemberModal = ({
                 errors={errors.position}
                 options={roles}
               />
+              <FormField
+                id="password"
+                label="Contraseña"
+                placeholder="Ingrese una contraseña"
+                register={register}
+                errors={errors.password}
+                type="password"
+                showPasswordToggle={true}
+              />
               <ModalFooter>
                 <Button type="submit">Guardar</Button>
               </ModalFooter>
@@ -143,10 +152,10 @@ export const AddMemberModal = ({
         </ModalContent>
       </Modal>
 
-      <RegisterModal
+      {/*<RegisterModal
         isOpen={isRegisterModalOpen}
         onClose={() => setIsRegisterModalOpen(false)}
-      />
+      />*/}
     </>
   );
 };

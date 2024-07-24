@@ -7,7 +7,8 @@ export interface Subscriber {
   career: string;
   email: string;
   plan: string;
-  price: string;
+  price?: number;
+  academicPeriod?: string;
 }
 
 export interface SubscriptionPlan {

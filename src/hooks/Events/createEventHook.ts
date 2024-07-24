@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import { EventView } from '../../types/event-models';
+import { useAuth } from '../../contexts/auth-context';
 
 export interface CreateUpdateEventDTO {
   title: string;
@@ -16,6 +17,7 @@ export interface CreateUpdateEventDTO {
 
 const usePostEventWithFinancialRequest = () => {
   const [postEventError, setPostError] = useState<string | null>(null);
+  const { token } = useAuth();
 
   const postEvent = async (newEvent: CreateUpdateEventDTO) => {
     setPostError(null);
@@ -27,7 +29,9 @@ const usePostEventWithFinancialRequest = () => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
           },
+          mode: 'cors',
           body: JSON.stringify(newEvent),
         }
       );

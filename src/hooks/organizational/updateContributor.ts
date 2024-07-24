@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { Subscriber } from '../../types/subscription-models';
+import { useAuth } from '../../contexts/auth-context';
 
 export interface CreateUpdateContributorDTO {
   date: string; // Using string for simplicity, consider using a date library for better handling
@@ -7,11 +9,11 @@ export interface CreateUpdateContributorDTO {
   career: string;
   email: string;
   plan: string;
-  price: string;
 }
 
 const useUpdateContributor = () => {
   const [updateError, setUpdateError] = useState<string | null>(null);
+  const { token } = useAuth();
 
   const updateContributor = async (
     id: number,
@@ -26,7 +28,9 @@ const useUpdateContributor = () => {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
           },
+          mode: 'cors',
           body: JSON.stringify(updatedContributor),
         }
       );
@@ -36,12 +40,14 @@ const useUpdateContributor = () => {
         throw new Error(errorData.message);
       }
 
-      if (response.status === 204) {
+      /*if (response.status === 204) {
         console.log('Contribuyente actualizado correctamente');
         return;
-      }
+      }*/
 
-      return await response.json();
+        const updatedContributorResponse: Subscriber = await response.json();
+        console.log('Updated contributor poooooooost:', updatedContributorResponse);
+        return updatedContributorResponse;
     } catch (error: any) {
       console.error('Failed to update contributor:', error);
       setUpdateError(error.message);

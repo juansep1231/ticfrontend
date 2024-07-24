@@ -27,7 +27,6 @@ export const subscriberSchema = yup.object().shape({
     .required('El correo es obligatorio')
     .email('El correo no es válido'),
   plan: yup.string().required('El plan es obligatorio'),
-  price: yup.string().required('El precio es obligatorio'),
 });
 
 export const subscriptionPlanSchema = yup.object().shape({

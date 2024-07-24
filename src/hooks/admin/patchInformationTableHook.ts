@@ -1,7 +1,9 @@
 import { useState } from 'react';
+import { useAuth } from '../../contexts/auth-context';
 
 const usePatchAssociationState = () => {
   const [patchError, setPatchError] = useState<string | null>(null);
+  const { token } = useAuth();
 
   const patchAssociationState = async (id: number) => {
     setPatchError(null);
@@ -13,7 +15,9 @@ const usePatchAssociationState = () => {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
           },
+          mode: 'cors',
         }
       );
 

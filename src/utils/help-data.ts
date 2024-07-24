@@ -29,31 +29,31 @@ export const glosaryBank = [
 export const questionsBank = [
   {
     question: '¿Cómo puede añadir un miembro?',
-    text: 'Para añadir un miembro, debes tener usuario de administrador, en la pagina principal de esta interfaz se mostrará un botón que desplegará un formulario para añadir un miembro, recuerdad llenar todos los campos, y registrar al usuario.',
+    text: 'Para añadir un miembro, debes tener usuario de administrador. En la página principal de esta interfaz se mostrará un botón que desplegará un formulario para añadir un miembro. Recuerda llenar todos los campos y registrar al usuario.',
     image: '',
     video: '/img/fepon.png',
   },
   {
     question: '¿Cómo puede añadir un aportante?',
-    text: 'Para añadir un aportante, debes estar registrado como presidente o vicepresidente, una vez hayas iniciado sesión dirígete hacia el módulo de aportaciones, aquí es necesario qeu primero registres los planes de aportación disponibles, dirigiendote hacia el botón de añadir plan, una vez añadido el plan dirígete hacia la pestaña de aportantes, utiliza el botón de añadir aportante y completa el formulario.',
+    text: 'Para añadir un aportante, debes estar registrado como presidente o vicepresidente. Una vez hayas iniciado sesión, dirígete hacia el módulo de aportaciones. Aquí es necesario que primero registres los planes de aportación disponibles, dirigiéndote hacia el botón de añadir plan. Una vez añadido el plan, dirígete hacia la pestaña de aportantes, utiliza el botón de añadir aportante y completa el formulario.',
     image: '',
     video: '/img/fepon.png',
   },
   {
     question: '¿Cómo puede añadir un evento?',
-    text: 'Para añadir un evento debes estar registrado con rol de vicepresidente de culttura o como presidente, una vez ingreses sesión, navega hacia el módulo de eventos, a la sección de próximos eventos, aquí se desplegará una tabla con la información de los eventos y en la parte superior un botón para añadir el mismo, recuerda que cada evento creado genera una solicitud de presupuesto. ',
+    text: 'Para añadir un evento debes estar registrado con rol de vicepresidente de cultura o como presidente. Una vez inicies sesión, navega hacia el módulo de eventos, a la sección de próximos eventos. Aquí se desplegará una tabla con la información de los eventos y en la parte superior un botón para añadir el mismo. Recuerda que cada evento creado genera una solicitud de presupuesto.',
     image: '',
     video: '/img/fepon.png',
   },
   {
     question: '¿Cómo puede añadir un movimiento de inventario?',
-    text: 'Para añadir un movimiento de inventario, debes estar registardo con rol de vicepresidente general,secretario o presidente una vez inicies sesión, navega hacia la pestaña de inventario, ten en cuenta que para añadir un movimiento de inventario es necesario que en primer lugar crees un producto con su respectivo proveedor. Una ves creado el producto, dirígete a la pestaña de movimientos en el cual encontrarás un botón para añadir el movimiento con todos los productos disponibles. ',
+    text: 'Para añadir un movimiento de inventario, debes estar registrado con rol de vicepresidente general, secretario o presidente. Una vez inicies sesión, navega hacia la pestaña de inventario. Ten en cuenta que para añadir un movimiento de inventario es necesario que en primer lugar crees un producto con su respectivo proveedor. Una vez creado el producto, dirígete a la pestaña de movimientos en la cual encontrarás un botón para añadir el movimiento con todos los productos disponibles.',
     image: '',
     video: '/img/fepon.png',
   },
   {
     question: '¿Cómo puede añadir una transacción?',
-    text: 'Para añadir una transacción debes estar registrado como director financiero, vicepresidente financiero o presidente, una vez inicies sesión dirígete a la pestaña de financiero en la sección de cuentas contables, añade tus cuentas y posteriormente dirígete a trasnacciones para realizar una transacción entre ellas.',
+    text: 'Para añadir una transacción debes estar registrado como director financiero, vicepresidente financiero o presidente. Una vez inicies sesión, dirígete a la pestaña de financiero en la sección de cuentas contables. Añade tus cuentas y posteriormente dirígete a transacciones para realizar una transacción entre ellas.',
     image: '',
     video: '/img/fepon.png',
   },

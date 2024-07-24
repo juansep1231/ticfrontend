@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useAuth } from '../../contexts/auth-context';
 export interface FinantialRequestDTO {
   id?: number;
   eventName: string;
@@ -16,11 +17,17 @@ export const useFetchFinantialRequests = () => {
   const [finantialRequestErrors, setFinantialRequestErrors] =
     useState<Error | null>(null);
   const endpoint = `${import.meta.env.VITE_API_BASE_URL}${import.meta.env.VITE_API_FINANTIAL_REQUESTS_ENDPOINT}`;
+  const { token } = useAuth();
 
   useEffect(() => {
     const fetchFinantialRequests = async () => {
       try {
-        const response = await fetch(endpoint);
+        const response = await fetch(endpoint,  {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          mode: 'cors',
+        });
 
         if (!response.ok) {
           const errorData = await response.json();

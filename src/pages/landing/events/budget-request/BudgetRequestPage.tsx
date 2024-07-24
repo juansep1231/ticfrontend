@@ -17,35 +17,6 @@ export const BudgetRequestPage = () => {
   const [selectedBudgetRequest, setSelectedBudgetRequest] =
     useState<BudgetRequest | null>(null);
   const [searchBudgetRequest, setSearchBudgetRequest] = useState('');
-  /*const { updateEvent, updateError } = useUpdateEvent();
-  const handleEditEvent = async (data: { event: EventView }) => {
-    try {
-      const formattedDate = formatISO(new Date(data.event.startDate));
-      const formattedDate2 = formatISO(new Date(data.event.endDate));
-      const updatedInfo: CreateUpdateEventDTO = {
-        title: data.event.title,
-        status: data.event.status,
-        description: data.event.description,
-        startDate: formattedDate,
-        endDate: formattedDate2,
-        budget: data.event.budget,
-        budgetStatus: data.event.budgetStatus,
-        location: data.event.location,
-        income: data.event.income,
-      };
-
-      await updateEvent(data.event.id!, updatedInfo);
-
-      updateEventState(data.event.id!, { ...data.event, ...updatedInfo });
-
-      console.log('Updated event information:', data.event);
-    } catch (error) {
-      console.error('Failed to update event:', error);
-    }
-  };
-
-  const { events, isLoadingEvents, eventErrors, updateEventState } =
-  useFetchEvents();*/
 
   const {
     finantialRequests,
@@ -118,7 +89,7 @@ export const BudgetRequestPage = () => {
         eventos ya se encuentren registrados. En caso de no estar seguro revisa
         los
         <Link
-          href="/eventos/solicitud-presupuesto"
+          href="/eventos"
           sx={{ color: 'brand.blue', ml: '3xs' }}
         >
           eventos disponibles.

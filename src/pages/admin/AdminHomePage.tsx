@@ -3,11 +3,12 @@ import { Heading, Flex, Text, Image, Button } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 import { format, formatISO, parseISO } from 'date-fns';
 
-import { Member, OrganizationalInfo } from '../../types/organizational-models';
+import { Member, OrganizationalInfo, UpdateMember } from '../../types/organizational-models';
 import useUpdateAssociation from '../../hooks/admin/updateInformationTableHook';
 import usePatchAssociationState from '../../hooks/admin/patchInformationTableHook';
 import useUpdateAdministrativeMember, {
   CreateUpdateAdministrativeMemberDTO,
+  UpdateAdministrativeMemberDTO,
 } from '../../hooks/admin/updateAdminTableHook';
 import usePatchAdministrativeMemberState from '../../hooks/admin/patchAdminTableHook';
 import useFetchAdministrativeMembers from '../../hooks/admin/fetchAdminTableHook';
@@ -22,6 +23,9 @@ import { EditMemberModal } from './components/EditMemberModal';
 import { AdminMembersTable } from './components/AdminMembersTable';
 import { AddMemberModal } from './components/AddMemberModal';
 import { AddInformationModal } from './components/AddInformationModal';
+import { createUserWithEmailAndPassword, getAuth, signOut } from 'firebase/auth';
+import { doc, getFirestore, setDoc } from 'firebase/firestore';
+import { firebaseApp, functions, httpsCallable } from '../../firebase/firebase-config';
 
 export const AdminHome = () => {
   const [isAddInfoModalOpen, setAddInfoModalOpen] = useState(false);
@@ -58,6 +62,24 @@ export const AdminHome = () => {
   const { updateAdministrativeMember } = useUpdateAdministrativeMember();
 
   const showToast = useGenericToast();
+ 
+  const registerUser = async (username:string, password:string, role:string) => {
+    const registerUserFunction = httpsCallable(functions, 'registerUser');
+    try {
+      const result = await registerUserFunction({ email: username, password: password, role: role });
+      console.log('User registered:', result.data);
+      return result.data;
+    } catch (error) {
+      if(error instanceof Error) {
+      console.error('Error registrando el usuario:', error);
+      showToast({
+        title: 'Error al registrar el usuario',
+        description: error.message,
+        status: 'error',
+      });
+    }}
+  };
+  
 
   const handleAddMember = async (createdMember: Member) => {
     try {
@@ -72,9 +94,21 @@ export const AdminHome = () => {
         semester: createdMember.semester,
         email: createdMember.email,
         position: createdMember.position,
+        password: createdMember.password,
       };
-      const newAdminMember = await postAdministrativeMember(newAdmin);
 
+      const { password, ...restOfInfo } = newAdmin;
+      
+
+      const registeredUser = await registerUser(
+        newAdmin.email,
+        newAdmin.password,
+        newAdmin.position
+      );
+      if (!registeredUser) {
+        throw new Error('Error en el registro del usuario');
+      }
+      const newAdminMember = await postAdministrativeMember(restOfInfo);
       addAdminMemberState(newAdminMember);
       showToast({
         title: 'Éxito',
@@ -83,7 +117,7 @@ export const AdminHome = () => {
       });
       setIsAddMemberModalOpen(false); // Cierra el modal después de agregar
     } catch (error) {
-      console.error('Failed to add member:', error);
+      console.error('Fallo al añadir un miembro:', error);
       showToast({
         title: 'Error',
         description: 'No se pudo añadir el miembro',
@@ -119,10 +153,10 @@ export const AdminHome = () => {
   useEffect(() => {
     console.log('AssociationsComponent re-rendered', associations);
   });
-  const handleEditMember = async (data: { member: Member }) => {
+  const handleEditMember = async (data: { member: UpdateMember }) => {
     const formattedDate = formatISO(new Date(data.member.birthDate));
     try {
-      const updatedInfo: CreateUpdateAdministrativeMemberDTO = {
+      const updatedInfo: UpdateAdministrativeMemberDTO = {
         firstName: data.member.firstName,
         lastName: data.member.lastName,
         birthDate: formattedDate,
@@ -133,7 +167,9 @@ export const AdminHome = () => {
         email: data.member.email,
         position: data.member.position,
       };
-      await updateAdministrativeMember(data.member.id!, updatedInfo);
+
+
+      await updateAdministrativeMember(data.member.id!,updatedInfo);
 
       const originalFormattedDate = format(
         parseISO(data.member.birthDate),
@@ -289,12 +325,14 @@ export const AdminHome = () => {
               </Text>
               <Flex sx={{ gap: 'sm' }}>
                 <Button
+                aria-label='Add Information'
                   leftIcon={<AddIcon />}
                   onClick={() => setAddInfoModalOpen(true)}
                 >
                   Información
                 </Button>
                 <Button
+                  aria-label='Add Member'
                   leftIcon={<AddIcon />}
                   onClick={() => setIsAddMemberModalOpen(true)}
                 >

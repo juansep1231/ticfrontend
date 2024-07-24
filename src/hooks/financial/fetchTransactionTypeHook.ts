@@ -1,19 +1,26 @@
 import { useState, useEffect } from 'react';
+import { useAuth } from '../../contexts/auth-context';
 
 interface StateDTO {
   state_Name: string;
 }
 
-export const useFetchTransactionStates = () => {
+const useFetchTransactionStates = () => {
   const [transactionStates, setTransactionStates] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const endpoint = `${import.meta.env.VITE_API_BASE_URL}${import.meta.env.VITE_API_TRANSACTION_STATES_ENDPOINT}`;
+  const { token } = useAuth();
 
   useEffect(() => {
     const fetchTransactionStates = async () => {
       try {
-        const response = await fetch(endpoint);
+        const response = await fetch(endpoint,  {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          mode: 'cors',
+        });
 
         if (!response.ok) {
           throw new Error(`Error: ${response.status} ${response.statusText}`);

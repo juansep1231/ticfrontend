@@ -3,6 +3,8 @@ import useFetchAssociations from '../../../hooks/admin/fetchInformationTableHook
 
 export const MisionVisionCard = () => {
   const { associations } = useFetchAssociations();
+  associations.reverse();
+
 
   return (
     <Flex sx={{ gap: '3xl', maxWidth: '100vw' }}>

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useAuth } from '../../contexts/auth-context';
 
 interface SemesterDTO {
   semester_Name: string;
@@ -9,10 +10,18 @@ const useFetchSemesters = () => {
   const [isLoadingSemesters, setIsLoading] = useState(true);
   const [semesterErrors, setError] = useState<string | null>(null);
   const endpoint = `${import.meta.env.VITE_API_BASE_URL}${import.meta.env.VITE_API_SEMESTERS_ENDPOINT}`;
+  const { token } = useAuth();
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(endpoint);
+        const response = await fetch(endpoint, 
+          {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            },
+            mode: 'cors',
+          }
+        );
 
         if (!response.ok) {
           throw new Error(`Error: ${response.status} ${response.statusText}`);

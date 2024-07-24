@@ -83,7 +83,7 @@ export const EventsPage = () => {
       updateEventState(id!, { stateid: 2 });
       showToast({
         title: 'Eliminación exitosa',
-        description: `Evento eliminado: ${id}`,
+        description: `Evento eliminado correctamente.`,
         status: 'success',
       });
     } catch (error) {

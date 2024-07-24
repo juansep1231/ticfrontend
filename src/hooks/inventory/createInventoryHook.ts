@@ -3,9 +3,11 @@ import { useState } from 'react';
 import { Inventory } from '../../types/inventory-models';
 
 import { CreateUpdateInventoryMovementDTO } from './updateInventoryHook';
+import { useAuth } from '../../contexts/auth-context';
 
-export const usePostInventoryMovement = () => {
+const usePostInventoryMovement = () => {
   const [postError, setPostError] = useState<string | null>(null);
+  const { token } = useAuth();
 
   const postInventoryMovement = async (
     inventoryMovementDTO: CreateUpdateInventoryMovementDTO
@@ -19,7 +21,9 @@ export const usePostInventoryMovement = () => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
           },
+          mode: 'cors',
           body: JSON.stringify(inventoryMovementDTO),
         }
       );

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { CreateUpdateAccountingAccountDTO } from './updateAccountingAccountHook';
+import { useAuth } from '../../contexts/auth-context';
 
 export interface AccountingAccountDTO {
   id?: number;
@@ -12,18 +13,24 @@ export interface AccountingAccountDTO {
   //accountingAccountStatus: string;
 }
 
-export const useFetchAccountingAccounts = () => {
+const useFetchAccountingAccounts = () => {
   const [accountingAccounts, setAccountingAccounts] = useState<
     AccountingAccountDTO[]
   >([]);
   const [isLoadingAccounts, setIsLoadingAccounts] = useState(true);
   const [accountErrors, setAccountErrors] = useState<Error | null>(null);
   const endpoint = `${import.meta.env.VITE_API_BASE_URL}${import.meta.env.VITE_API_ACCOUNTING_ACCOUNTS_ENDPOINT}`;
+  const { token } = useAuth();
 
   useEffect(() => {
     const fetchAccounts = async () => {
       try {
-        const response = await fetch(endpoint);
+        const response = await fetch(endpoint,  {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          mode: 'cors',
+        });
 
         if (!response.ok) {
           const errorData = await response.json(); // Leer el cuerpo de la respuesta

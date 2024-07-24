@@ -1,7 +1,10 @@
 import { useState } from 'react';
+import { useAuth } from '../../contexts/auth-context';
 
 const useDeleteProvider = (deleteProviderState: (id: number) => void) => {
   const [deleteError, setDeleteError] = useState<string | null>(null);
+  const { token } = useAuth();
+
 
   const deleteProvider = async (id: number) => {
     setDeleteError(null);
@@ -13,7 +16,9 @@ const useDeleteProvider = (deleteProviderState: (id: number) => void) => {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
           },
+          mode: 'cors',
         }
       );
 

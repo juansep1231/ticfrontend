@@ -3,9 +3,8 @@ import { useState } from 'react';
 
 import { SubscriptionPlan } from '../../../../types/subscription-models';
 import useFetchContributionPlans from '../../../../hooks/organizational/fetchContributionPlan';
-import {
+import useUpdateContributionPlan, {
   CreateUpdateContributionPlanDTO,
-  useUpdateContributionPlan,
 } from '../../../../hooks/organizational/updateContributorPlan';
 import usePatchContributionPlanState from '../../../../hooks/organizational/patchContributionPlanHook';
 import usePostContributionPlan from '../../../../hooks/organizational/createContributionPlan';
@@ -76,7 +75,7 @@ export const SubscriptionPlansPage = () => {
 
       showToast({
         title: 'Eliminación exitosa',
-        description: `Plan de aportación eliminado: ${id}`,
+        description: `Plan de aportación eliminado correctamente.`,
         status: 'success',
       });
 

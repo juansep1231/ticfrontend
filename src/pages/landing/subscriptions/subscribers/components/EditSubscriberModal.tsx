@@ -123,13 +123,6 @@ export const EditSubscriberModal = ({
             errors={errors.plan}
             options={planNames}
           />
-          <FormField
-            id="price"
-            label="Valor"
-            placeholder="Ingrese el valor de la aportación"
-            register={register}
-            errors={errors.name}
-          />
           <ModalFooter>
             <Button type="submit" onClick={handleSubmit(handleFormSubmit)}>
               Guardar

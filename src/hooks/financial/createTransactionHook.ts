@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import { Transaction } from '../../types/finantial-models';
+import { useAuth } from '../../contexts/auth-context';
 
 export interface CreateUpdateTransactionDTO {
   date: string;
@@ -16,6 +17,8 @@ const usePostTransaction = () => {
     string | null
   >(null);
 
+  const { token } = useAuth();
+
   const postTransaction = async (
     newTransaction: CreateUpdateTransactionDTO
   ) => {
@@ -28,7 +31,9 @@ const usePostTransaction = () => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
           },
+          mode: 'cors',
           body: JSON.stringify(newTransaction),
         }
       );

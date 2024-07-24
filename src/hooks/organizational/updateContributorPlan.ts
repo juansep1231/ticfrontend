@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useAuth } from '../../contexts/auth-context';
 
 export interface CreateUpdateContributionPlanDTO {
   academic_Period_Name: string;
@@ -7,8 +8,9 @@ export interface CreateUpdateContributionPlanDTO {
   planName: string;
 }
 
-export const useUpdateContributionPlan = () => {
+const useUpdateContributionPlan = () => {
   const [updateError, setUpdateError] = useState<string | null>(null);
+  const {token} = useAuth();
 
   const updateContributionPlan = async (
     id: number,
@@ -23,7 +25,9 @@ export const useUpdateContributionPlan = () => {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
           },
+          mode: 'cors',
           body: JSON.stringify(updatedContributionPlan),
         }
       );

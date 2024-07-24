@@ -106,13 +106,6 @@ export const AddSubscriberModal = ({
             errors={errors.plan}
             options={contributionPlanNames}
           />
-          <FormField
-            id="price"
-            label="Valor"
-            placeholder="Ingrese el valor de la aportación"
-            register={register}
-            errors={errors.name}
-          />
           <ModalFooter>
             <Button type="submit" onClick={handleSubmit(onSubmit)}>
               Guardar

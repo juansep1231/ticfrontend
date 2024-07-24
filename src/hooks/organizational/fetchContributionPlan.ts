@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { SubscriptionPlan } from '../../types/subscription-models';
 import { DEFAULT_STATE } from '../../utils/constants';
+import { useAuth } from '../../contexts/auth-context';
 
 const useFetchContributionPlans = () => {
   const [contributionPlans, setContributionPlans] = useState<
@@ -12,11 +13,17 @@ const useFetchContributionPlans = () => {
   const [contributionPlanErrors, setContributionPlanErrors] =
     useState<Error | null>(null);
   const endpoint = `${import.meta.env.VITE_API_BASE_URL}${import.meta.env.VITE_API_CONTRIBUTION_PLANS_ENDPOINT}`;
+  const {token} = useAuth();
 
   useEffect(() => {
     const fetchContributionPlans = async () => {
       try {
-        const response = await fetch(endpoint);
+        const response = await fetch(endpoint,{
+          headers: {
+            'Authorization': `Bearer ${token}`
+          },
+          mode: 'cors',
+        });
 
         if (!response.ok) {
           const errorData = await response.json(); // Read the response body

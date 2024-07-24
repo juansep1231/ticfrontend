@@ -12,9 +12,9 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 
-import { Member } from '../../../types/organizational-models';
+import { Member, UpdateMember } from '../../../types/organizational-models';
 import { FormField } from '../../../components/FormField';
-import { memberSchema } from '../../../utils/admin-validations-helper';
+import { memberSchema, updateMemberSchema } from '../../../utils/admin-validations-helper';
 import useFetchRoles from '../../../hooks/general/fetchRolesHook';
 import useFetchSemesters from '../../../hooks/general/fetchSemestersHook';
 import useFetchCareers from '../../../hooks/general/FetchCareerHook';
@@ -23,8 +23,8 @@ import useFetchFaculties from '../../../hooks/general/fetchFacultyHook';
 interface EditMemberModalProps {
   isOpen: boolean;
   onClose: () => void;
-  member: Member | null;
-  onSubmit: (data: { member: Member }) => void;
+  member: UpdateMember | null;
+  onSubmit: (data: { member: UpdateMember }) => void;
 }
 
 export const EditMemberModal: React.FC<EditMemberModalProps> = ({
@@ -38,19 +38,19 @@ export const EditMemberModal: React.FC<EditMemberModalProps> = ({
     register,
     setValue,
     formState: { errors },
-  } = useForm<Member>({
-    resolver: yupResolver(memberSchema),
+  } = useForm<UpdateMember>({
+    resolver: yupResolver(updateMemberSchema),
   });
 
   useEffect(() => {
     if (member) {
       Object.keys(member).forEach((key) => {
-        setValue(key as keyof Member, member[key as keyof Member]);
+        setValue(key as keyof UpdateMember, member[key as keyof UpdateMember]);
       });
     }
   }, [member, setValue]);
 
-  const onSubmitForm = (data: Member) => {
+  const onSubmitForm = (data: UpdateMember) => {
     onSubmit({ member: data });
     onClose();
   };

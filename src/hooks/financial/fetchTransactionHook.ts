@@ -3,19 +3,26 @@ import { useEffect, useState } from 'react';
 import { Transaction } from '../../types/finantial-models';
 
 import { CreateUpdateTransactionDTO } from './createTransactionHook';
+import { useAuth } from '../../contexts/auth-context';
 
-export const useFetchTransactions = () => {
+const useFetchTransactions = () => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [isLoadingTransactions, setIsLoadingTransactions] = useState(true);
   const [transactionErrors, setTransactionErrors] = useState<Error | null>(
     null
   );
   const endpoint = `${import.meta.env.VITE_API_BASE_URL}${import.meta.env.VITE_API_TRANSACTIONS_ENDPOINT}`;
+  const { token } = useAuth();
 
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
-        const response = await fetch(endpoint);
+        const response = await fetch(endpoint,  {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          mode: 'cors',
+        });
 
         if (!response.ok) {
           const errorData = await response.json(); // Read the response body

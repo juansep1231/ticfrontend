@@ -14,8 +14,9 @@ import {
 import { FormField } from '../../../../components/FormField';
 import { inventorySchema } from '../../../../utils/inventory-validations-helper';
 import { Inventory } from '../../../../types/inventory-models';
-import { useFetchProducts } from '../../../../hooks/inventory/fetchProductHook';
+
 import useFetchInventoryMovementTypes from '../../../../hooks/inventory/fetchMovementType';
+import useFetchProducts from '../../../../hooks/inventory/fetchProductHook';
 
 interface AddInventoryModalProps {
   isOpen: boolean;

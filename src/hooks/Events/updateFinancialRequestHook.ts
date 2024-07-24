@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useAuth } from '../../contexts/auth-context';
 
 export interface CreateUpdateFinantialRequestDTO {
   eventName: string;
@@ -9,6 +10,7 @@ export interface CreateUpdateFinantialRequestDTO {
 
 const useUpdateFinantialRequest = () => {
   const [updateError, setUpdateError] = useState<string | null>(null);
+  const { token } = useAuth();
 
   const updateFinantialRequest = async (
     id: number,
@@ -23,7 +25,9 @@ const useUpdateFinantialRequest = () => {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
           },
+          mode: 'cors',
           body: JSON.stringify(updatedFinantialRequest),
         }
       );

@@ -168,7 +168,7 @@ export const BudgetRequestTable = ({
                         }}
                       >
                         <IconButton
-                          aria-label="Edit Event"
+                          aria-label="Edit Budget Request"
                           icon={<FaEdit size={16} />}
                           onClick={() => onEdit(budgetRequest)}
                           size="sm"
@@ -181,8 +181,8 @@ export const BudgetRequestTable = ({
                             },
                           }}
                         />
-                        <IconButton
-                          aria-label="Delete Event"
+                        {/*<IconButton
+                          aria-label="Delete Budget Request"
                           icon={<FaTrash size={16} />}
                           onClick={() => handleDeleteClick(budgetRequest.id)}
                           size="sm"
@@ -194,7 +194,7 @@ export const BudgetRequestTable = ({
                               color: 'primary.default',
                             },
                           }}
-                        />
+                        />*/}
                       </Flex>
                     </Td>
                   ) : null}
@@ -213,8 +213,8 @@ export const BudgetRequestTable = ({
         isOpen={isModalOpen}
         onClose={handleCloseModal}
         onConfirm={handleConfirmDelete}
-        title="Eliminar evento"
-        body="¿Estás seguro de que deseas eliminar este evento?"
+        title="Eliminar solicitud de presupuesto"
+        body="¿Estás seguro de que deseas eliminar esta solicitud de presupuesto?"
       />
     </Flex>
   );

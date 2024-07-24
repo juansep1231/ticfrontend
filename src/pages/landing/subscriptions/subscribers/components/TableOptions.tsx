@@ -53,6 +53,7 @@ export const TableOptions = ({
       <Flex sx={{ gap: 'sm' }}>
         {isOrganizational(user) ? (
           <Button
+            aria-label="addSubscriber"
             leftIcon={<AddIcon />}
             onClick={() => setIsAddSubscriberModalOpen(true)}
           >

@@ -10,6 +10,21 @@ export interface Member {
   semester: string;
   email: string;
   position: string;
+  password:string
+}
+
+export interface UpdateMember {
+  id?: number;
+  state_id?: number;
+  firstName: string;
+  lastName: string;
+  birthDate: string;
+  cellphone: string;
+  faculty: string;
+  career: string;
+  semester: string;
+  email: string;
+  position: string;
 }
 
 export interface RegisterUser {

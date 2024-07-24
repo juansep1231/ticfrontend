@@ -3,9 +3,11 @@ import { useState } from 'react';
 import { Subscriber } from '../../types/subscription-models';
 
 import { CreateUpdateContributorDTO } from './updateContributor';
+import { useAuth } from '../../contexts/auth-context';
 
 const usePostContributor = () => {
   const [postError, setPostError] = useState<string | null>(null);
+  const {token} = useAuth();
 
   const postContributor = async (
     newContributor: CreateUpdateContributorDTO
@@ -19,7 +21,9 @@ const usePostContributor = () => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
           },
+          mode: 'cors',
           body: JSON.stringify(newContributor),
         }
       );
